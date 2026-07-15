@@ -74,9 +74,9 @@
     Importar datos desde SIGPAC
   </ion-button>
 
-  <ion-modal id="modal" trigger="sigpac-map-modal" mode="ios" class="ion-padding" (ionModalDidPresent)="initMap()" (ionModalDidDismiss)="resetMap()">
+  <ion-modal id="modal" trigger="sigpac-map-modal" mode="ios" backdropDismiss="false" class="ion-padding" (ionModalDidPresent)="initMap()">
     <ng-template>
-      <ion-content>
+      <ion-content class="modal-content">
         <ion-toolbar mode="ios">
           <ion-title>Importar datos SIGPAC</ion-title>
         </ion-toolbar>
@@ -86,7 +86,7 @@
             <ion-icon slot="start" name="checkmark-circle"></ion-icon>
             Guardar
           </ion-button>
-          <ion-button class="cancel-btn" expand="block" shape="round" mode="ios" (click)="closeModal()">
+          <ion-button class="cancel-btn" expand="block" shape="round" mode="ios" (click)="closeModalSigpac()" >
             <ion-icon slot="start" name="close-circle"></ion-icon>
             Cancelar
           </ion-button>
@@ -104,7 +104,7 @@
         </ion-button>
       </ion-col>
       <ion-col size="6">
-        <ion-button class="cancel-btn" expand="block" shape="round" mode="ios" (click)="closeModal()">
+        <ion-button class="cancel-btn" expand="block" shape="round" mode="ios" (click)="closeModalNewPlot()">
           <ion-icon slot="start" name="close-circle"></ion-icon>
           Cancelar
         </ion-button>

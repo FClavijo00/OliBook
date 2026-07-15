@@ -132,7 +132,7 @@ export class NewPlotComponent implements OnInit {
       return;
     }
     const coords = this.marker.getLatLng();
-    this.closeModal();
+    this.closeModalSigpac();
     this.tipoLoading = '';
     this.loading = true;
     try {
@@ -182,8 +182,7 @@ export class NewPlotComponent implements OnInit {
   }
 
   initMap() {
-    if (this.map) this.map.remove();
-    if (this.marker) this.marker.remove();
+    if (this.map) this.resetMap();
 
     // 1. Centrar en una posición inicial (ej. tu zona de olivos)
     this.map = L.map('mapDetail', {
@@ -221,12 +220,9 @@ export class NewPlotComponent implements OnInit {
 
   resetMap() {
     // 1. Destruimos el mapa por completo
-    if (this.map) {
-      this.map.remove();
-    }
-
+    if (this.map) this.map.remove();
     // 2. Limpiamos la referencia al marcador
-    this.marker.remove();
+    if (this.marker) this.marker.remove();
   }
 
   obtenerDatosDesdeSigpac(lat: number, lng: number) {
@@ -399,7 +395,12 @@ export class NewPlotComponent implements OnInit {
     }
   }
 
-  closeModal() {
+  closeModalNewPlot() {
+    this._modalCtrl.dismiss(null, 'cancel');
+  }
+
+  closeModalSigpac() {
+    //this.resetMap();
     this._modalCtrl.dismiss(null, 'cancel');
   }
 
