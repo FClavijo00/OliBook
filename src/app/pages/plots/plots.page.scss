@@ -1,0 +1,130 @@
+.plots-list {
+  background: transparent;
+
+  .plot-card {
+    --padding-start: 12px;
+    --padding-end: 12px;
+    --inner-padding-end: 0;
+
+    margin-bottom: 5px; // Separación entre "cards"
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-left: 4px solid var(--ion-color-olive-main); // Detalle de marca
+
+    .icon-container {
+      background: rgba(107, 142, 35, 0.1); // Verde olivo muy suave
+      padding: 10px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 5px;
+
+      ion-icon {
+        color: var(--ion-color-olive-deep);
+        font-size: 1.4rem;
+      }
+    }
+
+    ion-label {
+      margin-left: 8px;
+
+      .title-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 4px;
+
+        h2 {
+          font-weight: 600;
+          color: var(--ion-color-olive-deep);
+          margin: 0;
+          font-size: 1.05rem;
+        }
+
+        .time-stamp {
+          display: flex;
+          align-items: center;
+          font-size: 0.8rem;
+          color: var(--ion-color-olive-soft);
+          font-weight: 500;
+
+          ion-icon {
+            margin-right: 4px;
+            font-size: 0.9rem;
+          }
+        }
+      }
+
+      p {
+        color: #666;
+        font-size: 0.9rem;
+        margin: 0;
+      }
+    }
+
+  }
+
+  .parcela-card {
+    --background: #ffffff;
+    --padding-start: 12px;
+    --inner-padding-end: 12px;
+    --border-radius: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(107, 142, 35, 0.1);
+
+    h2 {
+      font-weight: 700;
+      color: var(--ion-color-olive-deep);
+      margin-bottom: 4px;
+    }
+
+    p {
+      font-size: 0.85rem;
+      color: #7a7a7a;
+    }
+
+    .parcela-avatar {
+      width: 48px;
+      height: 48px;
+      background: var(--ion-color-paper);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      ion-icon {
+        color: var(--ion-color-olive-main);
+        font-size: 1.5rem;
+      }
+    }
+
+    .badge-superficie {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 4px 10px;
+      background: rgba(107, 142, 35, 0.15);
+      color: var(--ion-color-olive-main);
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .arrow-icon {
+      color: #cccccc;
+      font-size: 1.2rem;
+    }
+  }
+
+  // Estilo de los botones de deslizar
+  ion-item-option {
+    border-radius: 12px;
+    margin: 8px 4px;
+    width: 50px;
+    
+    &.btn-edit {
+      --background: #4a90e2; // Un azul suave que no rompe la armonía
+    }
+  }
+}

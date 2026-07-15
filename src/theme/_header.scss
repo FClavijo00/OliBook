@@ -1,0 +1,48 @@
+ion-header {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2) !important;
+}
+
+ion-toolbar {
+  --background: var(--ion-color-paper);
+  --color: var(--ion-color-olive-deep);
+
+  ion-button {
+    --color: var(--ion-color-olive-deep);
+  }
+}
+
+ion-content {
+  --background: var(--ion-color-paper);
+}
+
+ion-avatar {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
+  width: 35px !important;
+  height: 35px !important;
+}
+
+.search-wrapper {
+  background: var(--ion-color-paper);
+  max-height: 0; // Oculto por defecto
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out, transform 0.3s ease-in-out;
+  transform: translateY(-10px);
+  opacity: 0;
+  border-bottom: 1px solid rgba(169, 186, 157, 0.2);
+
+  &.active {
+    max-height: 70px; // Altura suficiente para el searchbar
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.custom-searchbar {
+  --background: #ffffff;
+  --border-radius: 12px;
+  --placeholder-color: var(--ion-color-olive-soft);
+  --icon-color: var(--ion-color-olive-main);
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 10px;
+}

@@ -1,0 +1,253 @@
+
+
+ion-content {
+  --background: var(--ion-color-paper);
+}
+
+ion-card {
+  margin: 0px;
+}
+
+.card-moderna-libro {
+  //--background: var(--ion-color-paper); /* #F5F5F0 */
+  border: none;
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+
+  ion-card-header {
+    padding-bottom: 5px;
+  }
+
+  ion-card-title {
+    font-weight: 600;
+    color: var(--ion-color-olive-deep);
+  }
+
+  ion-card-subtitle {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--ion-color-olive-main);
+  }
+
+  ion-card-content {
+    p {
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--ion-color-earth);
+      margin-bottom: 0px;
+
+      &:first-child {
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+/* Detalle decorativo de una hoja de olivo abstracta */
+.card-moderna-libro::before {
+  content: "";
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 100px;
+  height: 100px;
+  background: var(--ion-color-olive-deep);
+  opacity: 0.2;
+  border-radius: 50%;
+}
+
+.card-gradiente {
+  background: linear-gradient(
+    135deg,
+    var(--ion-color-olive-deep) 0%,
+    var(--ion-color-olive-main) 100%
+  );
+  border-radius: 20px;
+  color: var(--ion-color-paper); /* Texto claro sobre fondo oscuro */
+}
+
+.card-gradiente ion-card-title {
+  color: var(--ion-color-paper) !important;
+}
+
+.card-textura {
+  --background: var(--ion-color-paper);
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 39px,
+    rgba(169, 186, 157, 0.1) 40px
+  );
+  border-left: 6px solid var(--ion-color-olive-main);
+  border-radius: 8px 16px 16px 8px;
+}
+
+.card-olivo-real {
+  --background: var(--ion-color-paper); /* #F5F5F0 */
+  border: none;
+  border-radius: 20px; /* Esquinas de card más modernas */
+  position: relative;
+  overflow: hidden; /* Vital para que la hoja no se salga */
+
+  /* Sombra suave y difuminada */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+
+  /* Añadimos un padding extra a la derecha para que el contenido no pise la hoja */
+  padding-right: 20px;
+}
+
+/* La hoja decorativa de olivo en la esquina superior derecha */
+.card-olivo-real::before {
+  content: "";
+  position: absolute;
+  top: -15px; /* Ligeramente salida por arriba */
+  right: -25px; /* Bastante salida por la derecha */
+  width: 140px; /* Hoja más grande y visible */
+  height: 180px;
+
+  /* Usamos el Verde Salvia Suave con más opacidad */
+  background: var(--ion-color-olive-soft);
+  opacity: 0.35;
+
+  /* --- ESTA ES LA MAGIA DEL CLIP-PATH --- */
+  /* Esta forma crea una hoja con base redondeada, curvatura y punta */
+  clip-path: polygon(
+    20% 100%,
+    /* Base izquierda inferior (redondeada por bezier) */ 0% 50%,
+    /* Curvatura izquierda central */ 10% 20%,
+    /* Hacia la punta */ 50% 0%,
+    /* EL PICO (Punta superior central) */ 90% 20%,
+    /* Curvatura derecha superior */ 100% 50%,
+    /* Curvatura derecha central */ 80% 100% /* Base derecha inferior */
+  );
+
+  /* Para suavizar aún más los bordes del clip-path */
+  border-radius: 50px;
+
+  /* Rotamos un poco la hoja para que parezca que cae de forma natural */
+  transform: rotate(15deg);
+}
+
+p.semititle {
+  font-weight: 600;
+  color: var(--ion-color-olive-deep);
+  margin-bottom: 0px;
+}
+
+.custom-list {
+  background: transparent; // Para que se vea el fondo de la app
+
+  .linear-card-item {
+    //--background: var(--ion-color-paper);
+    --padding-start: 12px;
+    --padding-end: 12px;
+    --inner-padding-end: 0;
+
+    margin-bottom: 5px; // Separación entre "cards"
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-left: 4px solid var(--ion-color-olive-main); // Detalle de marca
+
+    .icon-container {
+      background: rgba(107, 142, 35, 0.1); // Verde olivo muy suave
+      padding: 10px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 5px;
+
+      ion-icon {
+        color: var(--ion-color-olive-deep);
+        font-size: 1.4rem;
+      }
+    }
+
+    ion-label {
+      margin-left: 8px;
+
+      .title-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 4px;
+
+        h2 {
+          font-weight: 600;
+          color: var(--ion-color-olive-deep);
+          margin: 0;
+          font-size: 1.05rem;
+        }
+
+        .time-stamp {
+          display: flex;
+          align-items: center;
+          font-size: 0.8rem;
+          color: var(--ion-color-olive-soft);
+          font-weight: 500;
+
+          ion-icon {
+            margin-right: 4px;
+            font-size: 0.9rem;
+          }
+        }
+      }
+
+      p {
+        color: #666;
+        font-size: 0.9rem;
+        margin: 0;
+      }
+    }
+  }
+}
+
+.action-grid {
+  padding: 0px;
+
+  .action-btn {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Los hace perfectamente cuadrados */
+    //background: var(--ion-color-paper);
+    background: white;
+    border: 1px solid rgba(169, 186, 157, 0.3); /* Borde sutil color Salvia */
+    border-radius: 24px; /* Bordes muy redondeados y modernos */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+    transition: all 0.2s ease-in-out;
+    padding: 15px;
+
+    /* Efecto al presionar */
+    &:active {
+      transform: scale(0.95);
+      background: #f0f0eb;
+    }
+
+    .icon-box {
+      background: var(--ion-color-olive-main);
+      color: white;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 15px;
+      font-size: 1.8rem;
+      box-shadow: 0 4px 10px rgba(107, 142, 35, 0.3);
+    }
+
+    span {
+      color: var(--ion-color-olive-deep);
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-align: center;
+      line-height: 1.2;
+    }
+  }
+}

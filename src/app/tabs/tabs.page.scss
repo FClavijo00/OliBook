@@ -1,0 +1,79 @@
+/* ion-tab-bar {
+    --background : var(--ion-color-paper);
+    --border : 0px;
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.15);
+    overflow: visible;
+}
+
+ion-tab-button {
+    --color: var(--ion-color-olive-soft);
+    --color-selected: var(--ion-color-olive-deep);
+} */
+
+// Eliminamos el fondo por defecto que Ionic le pone al contenedor oculto
+ion-tabs {
+  background-color: var(--ion-background-color);
+}
+
+ion-tab-bar.floating-tab-bar {
+  // 1. Posicionamiento flotante
+  position: absolute;
+  bottom: 15px;
+  left: 5%;
+  right: 5%;
+  width: 90%;
+  //height: 65px;
+  
+  // 2. Estética visual (Fondo ligeramente más opaco para contrastar)
+  background: rgba(255, 255, 255, 0.90); 
+  backdrop-filter: blur(2px); // Aumentamos el desenfoque estilo iOS
+  -webkit-backdrop-filter: blur(2px);
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  
+  // 3. NUEVA SOMBRA (Capa doble para un efecto "Elevado" ultra suave)
+  // La primera sombra da la profundidad amplia y la segunda define la base del botón
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12), 
+              0 4px 10px rgba(0, 0, 0, 0.04);
+  
+  --border: 0;
+  contain: none;
+  transition: box-shadow 0.3s ease; // Por si quieres añadirle efectos al pulsar
+}
+
+// Estilo de los botones individuales
+ion-tab-button {
+  --background: transparent;
+  --background-activated: var(--ion-color-primary);
+  //--color: #8e8e93; // Gris desactivado minimalista
+  --color: var(--ion-color-olive-soft);
+  --color-selected: var(--ion-color-primary); // Tu color verde de la app
+  transition: all 0.2s ease-in-out;
+
+  ion-icon {
+    font-size: 28px;
+  }
+
+  // Animación sutil cuando se pulsa
+  &.tab-selected {
+    /* ion-icon {
+      transform: translateY(-2px);
+    } */
+     
+  }
+}
+
+// El título minimalista que pedías
+.minimal-title {
+  font-size: 9px !important; // Muy pequeño
+  font-weight: 600;
+  letter-spacing: 0.08em; // Espaciado entre letras elegante
+  text-transform: uppercase; // Siempre en mayúsculas da aspecto técnico/limpio
+  margin-top: 2px;
+  opacity: 0.7;
+}
+
+// Cuando está seleccionado, el título brilla un poco más
+.tab-selected .minimal-title {
+  opacity: 1;
+}

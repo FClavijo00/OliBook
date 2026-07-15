@@ -1,0 +1,64 @@
+<!-- <ion-header class="ion-no-border">
+  <ion-toolbar class="custom-main-header">
+    <ion-title>Nuevo Registro</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrar()" color="medium">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content class="ion-padding form-container">
+  <form [formGroup]="trabajoForm">
+    
+    <div class="input-group">
+      <ion-label>Tipo de Tarea</ion-label>
+      <ion-segment formControlName="tipo" mode="ios" class="custom-segment">
+        <ion-segment-button value="poda">
+          <ion-icon name="cut-outline"></ion-icon>
+          <ion-label>Poda</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="riego">
+          <ion-icon name="water-outline"></ion-icon>
+          <ion-label>Riego</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="abono">
+          <ion-icon name="leaf-outline"></ion-icon>
+          <ion-label>Abono</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+
+    <div class="input-group">
+      <ion-label>Fecha del trabajo</ion-label>
+      <ion-item class="custom-input" lines="none">
+        <ion-datetime-button datetime="datetime"></ion-datetime-button>
+        <ion-modal [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime id="datetime" presentation="date" formControlName="fecha"></ion-datetime>
+          </ng-template>
+        </ion-modal>
+      </ion-item>
+    </div>
+
+    <div class="input-group">
+      <ion-label>Observaciones</ion-label>
+      <ion-item class="custom-input" lines="none">
+        <ion-textarea 
+          formControlName="notas" 
+          placeholder="Escribe detalles del trabajo..." 
+          [autoGrow]="true">
+        </ion-textarea>
+      </ion-item>
+    </div>
+
+    <ion-button 
+      expand="block" 
+      class="main-action-btn" 
+      (click)="guardar()" 
+      [disabled]="!trabajoForm.valid">
+      Confirmar Registro
+    </ion-button>
+  </form>
+</ion-content>

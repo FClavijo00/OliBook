@@ -1,0 +1,38 @@
+<ion-tabs (ionTabsDidChange)="setCurrentTab($event)">
+  <ion-tab-bar slot="bottom" mode="ios" class="floating-tab-bar">
+    <ion-tab-button tab="home" href="/tabs/home" mode="ios">
+      @if ( currentTab === 'home' ) {
+      <ion-icon aria-hidden="true" name="home"></ion-icon>
+      } @else {
+      <ion-icon aria-hidden="true" name="home-outline"></ion-icon>
+      }
+      <!-- <ion-label class="minimal-title">Inicio</ion-label> -->
+    </ion-tab-button>
+
+    <ion-tab-button tab="plots" href="/tabs/plots" mode="ios">
+      @if ( currentTab === 'plots' ) {
+      <ion-icon aria-hidden="true" name="location"></ion-icon>
+      } @else {
+      <ion-icon aria-hidden="true" name="location-outline"></ion-icon>
+      }
+      <!-- <ion-label class="minimal-title">Parcelas</ion-label> -->
+    </ion-tab-button>
+
+    <ion-tab-button tab="works" href="/tabs/works" mode="ios">
+      @if ( currentTab === 'works' ) {
+      <ion-icon aria-hidden="true" name="checkmark-circle"></ion-icon>
+      } @else {
+      <ion-icon aria-hidden="true" name="checkmark-circle-outline"></ion-icon>
+      }
+      <!-- <ion-label class="minimal-title">Trabajos</ion-label> -->
+    </ion-tab-button>
+
+    <ion-tab-button tab="profile" href="/tabs/profile" mode="ios">
+      @if (currentTab === 'profile') {
+        <ion-icon aria-hidden="true" name="person-circle"></ion-icon>
+      } @else {
+        <ion-icon aria-hidden="true" name="person-circle-outline"></ion-icon>
+      }
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

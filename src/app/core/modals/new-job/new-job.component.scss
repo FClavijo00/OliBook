@@ -1,0 +1,40 @@
+.form-container {
+  background: transparent;
+  
+  .input-group {
+    margin-bottom: 20px;
+    
+    ion-label {
+      color: var(--ion-color-olive-deep);
+      font-weight: 600;
+      margin-bottom: 8px;
+      margin-left: 4px;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  .custom-input {
+    --background: var(--ion-color-paper);
+    --border-radius: 12px;
+    --padding-start: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(169, 186, 157, 0.2);
+    
+    &.ion-focused {
+      border: 1px solid var(--ion-color-olive-main);
+    }
+  }
+
+  .custom-segment {
+    background: var(--ion-color-paper);
+    border-radius: 12px;
+    padding: 4px;
+    
+    ion-segment-button {
+      --indicator-color: var(--ion-color-olive-main);
+      --color-checked: white;
+    }
+  }
+}

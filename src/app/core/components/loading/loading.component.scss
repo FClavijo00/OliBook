@@ -1,0 +1,114 @@
+.olive-spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  height: 100%;
+  animation: fadeIn 0.4s ease-out forwards;
+
+  .olive-branch {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    // Borde degradado que simula una rama joven
+    border: 4px solid rgba(107, 142, 35, 0.1);
+    border-top-color: var(--ion-color-olive-main);
+    border-right-color: var(--ion-color-olive-main);
+    
+    animation: spin-branch 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  }
+
+  .leaf {
+    width: 12px;
+    height: 12px;
+    background: var(--ion-color-olive-main);
+    border-radius: 0 100% 0 100%; // Forma de hoja
+    margin-top: -35px; // Posicionada cerca del centro
+    animation: pulse-leaf 1.2s ease-in-out infinite;
+  }
+
+  .loading-text {
+    margin-top: 25px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: var(--ion-color-olive-deep);
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+}
+
+.olive-spinner-container-add, .olive-spinner-container-edit, .olive-spinner-container-delete {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  animation: fadeIn 0.4s ease-out forwards;
+
+  .olive-branch {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    // Borde degradado que simula una rama joven
+    border: 4px solid rgba(107, 142, 35, 0.1);
+    border-top-color: var(--ion-color-olive-main);
+    border-right-color: var(--ion-color-olive-main);
+    
+    animation: spin-branch 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  }
+
+  .leaf {
+    width: 12px;
+    height: 12px;
+    background: var(--ion-color-olive-main);
+    border-radius: 0 100% 0 100%; // Forma de hoja
+    margin-top: -35px; // Posicionada cerca del centro
+    animation: pulse-leaf 1.2s ease-in-out infinite;
+  }
+
+  .loading-text {
+    margin-top: 25px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: var(--ion-color-olive-deep);
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+}
+
+// Animaciones
+@keyframes spin-branch {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse-leaf {
+  0%, 100% { transform: scale(0.8) rotate(45deg); opacity: 0.5; }
+  50% { transform: scale(1.2) rotate(45deg); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from { transform: scale(0.8); }
+  to { transform: scale(1); }
+}
+
+.fade-out {
+  animation: fadeOut 0.3s ease-in forwards !important;
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}

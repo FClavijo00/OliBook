@@ -1,0 +1,30 @@
+@switch (tipoLoading) {
+  @case ("add") {
+    <div class="olive-spinner-container-add">
+      <div class="olive-branch"></div>
+      <div class="leaf"></div>
+      <p class="loading-text">Guardando Datos...</p>
+    </div>
+  }
+  @case ("edit") {
+    <div class="olive-spinner-container-edit">
+      <div class="olive-branch"></div>
+      <div class="leaf"></div>
+      <p class="loading-text">Actualizando Datos...</p>
+    </div>
+  }
+  @case ("delete") {
+    <div class="olive-spinner-container-delete">
+      <div class="olive-branch"></div>
+      <div class="leaf"></div>
+      <p class="loading-text">Eliminando Datos...</p>
+    </div>
+  }
+  @default {
+    <div class="olive-spinner-container">
+      <div class="olive-branch"></div>
+      <div class="leaf"></div>
+      <p class="loading-text">Cultivando Datos...</p>
+    </div>
+  }
+}

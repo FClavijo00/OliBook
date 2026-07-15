@@ -1,0 +1,78 @@
+<ion-content class="ion-padding work-form">
+  @if (loading === true) {
+  <app-loading [tipoLoading]="tipoLoading"></app-loading>
+  } @else {
+  <ion-title class="ion-margin-top">{{ title }}</ion-title>
+  <form [formGroup]="newWorkDoneForm">
+    <ion-list mode="ios" [inset]="true">
+      <ion-item [class.invalid-input]="
+              plotSelectedControl?.invalid && plotSelectedControl?.touched ? 'invalid-input' : ''
+            ">
+        <ion-select mode="ios" formControlName="plotSelected" label="Parcelas" placeholder="Seleccione...">
+          @for (plot of plots; track plot) {
+          @if (plot.nickname === null || plot.nickname === '') {
+          <ion-select-option [value]="plot.id">
+            {{ plot.name }}
+          </ion-select-option>
+          } @else {
+          <ion-select-option [value]="plot.id">
+            {{ plot.nickname }}
+          </ion-select-option>
+          }
+          }
+        </ion-select>
+      </ion-item>
+
+      <ion-item [class.invalid-input]="
+              workSelectedControl?.invalid && workSelectedControl?.touched ? 'invalid-input' : ''
+            ">
+        <ion-select mode="ios" formControlName="workSelected" label="Tipo de trabajos" placeholder="Seleccione...">
+          @for (type of workTypes; track type) {
+          <ion-select-option [value]="type.id">{{ type.name }}</ion-select-option>
+          }
+        </ion-select>
+      </ion-item>
+
+      <ion-item [class.invalid-input]="
+              dateWorkDoneControl?.invalid && dateWorkDoneControl?.touched ? 'invalid-input' : ''
+            ">
+        <ion-label>Fecha</ion-label>
+
+        <ion-datetime-button datetime="id-datepicker" slot="end" mode="ios"></ion-datetime-button>
+
+        <ion-modal [keepContentsMounted]="true" class="date-picker-modal">
+          <ng-template>
+            <ion-datetime id="id-datepicker" mode="ios" presentation="date" formControlName="dateWorkDone"
+              [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar" firstDayOfWeek="1">
+            </ion-datetime>
+          </ng-template>
+        </ion-modal>
+      </ion-item>
+
+      <ion-item [class.invalid-input]="
+              descriptionControl?.invalid && descriptionControl?.touched ? 'invalid-input' : ''
+            ">
+        <ion-textarea label="Observaciones" mode="ios" rows="4" formControlName="description"></ion-textarea>
+      </ion-item>
+
+    </ion-list>
+  </form>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        <ion-button class="confirm-btn" expand="block" shape="round" mode="ios" (click)="onSubmit()">
+          <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+          Guardar
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button class="cancel-btn" expand="block" shape="round" mode="ios" (click)="closeModal()">
+          <ion-icon slot="start" name="close-circle"></ion-icon>
+          Cancelar
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  }
+</ion-content>

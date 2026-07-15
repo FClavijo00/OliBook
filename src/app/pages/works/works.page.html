@@ -1,0 +1,111 @@
+<ion-header id="2">
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start">
+      <ion-button>
+        <ion-avatar>
+          @if ( userImageURL !== '' ) {
+          <img [src]="userImageURL" />
+          } @else {
+          <img src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg" />
+          }
+        </ion-avatar>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Trabajos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openNewWorkModal()">
+        <ion-icon aria-hidden="true" name="add-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true" mode="ios" class="ion-padding works-page">
+  @if (_uiService.isLoading()) {
+  <app-loading></app-loading>
+  } @else {
+
+  <div class="cards-kpi-container">
+    <!-- <div class="kpi-card gasto">
+      <ion-icon name="cash-outline"></ion-icon>
+      <div class="kpi-info">
+        <span class="kpi-label">Este Mes</span>
+        <h2 class="kpi-value">840€</h2>
+      </div>
+    </div> -->
+
+    <div class="kpi-card dias">
+      <ion-icon name="calendar-number-outline"></ion-icon>
+      <div class="kpi-info">
+        <span class="kpi-label">Días Trabajados Mes {{ currentMonth }}</span>
+        <h2 class="kpi-value">{{ daysActive }}</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="calendar-wrapper">
+    <ion-datetime mode="ios" locale="es-ES" presentation="date" [firstDayOfWeek]="1"
+      (ionChange)="onDateSelected($event)" [highlightedDates]="highlightedDates" class="custom-calendar">
+    </ion-datetime>
+  </div>
+
+  <div class="dia-detalle-container">
+    <h3 class="fecha-seleccionada-titulo">
+      {{ selectedDate | date: 'd/M/yyyy' }}
+    </h3>
+
+    @if (selectedDayWorks.length > 0) {
+    <ion-list mode="ios" lines="none" class="works-list">
+      @for (work of selectedDayWorks; track work.id) {
+      
+        <ion-item-sliding class="work-sliding-wrapper">
+          <ion-item class="work-item" mode="ios" lines="none">
+            <div class="icon-container" slot="start">
+              <ion-icon name="location-outline"></ion-icon>
+            </div>
+            <ion-label class="work-data">
+              <div class="title-row">
+                <h2>{{ work.plot_nickname || work.plot_name }}</h2>
+              </div>
+              <p class="work-type">{{ work.name }}</p>
+            </ion-label>
+            @if (work.description && work.description.trim() !== '') {
+            <ion-button slot="end" fill="clear" color="medium" class="btn-desc" [id]="'trigger-desc-' + work.id"
+              (click)="$event.stopPropagation()">
+              <ion-icon slot="icon-only" name="document-text-outline"></ion-icon>
+            </ion-button>
+
+            <ion-popover [trigger]="'trigger-desc-' + work.id" dismissOnSelect="true" mode="ios"
+              class="custom-desc-popover">
+              <ng-template>
+                <ion-content class="ion-padding">
+                  <span class="popover-title">Notas del trabajo</span>
+                  <p class="popover-text">{{ work.description }}</p>
+                </ion-content>
+              </ng-template>
+            </ion-popover>
+            }
+
+            <ion-item-options side="end" mode="ios" class="sliding-options">
+              <ion-item-option class="circle-btn edit">
+                <ion-icon name="pencil-outline"></ion-icon>
+              </ion-item-option>
+
+              <!-- Botón Eliminar -->
+              <ion-item-option class="circle-btn delete">
+                <ion-icon name="trash-outline"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item>
+        </ion-item-sliding>
+      }
+    </ion-list>
+    } @else {
+    <div class="no-works">
+      <ion-icon name="cafe-outline"></ion-icon>
+      <p>No se registraron trabajos este día</p>
+    </div>
+    }
+  </div>
+  }
+</ion-content>

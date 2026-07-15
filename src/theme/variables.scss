@@ -1,0 +1,26 @@
+// For information on how to create your own theme, please refer to:
+// https://ionicframework.com/docs/theming/
+
+:root {
+
+  /* FONT */
+  --ion-font-family: 'Inter', sans-serif;
+
+  /* Paleta Personalizada: Sabiduría Orgánica */
+  --ion-color-olive-deep: #2d4628;
+  --ion-color-olive-deep-active: #283e23;
+  --ion-color-olive-main: #6b8e23;
+  --ion-color-olive-main-active: #55731C;
+  --ion-color-olive-soft: #a9ba9d;
+  --ion-color-paper: #f5f5f0;
+  --ion-color-earth: #4e3b31;
+  --ion-color-clay: #a34a33;
+  --ion-color-clay-active: #823B29;
+
+  /* Ejemplo de cómo sobrescribir el color primario de Ionic */
+  --ion-color-primary: var(--ion-color-olive-deep);
+  --ion-color-primary-rgb: 45, 70, 40;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-shade: #283e23;
+  --ion-color-primary-tint: #42593e;
+}

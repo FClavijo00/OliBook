@@ -1,0 +1,105 @@
+<ion-header>
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start">
+      <ion-button>
+        <!-- <ion-icon aria-hidden="true" name="person-circle"></ion-icon> -->
+        <ion-avatar>
+          @if ( userImageURL !== '' ) {
+          <img [src]="userImageURL" />
+          } @else {
+          <img
+            src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg"
+          />
+          }
+        </ion-avatar>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Inicio</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card mode="ios" class="card-moderna-libro">
+    <ion-card-header>
+      <ion-card-subtitle>{{ username }}</ion-card-subtitle>
+      <ion-card-title>{{ welcomeMessage }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Bienvenido a OliBook,</p>
+      <p>¿Qué tal la jornada laboral de hoy?</p>
+    </ion-card-content>
+  </ion-card>
+
+  @if (lastWorks.length > 0) {
+  <div>
+    <p class="semititle">
+      <ion-text> Últimos trabajos realizados </ion-text>
+    </p>
+  </div>
+
+  <ion-list class="custom-list ion-padding">
+    @for (work of lastWorks; track work.id) {
+    <ion-item mode="md" class="linear-card-item" lines="none">
+      <div class="icon-container" slot="start">
+        <ion-icon name="leaf-outline"></ion-icon>
+      </div>
+      <ion-label>
+        <div class="title-row">
+          <h2>{{ work.nickname || work.name }}</h2>
+          <span class="time-stamp">
+            <ion-icon name="time-outline"></ion-icon>
+            {{ work.date | date: 'dd/MM/yyyy' }}
+          </span>
+        </div>
+        <p>{{ work.work_type_name }}</p>
+      </ion-label>
+    </ion-item>
+    }
+  </ion-list>
+  }
+
+  <div>
+    <p class="semititle">
+      <ion-text> Acciones </ion-text>
+    </p>
+  </div>
+
+  <ion-grid class="action-grid">
+    <ion-row>
+      <ion-col size="6">
+        <button class="action-btn" (click)="abrirTab('parcelas')">
+          <div class="icon-box">
+            <ion-icon name="leaf-outline"></ion-icon>
+          </div>
+          <span>Mis parcelas</span>
+        </button>
+      </ion-col>
+
+      <ion-col size="6">
+        <button class="action-btn">
+          <div class="icon-box">
+            <ion-icon name="add-circle-outline"></ion-icon>
+          </div>
+          <span>Registrar parcela</span>
+        </button>
+      </ion-col>
+
+      <ion-col size="6">
+        <button class="action-btn" (click)="abrirTab('trabajos')">
+          <div class="icon-box">
+            <ion-icon name="checkmark-circle-outline"></ion-icon>
+          </div>
+          <span>Trabajos realizados</span>
+        </button>
+      </ion-col>
+      <ion-col size="6">
+        <button class="action-btn">
+          <div class="icon-box">
+            <ion-icon name="add-circle-outline"></ion-icon>
+          </div>
+          <span>Registrar trabajo realizado</span>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

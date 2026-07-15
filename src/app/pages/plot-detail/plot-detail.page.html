@@ -1,0 +1,121 @@
+<ion-header class="ion-no-border" mode="ios">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/plots" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ parcela.nickname || parcela.name }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="presentActionSheet()">
+        <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="mapDetail" style="height: 35vh; width: 100%" [style.visibility]="loading ? 'hidden' : 'visible'"></div>
+  @if (loading === true) {
+  <app-loading [tipoLoading]="'edit'"></app-loading>
+  } @else {
+  <div class="detail-container ion-padding">
+    <div class="info-card">
+      <ion-item lines="none" mode="ios" class="ion-text-center">
+        <ion-label>
+          <p>Nombre</p>
+          @if (parcela.nickname) {
+          <h2>{{ parcela.name }} - {{ parcela.nickname }}</h2>
+          } @else {
+          <h2>{{ parcela.name }}</h2>
+          }
+        </ion-label>
+      </ion-item>
+      <ion-item lines="none" mode="ios">
+        <div class="grid-info">
+          <ion-label class="first-label">
+            <p>Polígono</p>
+            <h2>{{ parcela.polygon }}</h2>
+          </ion-label>
+          <ion-label class="last-label">
+            <p>Parcela</p>
+            <h2>{{ parcela.parcel }}</h2>
+          </ion-label>
+        </div>
+      </ion-item>
+      <ion-item lines="none" mode="ios">
+        <div class="grid-info">
+          <ion-label class="first-label">
+            <p>Provincia</p>
+            <h2>{{ parcela.province }}</h2>
+          </ion-label>
+          <ion-label class="last-label">
+            <p>Municipio</p>
+            <h2>{{ parcela.municipality }}</h2>
+          </ion-label>
+        </div>
+      </ion-item>
+      @if (parcela.observations !== null && parcela.observations !== '') {
+      <ion-item lines="none" mode="ios">
+        <ion-label>
+          <p>Observaciones</p>
+          <h3>{{ parcela.observations }}</h3>
+        </ion-label>
+      </ion-item>
+      }
+    </div>
+
+    <div class="info-card">
+      <ion-item lines="none" mode="ios">
+        <ion-icon name="document-text-outline" slot="start"></ion-icon>
+        <ion-label>
+          <p>Referencia Catastral</p>
+          <h2>{{ parcela.cadastral_reference }}</h2>
+        </ion-label>
+      </ion-item>
+    </div>
+
+    <div class="info-card">
+      <ion-item lines="none" mode="ios">
+        <ion-icon name="resize-outline" slot="start"></ion-icon>
+        <ion-label>
+          <p>Superficie Total</p>
+          <h2>{{ parcela.surface }} Hectáreas</h2>
+        </ion-label>
+      </ion-item>
+    </div>
+
+    @if (parcela.works.length > 0) {
+    <div class="info-card">
+      <ion-item lines="none" mode="ios">
+        <ion-label class="ion-text-center">
+          <h2>Últimos Trabajos</h2>
+        </ion-label>
+      </ion-item>
+      <ion-list mode="ios" lines="none" class="list-date-work">
+        <ion-item lines="none" mode="ios" class="list-titles">
+          <div class="grid-info">
+            <ion-label class="first-label">
+              <p>Fecha</p>
+            </ion-label>
+            <ion-label class="last-label">
+              <p>Tipo de Trabajo</p>
+            </ion-label>
+          </div>
+        </ion-item>
+        @for (work of parcela.works; track work.id) {
+        <ion-item lines="none" mode="ios" class="works-list">
+          <div class="grid-info">
+            <ion-label class="first-label">
+              <h2>{{ work.date | date: 'dd/MM/yyyy' }}</h2>
+            </ion-label>
+            <ion-label class="last-label">
+              <h2>{{ work.work_type }}</h2>
+            </ion-label>
+          </div>
+        </ion-item>
+        }
+      </ion-list>
+    </div>
+    }
+  </div>
+  }
+</ion-content>

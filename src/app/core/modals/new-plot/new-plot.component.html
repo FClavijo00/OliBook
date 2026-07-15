@@ -1,0 +1,128 @@
+<ion-content class="ion-padding plot-form">
+  @if (loading === true) {
+  <app-loading [tipoLoading]="tipoLoading"></app-loading>
+  } @else {
+  <ion-title class="ion-margin-top">{{ title }}</ion-title>
+  <form [formGroup]="newPlotForm">
+    <ion-list [inset]="true" mode="ios">
+      <ion-item [class.invalid-input]="
+            nameControl?.invalid && nameControl?.touched ? 'invalid-input' : ''
+          ">
+        <ion-input label="Nombre" type="text" mode="ios" formControlName="name"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input label="Apodo" type="text" mode="ios" formControlName="nickname">
+          <ion-button class="solo-icon" fill="clear" slot="end" (click)="openInfoAlert()">
+            <ion-icon name="information-circle"></ion-icon>
+          </ion-button>
+        </ion-input>
+      </ion-item>
+      <!-- <ion-item>
+      <ion-select label="Uso" mode="ios" formControlName="uso">
+        <ion-select-option value="principal">Olivar</ion-select-option>
+        <ion-select-option value="secundaria">Improductivos</ion-select-option>
+      </ion-select>
+    </ion-item> -->
+      <ion-item [class.invalid-input]="
+            provinceControl?.invalid && provinceControl?.touched
+              ? 'invalid-input'
+              : ''
+          ">
+        <ion-input label="Provincia" type="text" mode="ios" formControlName="province"></ion-input>
+      </ion-item>
+      <ion-item [class.invalid-input]="
+            municipalityControl?.invalid && municipalityControl?.touched
+              ? 'invalid-input'
+              : ''
+          ">
+        <ion-input label="Municipio" type="text" mode="ios" formControlName="municipality"></ion-input>
+      </ion-item>
+      <ion-item [class.invalid-input]="
+            polygonControl?.invalid && polygonControl?.touched
+              ? 'invalid-input'
+              : ''
+          ">
+        <ion-input label="Polígono" type="text" mode="ios" formControlName="polygon"></ion-input>
+      </ion-item>
+      <ion-item [class.invalid-input]="
+            parcelControl?.invalid && parcelControl?.touched
+              ? 'invalid-input'
+              : ''
+          ">
+        <ion-input label="Parcela" type="text" mode="ios" formControlName="parcel"></ion-input>
+      </ion-item>
+      <ion-item [class.invalid-input]="
+            surfaceControl?.invalid && surfaceControl?.touched
+              ? 'invalid-input'
+              : ''
+          ">
+        <ion-input label="Superficie (ha)" type="text" mode="ios" formControlName="surface"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input label="Referencia Catastral" type="text" mode="ios"
+          formControlName="cadastral_reference"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-textarea label="Observaciones" mode="ios" rows="4" formControlName="observations"></ion-textarea>
+      </ion-item>
+    </ion-list>
+  </form>
+
+  <ion-button class="sigpac-btn" id="sigpac-map-modal" expand="block" shape="round" mode="ios">
+    <ion-icon slot="start" name="globe"></ion-icon>
+    Importar datos desde SIGPAC
+  </ion-button>
+
+  <ion-modal id="modal" trigger="sigpac-map-modal" mode="ios" class="ion-padding" (ionModalDidPresent)="initMap()" (ionModalDidDismiss)="resetMap()">
+    <ng-template>
+      <ion-content>
+        <ion-toolbar mode="ios">
+          <ion-title>Importar datos SIGPAC</ion-title>
+        </ion-toolbar>
+        <div id="mapDetail" style="height: 80%; width: 100%"></div>
+        <div class="btn-div-modal">
+          <ion-button class="confirm-btn" expand="block" shape="round" mode="ios" (click)="importSigpacData()">
+            <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+            Guardar
+          </ion-button>
+          <ion-button class="cancel-btn" expand="block" shape="round" mode="ios" (click)="closeModal()">
+            <ion-icon slot="start" name="close-circle"></ion-icon>
+            Cancelar
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        <ion-button class="confirm-btn" expand="block" shape="round" mode="ios" (click)="onSubmit()">
+          <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+          Guardar
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button class="cancel-btn" expand="block" shape="round" mode="ios" (click)="closeModal()">
+          <ion-icon slot="start" name="close-circle"></ion-icon>
+          Cancelar
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  }
+
+  <!-- <div class="form-group">
+    <label class="custom-label">Ubicación de la Parcela</label>
+    <div id="map" style="
+        height: 300px;
+        border-radius: 16px;
+        border: 2px solid var(--ion-color-olive-main);
+      "></div>
+    <p class="ion-text-center text-accent" style="margin-top: 8px">
+      Toca en el centro de tu parcela
+    </p>
+  </div> -->
+
+</ion-content>
