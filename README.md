@@ -1,4 +1,4 @@
-# 🌳 OliBook"
+# 🌳 OliBook
 
 > Web App dedicada al mundo del olivar. Podrás tener un cuaderno de campo sin necesidad de papel y hoja, todo a la altura de tu dispositivo móvil.
 
