@@ -16,13 +16,86 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-card mode="ios">
-    <ion-card-content>
-      <ion-avatar>
-        <img [src]="userImageURL" />
-      </ion-avatar>
-      <ion-label>Francisco</ion-label>
-    </ion-card-content>
-  </ion-card>
+<ion-content class="ion-padding" mode="ios">
+  
+  <!-- 1. CABECERA: Perfil del Agricultor -->
+  <div class="profile-hero">
+    <div class="avatar-container">
+      <!-- Iniciales o foto de perfil -->
+      <img [src]="user.image_url" alt="" srcset="">
+    </div>
+    <h2>{{ user.name || 'Francisco José Clavijo' }}</h2>
+    <p>{{ user.rol || 'Agricultor' }}</p>
+  </div>
+
+  <!-- 2. BLOQUE: Mi Cuenta -->
+  <ion-list mode="ios" [inset]="true">
+    <ion-list-header>
+      <ion-label>Mi Cuenta</ion-label>
+    </ion-list-header>
+
+    <ion-item mode="ios" detail="true" button>
+      <ion-icon name="person-outline" slot="start" class="icon-blue"></ion-icon>
+      <ion-label>
+        <h3>Datos personales</h3>
+        <p>{{ user.email || 'fjclavijo@olibook.es' }}</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item mode="ios" detail="true" button>
+      <ion-icon name="lock-closed-outline" slot="start" class="icon-orange"></ion-icon>
+      <ion-label>Cambiar contraseña</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- 3. BLOQUE: Ajustes de Campo -->
+  <ion-list mode="ios" [inset]="true">
+    <ion-list-header>
+      <ion-label>Ajustes de Explotación</ion-label>
+    </ion-list-header>
+
+    <!-- <ion-item mode="ios">
+      <ion-icon name="options-outline" slot="start" class="icon-green"></ion-icon>
+      <ion-label>
+        <h3>Unidades de superficie</h3>
+        <p>Hectáreas (ha)</p>
+      </ion-label>
+      <ion-note slot="end">ha</ion-note>
+    </ion-item> -->
+
+    <ion-item mode="ios" detail="true" button>
+      <ion-icon name="cloud-download-outline" slot="start" class="icon-olive"></ion-icon>
+      <ion-label>
+        <h3>Exportar registros</h3>
+        <p>Descargar trabajos en PDF / CSV</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item mode="ios" detail="true" button>
+      <ion-icon name="settings-outline" slot="start" class="icon-olive"></ion-icon>
+      <ion-label>
+        <h3>Tipos de trabajos</h3>
+        <p>Configurar tipos de trabajos</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- 4. BLOQUE: Soporte y Salida -->
+  <ion-list mode="ios" [inset]="true">
+    <ion-item mode="ios" detail="true" button>
+      <ion-icon name="help-circle-outline" slot="start" class="icon-gray"></ion-icon>
+      <ion-label>Soporte y ayuda</ion-label>
+    </ion-item>
+
+    <ion-item mode="ios" button class="logout-item">
+      <ion-icon name="log-out-outline" slot="start" color="danger"></ion-icon>
+      <ion-label color="danger">Cerrar sesión</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <div class="app-version">
+    <p>Version 1.0.0 (Beta)</p>
+    <p>Desarrollado por Francisco José Clavijo</p>
+  </div>
+
 </ion-content>

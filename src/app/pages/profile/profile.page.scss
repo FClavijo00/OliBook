@@ -1,0 +1,114 @@
+.ion-background-light {
+  --background: #f4f6f9; // Fondo gris claro nativo de iOS para resaltar las tarjetas blancas
+}
+
+// Estilos de la cabecera del perfil
+.profile-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px 16px 16px;
+  background: transparent;
+
+  .avatar-container {
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--ion-color-olive-deep, #4a5d4e), #708a75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 12px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+
+    span {
+      color: white;
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+  }
+
+  h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ion-color-dark);
+    margin: 0 0 4px 0;
+  }
+
+  p {
+    font-size: 13px;
+    color: var(--ion-color-medium);
+    margin: 0;
+  }
+}
+
+// Cabeceras de los grupos de listas
+ion-list-header {
+  --color: var(--ion-color-medium);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 8px;
+  min-height: auto;
+
+  ion-label {
+    margin: 0;
+  }
+}
+
+// Colores personalizados e identificativos para los iconos de ajustes
+ion-item {
+  --background: white;
+  
+  ion-icon[slot="start"] {
+    font-size: 20px;
+    padding: 6px;
+    border-radius: 8px;
+    
+    &.icon-blue { background: #eef4ff; color: #3880ff; }
+    &.icon-orange { background: #fff4ec; color: #ff9f43; }
+    &.icon-green { background: #e8f7f0; color: #10b981; }
+    &.icon-olive { background: #f0f4f1; color: var(--ion-color-olive-deep, #4a5d4e); }
+    &.icon-gray { background: #f2f2f7; color: #8e8e93; }
+  }
+
+  h3 {
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0 0 2px 0;
+  }
+
+  p {
+    font-size: 12px;
+    color: var(--ion-color-medium);
+    margin: 0;
+  }
+}
+
+// Botón de cerrar sesión
+.logout-item {
+  --color: var(--ion-color-danger);
+  font-weight: 500;
+}
+
+// Firma inferior de la versión
+.app-version {
+  text-align: center;
+  padding: 24px 16px;
+  
+  p {
+    font-size: 11px;
+    color: var(--ion-color-medium);
+    opacity: 0.6;
+    margin: 0;
+  }
+}

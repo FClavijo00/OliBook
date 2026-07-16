@@ -10,7 +10,8 @@ export const environment = {
     name: '',
     email: '',
     pass: '',
-    image_url: ''
+    image_url: '',
+    rol: ''
   }
 };
 
