@@ -28,6 +28,7 @@
         color: var(--ion-color-primary);
       }
     }
+
     &.dias {
       ion-icon {
         background: rgba(107, 142, 35, 0.1);
@@ -45,6 +46,7 @@
         text-transform: uppercase;
         letter-spacing: 0.03em;
       }
+
       .kpi-value {
         margin: 2px 0 0 0;
         font-size: 18px;
@@ -69,6 +71,15 @@
   }
 }
 
+ion-datetime::part(calendar-day today) {
+  color: var(--ion-color-clay);
+}
+
+ion-datetime::part(calendar-day today):focus {
+  background: var(--ion-color-clay);
+  color: white;
+}
+
 // Detalle inferior
 .dia-detalle-container {
   padding: 20px 16px;
@@ -84,10 +95,12 @@
     text-align: center;
     padding: 30px;
     color: var(--ion-color-medium);
+
     ion-icon {
       font-size: 32px;
       opacity: 0.5;
     }
+
     p {
       margin-top: 8px;
       font-size: 14px;
@@ -109,8 +122,105 @@
   }
 }
 
+.works-card {
+  margin: 0 !important;
+
+  .works-list {
+    background: transparent !important;
+    padding: 0;
+    margin: 0;
+    border-radius: 16px;
+
+    .item-sliding-active-slide {
+      .work-item {
+        margin-right: 8px !important;
+      }
+    }
+
+    .work-item {
+      --background: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      --inner-padding-end: 12px;
+      
+
+      /* &:first-child {
+        border-top-right-radius: 16px !important;
+      }
+
+      &:last-child {
+        border-bottom-right-radius: 16px !important;
+      } */
+
+      .icon-container {
+        background: rgba(107, 142, 35, 0.1);
+        color: var(--ion-color-olive-deep);
+        padding: 10px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .work-data {
+        //margin-left: 4px;
+
+        h2 {
+          font-size: 15px;
+          font-weight: 600;
+          color: var(--ion-color-olive-deep);
+          margin: 0 0 2px 0;
+        }
+
+        .work-type {
+          font-size: 13px;
+          font-weight: 500;
+          color: var(--ion-color-medium);
+          margin: 0;
+        }
+      }
+
+      .btn-popover {
+        margin: 0;
+        --padding-start: 8px;
+        --padding-end: 8px;
+        ion-icon {
+          font-size: 20px;
+          opacity: 0.7;
+        }
+      }
+    }
+
+    .sliding-options {
+      align-items: center;
+
+      .item-option {
+        height: 45px;
+        width: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin-right: 8px;
+
+        &.delete {
+          background: var(--ion-color-danger);
+        }
+
+        &.edit {
+          background: var(--ion-color-olive-main);
+        }
+        ion-icon {
+          font-size: 20px;
+          color: white;
+        }
+      }
+    }
+  }
+}
+
 // WORKS LIST
-.works-list {
+/* .works-list {
   background: transparent !important;
 
   .work-sliding-wrapper {
@@ -129,9 +239,61 @@
 
       // TRUCO MÁGICO: Transición suave para que la tarjeta se "separe" al arrastrarla
       transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+
+      .icon-container {
+        background: rgba(107, 142, 35, 0.1);
+        color: var(--ion-color-olive-deep);
+        padding: 10px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .work-data {
+        margin-left: 4px;
+
+        h2 {
+          font-size: 15px;
+          font-weight: 600;
+          color: var(--ion-color-olive-deep);
+          margin: 0 0 2px 0;
+        }
+
+        .work-type {
+          font-size: 13px;
+          font-weight: 500;
+          color: var(--ion-color-medium);
+          margin: 0;
+        }
+      }
+
+      .btn-popover {
+        margin: 0;
+        --padding-start: 8px;
+        --padding-end: 8px;
+        ion-icon {
+          font-size: 20px;
+          opacity: 0.7;
+        }
+      }
+    }
+
+    &.item-sliding-active-slide {
+      .work-item {
+        margin-right: 16px !important;
+        border-top-right-radius: 12px !important;
+        border-bottom-right-radius: 12px !important;
+      }
+    }
+
+    .sliding-options {
+      background: transparent !important;
+      border: none;
+      align-items: center;
     }
   }
-}
+} */
 
 /* .works-list {
   background: transparent;
@@ -255,7 +417,7 @@ ion-popover.custom-desc-popover {
 }
  */
 // 2. Nuestra tarjeta (se mantiene idéntica, pero con margen 0)
-.work-item {
+/* .work-item {
   --background: white;
   margin: 0 !important; // El margen lo maneja el wrapper de arriba
   border-radius: 16px;
@@ -301,7 +463,7 @@ ion-popover.custom-desc-popover {
       opacity: 0.7;
     }
   }
-}
+} */
 
 // 3. ESTILOS PARA LOS BOTONES DESLIZANTES CIRCULARES
 .sliding-actions {

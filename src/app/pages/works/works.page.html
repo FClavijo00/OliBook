@@ -55,13 +55,13 @@
     </h3>
 
     @if (selectedDayWorks.length > 0) {
-    <ion-list mode="ios" lines="none" class="works-list">
-      @for (work of selectedDayWorks; track work.id) {
-      
-        <ion-item-sliding class="work-sliding-wrapper">
-          <ion-item class="work-item" mode="ios" lines="none">
+    <ion-card mode="ios" class="works-card">
+      <ion-list mode="md" class="works-list" [inset]="true">
+        @for (work of selectedDayWorks; track work.id) {
+        <ion-item-sliding mode="ios">
+          <ion-item class="work-item">
             <div class="icon-container" slot="start">
-              <ion-icon name="location-outline"></ion-icon>
+              <ion-icon name="leaf-outline"></ion-icon>
             </div>
             <ion-label class="work-data">
               <div class="title-row">
@@ -70,7 +70,47 @@
               <p class="work-type">{{ work.name }}</p>
             </ion-label>
             @if (work.description && work.description.trim() !== '') {
-            <ion-button slot="end" fill="clear" color="medium" class="btn-desc" [id]="'trigger-desc-' + work.id"
+            <ion-button slot="end" fill="clear" color="medium" class="btn-popover" [id]="'trigger-desc-' + work.id"
+              (click)="$event.stopPropagation()">
+              <ion-icon slot="icon-only" name="document-text-outline"></ion-icon>
+            </ion-button>
+
+            <ion-popover [trigger]="'trigger-desc-' + work.id" dismissOnSelect="true" mode="ios"
+              class="custom-desc-popover">
+              <ng-template>
+                <ion-content class="ion-padding">
+                  <span class="popover-title">Notas del trabajo</span>
+                  <p class="popover-text">{{ work.description }}</p>
+                </ion-content>
+              </ng-template>
+            </ion-popover>
+            }
+          </ion-item>
+          <ion-item-options class="sliding-options" slot="end">
+            <ion-item-option color="medium" class="item-option edit" (click)="openEditWorkModal(work)">
+              <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>
+            </ion-item-option>
+
+            <ion-item-option color="danger" class="item-option delete" (click)="confirmDeleteWork(work)">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+
+
+        <!-- <ion-item-sliding class="work-sliding-wrapper">
+          <ion-item class="work-item" mode="ios" lines="none">
+            <div class="icon-container" slot="start">
+              <ion-icon name="leaf-outline"></ion-icon>
+            </div>
+            <ion-label class="work-data">
+              <div class="title-row">
+                <h2>{{ work.plot_nickname || work.plot_name }}</h2>
+              </div>
+              <p class="work-type">{{ work.name }}</p>
+            </ion-label>
+            @if (work.description && work.description.trim() !== '') {
+            <ion-button slot="end" fill="clear" color="medium" class="btn-popover" [id]="'trigger-desc-' + work.id"
               (click)="$event.stopPropagation()">
               <ion-icon slot="icon-only" name="document-text-outline"></ion-icon>
             </ion-button>
@@ -91,15 +131,16 @@
                 <ion-icon name="pencil-outline"></ion-icon>
               </ion-item-option>
 
-              <!-- Botón Eliminar -->
               <ion-item-option class="circle-btn delete">
                 <ion-icon name="trash-outline"></ion-icon>
               </ion-item-option>
             </ion-item-options>
           </ion-item>
-        </ion-item-sliding>
-      }
-    </ion-list>
+        </ion-item-sliding> -->
+        }
+      </ion-list>
+    </ion-card>
+
     } @else {
     <div class="no-works">
       <ion-icon name="cafe-outline"></ion-icon>

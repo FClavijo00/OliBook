@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { IonicModule, ModalController, AlertController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { addIcons } from 'ionicons';
 import {
@@ -10,12 +10,13 @@ import {
   calendarNumberOutline,
   cashOutline,
   documentTextOutline,
+  leafOutline,
   pencilOutline,
   trashOutline,
 } from 'ionicons/icons';
 import { WorksService } from 'src/app/core/services/works-service';
 import { firstValueFrom } from 'rxjs';
-import { WorksCalendar } from 'src/app/core/models/works';
+import { WorkDone, WorksCalendar } from 'src/app/core/models/works';
 import { NewWorkDoneComponent } from 'src/app/core/modals/new-work-done/new-work-done.component';
 import { UIService } from 'src/app/core/services/uiservice';
 import { LoadingComponent } from "src/app/core/components/loading/loading.component";
@@ -42,9 +43,10 @@ export class WorksPage implements OnInit {
   private _modalCtrl = inject(ModalController);
   public _uiService = inject(UIService);
   private _cdr = inject(ChangeDetectorRef);
+  private _alertCtrl = inject(AlertController);
 
   constructor() {
-    addIcons({ addCircle, cafeOutline, calendarNumberOutline, cashOutline, documentTextOutline, pencilOutline, trashOutline });
+    addIcons({ addCircle, cafeOutline, calendarNumberOutline, cashOutline, documentTextOutline, pencilOutline, trashOutline, leafOutline });
   }
 
   async cargarTrabajosAgenda() {
@@ -123,7 +125,60 @@ export class WorksPage implements OnInit {
       this.cargarTrabajosAgenda();
     }
   }
+  
+  async openEditWorkModal(work: WorkDone) {
+    const modal = await this._modalCtrl.create({
+      component: NewWorkDoneComponent,
+      initialBreakpoint: 1, // For a "Sheet Modal"
+      breakpoints: [0, 0.5, 0.75, 1],
+      handle: true,
+      mode: 'md',
+      componentProps: { modo: 'edit', workDone: work },
+    });
 
+    await modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      this.cargarTrabajosAgenda();
+    }
+  }
+
+  async confirmDeleteWork(work: any) {
+    const stringDate = work.date.split('T')[0];
+    const reversedDate = stringDate.split('-').reverse().join('-');
+    const alert = await this._alertCtrl.create({
+      mode: 'ios',
+      backdropDismiss: false,
+      header: '¿Desea eliminar este trabajo realizado?',
+      message: `Vas a eliminar definitivamente el trabajo realizado en ${work.plot_nickname || work.plot_name} el ${reversedDate}`,
+      buttons: [
+        { text: 'Cancelar', role: 'cancel', cssClass: 'alert-cancel-button' },
+        {
+          text: 'Eliminar',
+          cssClass: 'alert-delete-button',
+          handler: () => this.deleteWork(work.id),
+        },
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async deleteWork(workID: any) {
+    this._uiService.showLoading();
+    try {
+      const response = await firstValueFrom(
+        this._worksService.deleteWorkDone(workID),
+      );
+      this.cargarTrabajosAgenda();
+    } catch (error) {
+      console.error('Error en la petición a la API:', error);
+    } finally {
+      this._uiService.hideLoading();
+    }
+  }
   ionViewWillEnter() {
     this._uiService.hideLoading();
     //this.cargarTrabajosAgenda();

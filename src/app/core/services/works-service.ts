@@ -11,7 +11,15 @@ export class WorksService {
   private _http = inject(HttpClient)
 
   addWorkDone(work: WorkDone) {
-    return this._http.post<WorksCalendar>(`${this._apiUrl}/addWorkDone`, work);
+    return this._http.post<WorkDone>(`${this._apiUrl}/addWorkDone`, work);
+  }
+
+  editWorkDone(work: WorkDone) {
+    return this._http.post<WorkDone>(`${this._apiUrl}/editWorkDone`, work);
+  }
+
+  deleteWorkDone(workID: number) {
+    return this._http.post(`${this._apiUrl}/deleteWorkDone`, {id: workID});
   }
 
   getLastWorks() {
