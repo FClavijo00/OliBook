@@ -37,7 +37,7 @@
   @if (_uiService.isLoading()) {
   <app-loading></app-loading>
   }
-  <ion-list class="plots-list ion-padding" [style.display]="!_uiService.isLoading() ? 'block' : 'none'">
+  <ion-list class="plots-list ion-padding" mode="md" [style.display]="!_uiService.isLoading() ? 'block' : 'none'">
     @for (plot of filteredPlots; track plot.id; let idx = $index) {
     <!-- <ion-item-sliding #slidingItem mode="ios"> -->
     <!-- <ion-item-options side="end">
