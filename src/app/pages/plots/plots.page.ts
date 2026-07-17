@@ -11,6 +11,7 @@ import {
   IonAvatar,
   IonIcon,
   IonSearchbar,
+  RefresherCustomEvent,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
@@ -104,8 +105,12 @@ export class PlotsPage implements OnInit {
 
     if (role === 'confirm') {
       this._plotsService.plotsChanged.emit();
-      this._toastService.presentToast('Parcela creada con éxito.', 'toast-success', 'checkmark-circle-outline');
-      this.getPlots();
+      this._toastService.presentToast(
+        'Parcela creada con éxito.',
+        'toast-success',
+        'checkmark-circle-outline',
+      );
+      this.getPlots('inicio');
     } else if (role === 'cancel') {
       return;
     }
@@ -126,20 +131,32 @@ export class PlotsPage implements OnInit {
     }
   }
 
-  async getPlots() {
-    this._uiService.showLoading();
+  async getPlots(accion: 'inicio' | 'refresh', event?: RefresherCustomEvent) {
+    if (accion === 'inicio') {
+      this._uiService.showLoading();
+    }
 
+    await this.fetchPlotsFromAPI();
+
+    if (accion === 'refresh' && event) {
+      setTimeout(() => {
+        event.target.complete();
+      }, 1000);
+    } else if (accion === 'inicio') {
+      setTimeout(() => {
+        this._uiService.hideLoading();
+        this._cdr.detectChanges();
+      }, 1000);
+    }
+  }
+
+  private async fetchPlotsFromAPI() {
     try {
       const response = await firstValueFrom(this._plotsService.getPlots());
       this.plots = response || [];
       this.filteredPlots = [...this.plots];
     } catch (error) {
       console.error('Error en la petición a la API:', error);
-    } finally {
-      setTimeout(() => {
-        this._uiService.hideLoading();
-        this._cdr.detectChanges();
-      }, 1500);
     }
   }
 
@@ -150,14 +167,13 @@ export class PlotsPage implements OnInit {
   ionViewWillEnter() {
     this._uiService.hideLoading();
     this._plotsService.plotsChanged.subscribe(() => {
-      this.getPlots();
+      this.getPlots('inicio');
     });
   }
 
   ngOnInit() {
     this.showSearchBar = false;
-    this.getPlots();
-    
+    this.getPlots('inicio');
   }
 
   ionViewWillLeave() {

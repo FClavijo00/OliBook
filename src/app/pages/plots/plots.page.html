@@ -36,18 +36,12 @@
 <ion-content class="ion-padding" fullscreen="true">
   @if (_uiService.isLoading()) {
   <app-loading></app-loading>
-  }
+  } 
+  <ion-refresher mode="md" slot="fixed" (ionRefresh)="getPlots('refresh', $event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-list class="plots-list ion-padding" mode="md" [style.display]="!_uiService.isLoading() ? 'block' : 'none'">
     @for (plot of filteredPlots; track plot.id; let idx = $index) {
-    <!-- <ion-item-sliding #slidingItem mode="ios"> -->
-    <!-- <ion-item-options side="end">
-        <ion-item-option class="btn-edit">
-          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
-        </ion-item-option>
-        <ion-item-option color="danger" class="btn-delete">
-          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-        </ion-item-option>
-      </ion-item-options> -->
     <ion-item mode="md" class="plot-card" lines="none" button (click)="openPlotDetail(plot)">
       <div class="icon-container" slot="start">
         <ion-icon name="leaf-outline"></ion-icon>
