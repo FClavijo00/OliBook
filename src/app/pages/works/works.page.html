@@ -24,6 +24,9 @@
   @if (_uiService.isLoading()) {
   <app-loading></app-loading>
   } @else {
+  <ion-refresher mode="md" slot="fixed" (ionRefresh)="cargarTrabajosAgenda('refresh', $event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
   <div class="cards-kpi-container">
     <!-- <div class="kpi-card gasto">
