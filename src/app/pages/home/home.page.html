@@ -19,6 +19,9 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+  <ion-refresher mode="md" slot="fixed" (ionRefresh)="getLastWorks('refresh', $event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-card mode="ios" class="card-moderna-libro">
     <ion-card-header>
       <ion-card-subtitle>{{ username }}</ion-card-subtitle>
