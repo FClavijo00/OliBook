@@ -184,7 +184,6 @@ export class NewWorkDoneComponent implements OnInit {
     switch (this.modo) {
       case 'add':
         this.title = 'Registrar Trabajo Realizado';
-        this.newWorkDoneForm.reset();
         break;
       case 'edit':
         this.title = 'Editar Trabajo Realizado';
