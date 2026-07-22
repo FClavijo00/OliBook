@@ -1,0 +1,256 @@
+.login-content {
+  //--background: #f4f6f8;
+}
+
+.hero-header {
+  background: linear-gradient(135deg, var(--ion-color-olive-deep, #4a5d4e), #2d382f);
+  padding: 30px 24px 68px 24px;
+  color: white;
+  border-bottom-left-radius: 32px;
+  border-bottom-right-radius: 32px;
+
+  .brand-logo-container {
+      // Usamos inline-flex para que el contenedor ocupe EXACTAMENTE lo que mida la imagen
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      //margin-bottom: 16px;
+      padding: 0; // Eliminamos cualquier padding sobrante
+
+      .brand-logo-img {
+        // Fijamos solo la altura deseada; el ancho se calculará automáticamente sin deformar
+        height: 75px; 
+        width: auto;
+        
+        // Garantiza que no haya márgenes fantasma de elementos inline/block
+        display: block; 
+        object-fit: contain;
+
+        // Opcional: filtro para darle contraste suave sobre el fondo verde
+        filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.12));
+
+        // Transform
+        transform: translateX(-20px);
+      }
+    }
+
+  .hero-text {
+    max-width: 380px;
+    margin: 0 auto;
+
+    // ESTILO DEL BRAND NAME (OliBook)
+    .brand-title {
+      font-size: 45px;
+      font-weight: 500;
+      letter-spacing: -0.8px;
+      color: rgba(255, 255, 255, 0.9);
+      //margin-bottom: 20px;
+      display: inline-block;
+
+      // Resaltamos "Book" dentro de la marca
+      span {
+        font-weight: 800;
+        color: #a3c293; // Un tono verde hoja suave que destaca sobre el fondo oscuro
+      }
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin: 0 0 6px 0;
+      letter-spacing: -0.5px;
+      color: white;
+    }
+
+    p {
+      font-size: 14px;
+      margin: 0;
+      opacity: 0.8;
+      line-height: 1.4;
+    }
+  }
+}
+
+.form-container {
+  padding: 0 16px 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-grow: 1; // Ocupa el espacio sobrante
+  justify-content: flex-start;
+
+  .auth-card {
+    width: 100%;
+    max-width: 380px;
+    background: white;
+    border-radius: 24px;
+    padding: 28px 20px 20px 20px;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.07);
+    margin-top: -38px; // Solapamiento elegante sobre el hero
+    position: relative;
+    z-index: 10;
+  }
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .input-wrapper {
+    position: relative;
+    background: #f8f9fa;
+    border-radius: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    display: flex;
+    align-items: center;
+    padding-left: 14px;
+
+    .input-icon {
+      font-size: 18px;
+      color: var(--ion-color-primary);
+      opacity: 0.7;
+      //margin-top: 8px;
+    }
+
+    ion-input {
+      --padding-start: 10px;
+      --highlight-color-focused: var(--ion-color-olive-deep, #4a5d4e);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ion-color-olive-deep, #4a5d4e);
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 2px;
+      top: 50%;
+      transform: translateY(-50%);
+      margin: 0;
+      z-index: 10;
+    }
+  }
+}
+
+.btn-submit {
+  margin-top: 8px;
+  --background: var(--ion-color-olive-deep, #4a5d4e);
+  --background-activated: #3b4a3e;
+  --border-radius: 14px;
+  font-weight: 600;
+  font-size: 15px;
+  height: 50px;
+  box-shadow: 0 6px 16px rgba(74, 93, 78, 0.25);
+}
+
+.toggle-mode-container {
+  text-align: center;
+  margin-top: 20px;
+
+  p {
+    font-size: 13px;
+    color: var(--ion-color-medium);
+    margin: 0;
+  }
+
+  .toggle-link {
+    color: var(--ion-color-olive-deep, #4a5d4e);
+    font-weight: 600;
+    cursor: pointer;
+    margin-left: 4px;
+  }
+}
+
+// PIE DE PÁGINA (Para "llenar" el espacio inferior con elegancia)
+.app-footer-credits {
+ position: absolute;
+ bottom: 0;
+ width: 100%;
+ padding: 16px;
+ text-align: center;
+  
+  p {
+    font-size: 12px;
+    color: var(--ion-color-medium);
+    opacity: 0.6;
+    margin: 0;
+  }
+}
+
+.avatar-upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .avatar-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+
+    .avatar-preview {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background-color: #f8f9fa;
+      border: 2px dashed var(--ion-color-olive-deep, #4a5d4e);
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease-in-out;
+
+      &:hover {
+        border-color: #4a5d4e;
+        transform: scale(1.03);
+      }
+
+      .camera-icon {
+        font-size: 28px;
+        color: var(--ion-color-olive-deep, #4a5d4e);
+      }
+    }
+
+    .upload-hint {
+      margin-top: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ion-color-olive-deep, #4a5d4e);
+    }
+  }
+}
+
+.checkbox-wrapper {
+  margin: 0px 4px 0px 4px;
+  display: flex;
+  align-items: center;
+
+  ion-checkbox {
+    --color-checked: #4a5d4e;
+    --border-color-checked: #4a5d4e;
+    font-size: 14px;
+  }
+
+  .checkbox-label {
+    font-size: 14px;
+    color: #444;
+    font-weight: 500;
+  }
+}
+
+/* Animación suave para cuando aparece el input de Empresa */
+.empresa-input-animated {
+  animation: slideDown 0.25s ease-out forwards;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

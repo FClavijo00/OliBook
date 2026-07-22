@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 90" width="380" height="90">
+  <defs>
+    <!-- Gradientes estilo ilustración -->
+    <linearGradient id="oliGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C2E2A3" />
+      <stop offset="100%" stop-color="#7FA661" />
+    </linearGradient>
+    
+    <linearGradient id="leafGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#B5D99C" />
+      <stop offset="100%" stop-color="#557B43" />
+    </linearGradient>
+  </defs>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&amp;display=swap');
+    
+    .text-oli {
+      font-family: 'Comfortaa', 'Quicksand', 'Nunito', sans-serif;
+      font-size: 54px;
+      font-weight: 700;
+      fill: #FFFFFF;
+    }
+    .text-book {
+      font-family: 'Comfortaa', 'Quicksand', 'Nunito', sans-serif;
+      font-size: 54px;
+      font-weight: 700;
+      fill: #B5D99C;
+    }
+  </style>
+
+  <g transform="translate(10, 5)">
+    <!-- 1. LA 'O' DIBUJADA COMO ACEITUNA (Estilo Flat / Vector) -->
+    <g transform="translate(34, 46) rotate(-14)">
+      <ellipse cx="0" cy="0" rx="18" ry="24" fill="url(#oliGreen)" stroke="#FFFFFF" stroke-width="2.5" />
+      <ellipse cx="0" cy="2" rx="7" ry="11" fill="#3D4D3A" />
+      <path d="M -10 -11 A 12 17 0 0 1 2 -18" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.85" />
+    </g>
+
+    <!-- 2. LA 'l' Y EL PALO DE LA 'i' (Sin el punto) -->
+    <text x="68" y="68" class="text-oli">lı</text>
+
+    <!-- 3. HOJA DIBUJADA QUE NACE Y HACE DE PUNTO REAL DE LA 'i' -->
+    <g transform="translate(93, 32)">
+      <!-- Rabito que sale directamente de la parte superior del palo de la 'i' -->
+      <path d="M 0 0 Q 2 -12 10 -18" fill="none" stroke="#B5D99C" stroke-width="3" stroke-linecap="round" />
+      <!-- Hoja estilo boceto/ilustración -->
+      <g transform="translate(8, -20) rotate(-15)">
+        <path d="M 0 0 C 8 -12, 22 -8, 22 2 C 14 10, 4 8, 0 0 Z" fill="url(#leafGreen)" stroke="#FFFFFF" stroke-width="1.5" />
+        <path d="M 1 0 Q 11 0 20 2" fill="none" stroke="#2E3B2C" stroke-width="1.2" opacity="0.6" />
+      </g>
+    </g>
+
+    <!-- 4. TEXTO 'Book' REDONDEADO Y FRESCO -->
+    <text x="122" y="68" class="text-book">Book</text>
+  </g>
+</svg>

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 70" width="300" height="70">
+  <defs>
+    <!-- Degradado suave para el detalle orgánico -->
+    <linearGradient id="oliLeafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#B5D99C" />
+      <stop offset="100%" stop-color="#88AB75" />
+    </linearGradient>
+  </defs>
+
+  <!-- ISOTIPO: Hojita + Aceituna desenfadada (Curvas más orgánicas) -->
+  <g transform="translate(12, 10)">
+    <!-- Aceituna jugosa e inclinada -->
+    <ellipse cx="20" cy="32" rx="9" ry="13" fill="url(#oliLeafGrad)" transform="rotate(-25 20 32)"/>
+    <!-- Brillo en la aceituna (da sensación de frescura/app moderna) -->
+    <ellipse cx="17" cy="27" rx="2.5" ry="4.5" fill="#FFFFFF" opacity="0.4" transform="rotate(-25 17 27)"/>
+    <!-- Hojita dinámica que brota hacia arriba -->
+    <path d="M 22 20 C 28 10, 38 6, 42 2 C 39 12, 31 22, 21 24 Z" fill="#B5D99C"/>
+  </g>
+
+  <!-- TIPOGRAFÍA REDONDEADA Y FRESCA -->
+  <!-- Importamos la fuente 'Nunito' de Google Fonts directamente dentro del SVG -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&amp;display=swap');
+    
+    .text-oli {
+      font-family: 'Nunito', 'Arial Rounded MT Bold', -apple-system, sans-serif;
+      font-size: 36px;
+      font-weight: 600;
+      fill: #FFFFFF;
+      letter-spacing: -0.3px;
+    }
+    
+    .text-book {
+      font-family: 'Nunito', 'Arial Rounded MT Bold', -apple-system, sans-serif;
+      font-size: 36px;
+      font-weight: 900;
+      fill: #B5D99C;
+      letter-spacing: -0.3px;
+    }
+  </style>
+
+  <!-- TEXTO CON LAS BORDES SUAVES -->
+  <text x="68" y="46" class="text-oli">Oli</text>
+  <text x="115" y="46" class="text-book">Book</text>
+</svg>
