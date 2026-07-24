@@ -13,7 +13,7 @@ export class ToastService {
   async presentToast(message: string, color: string, icon: string) {
     const toast = await this._toastCtrl.create({
       message,
-      duration: 2000,
+      duration: 1500,
       position: 'bottom',
       mode: 'ios',
       icon: icon ,
