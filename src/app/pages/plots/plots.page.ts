@@ -53,8 +53,6 @@ export class PlotsPage implements OnInit {
   public showSearchBar: boolean = false;
   //public loading: boolean = false;
 
-  public userImageURL: string = environment.user.image_url || '';
-
   public plots: Plot[] = [];
   public filteredPlots: Plot[] = [];
 

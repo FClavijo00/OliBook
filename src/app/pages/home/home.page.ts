@@ -19,6 +19,8 @@ import { Router } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
 import { WorksService } from 'src/app/core/services/works-service';
 import { firstValueFrom } from 'rxjs';
+import { UsersService } from 'src/app/core/services/users-service';
+import { User } from 'src/app/core/models/user';
 
 @Component({
   selector: 'app-home',
@@ -29,12 +31,13 @@ import { firstValueFrom } from 'rxjs';
 })
 export class HomePage implements OnInit {
   welcomeMessage: string = '';
-  username: string = environment.user.name;
-  userImageURL: string = environment.user.image_url || '';
+
+  public user: User | null = null;
 
   private _router = inject(Router);
   private _navCtrl = inject(NavController);
   private _worksService = inject(WorksService);
+  private _userService = inject(UsersService);
 
   public lastWorks = [] as any;
 
@@ -88,6 +91,14 @@ export class HomePage implements OnInit {
 
   openPlotsPage() {
     this._navCtrl.navigateForward('/tabs/plots');
+  }
+
+  ngAfterViewInit() {
+    this.user = this._userService.getUser();
+
+    if (!this.user) {
+      this._router.navigate(['/login']);
+    }
   }
 
   ngOnInit() {

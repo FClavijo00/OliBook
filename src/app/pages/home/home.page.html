@@ -4,13 +4,9 @@
       <ion-button>
         <!-- <ion-icon aria-hidden="true" name="person-circle"></ion-icon> -->
         <ion-avatar>
-          @if ( userImageURL !== '' ) {
-          <img [src]="userImageURL" />
-          } @else {
           <img
             src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg"
           />
-          }
         </ion-avatar>
       </ion-button>
     </ion-buttons>
@@ -24,7 +20,7 @@
   </ion-refresher>
   <ion-card mode="ios" class="card-moderna-libro">
     <ion-card-header>
-      <ion-card-subtitle>{{ username }}</ion-card-subtitle>
+      <ion-card-subtitle>{{ user?.nombre }}</ion-card-subtitle>
       <ion-card-title>{{ welcomeMessage }}</ion-card-title>
     </ion-card-header>
     <ion-card-content>

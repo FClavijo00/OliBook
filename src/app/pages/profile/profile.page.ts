@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
@@ -12,6 +12,8 @@ import {
   personOutline,
   settingsOutline,
 } from 'ionicons/icons';
+import { UsersService } from 'src/app/core/services/users-service';
+import { User } from 'src/app/core/models/user';
 
 @Component({
   selector: 'app-profile',
@@ -21,7 +23,10 @@ import {
   imports: [IonicModule, CommonModule, FormsModule],
 })
 export class ProfilePage implements OnInit {
-  public user = environment.user;
+
+  public user: User | null = null;
+  
+  private _usersService = inject(UsersService);
 
   constructor() {
     addIcons({
@@ -34,5 +39,11 @@ export class ProfilePage implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  logout() {
+    this._usersService.logout();
+  }
+
+  ngOnInit() {
+    this.user = this._usersService.getUser();
+  }
 }

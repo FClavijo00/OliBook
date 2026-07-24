@@ -30,7 +30,6 @@ import { LoadingComponent } from 'src/app/core/components/loading/loading.compon
   imports: [IonicModule, CommonModule, FormsModule, LoadingComponent],
 })
 export class WorksPage implements OnInit {
-  public userImageURL: string = environment.user.image_url || '';
 
   selectedDate: string = new Date().toISOString();
   works: WorksCalendar[] = []; // Tu array general de trabajos de la BD
