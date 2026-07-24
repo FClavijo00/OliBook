@@ -4,15 +4,6 @@
 
 export const environment = {
   production: false,
-  username: 'admin',
-  user : {
-    id: 0,
-    name: '',
-    email: '',
-    pass: '',
-    image_url: '',
-    rol: ''
-  }
 };
 
 /*
