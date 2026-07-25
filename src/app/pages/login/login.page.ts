@@ -1,26 +1,80 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core';
-import { FormsModule, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  inject,
+  OnInit,
+} from '@angular/core';
+import {
+  FormsModule,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastController } from "@ionic/angular";
 import { addIcons } from 'ionicons';
-import { alertCircleOutline, businessOutline, cameraOutline, checkmarkCircleOutline, eyeOffOutline, eyeOutline, informationCircle, leaf, lockClosedOutline, logInOutline, mailOutline, personAddOutline, personOutline } from 'ionicons/icons';
+import {
+  alertCircleOutline,
+  businessOutline,
+  cameraOutline,
+  checkmarkCircleOutline,
+  eyeOffOutline,
+  eyeOutline,
+  informationCircle,
+  leaf,
+  lockClosedOutline,
+  logInOutline,
+  mailOutline,
+  personAddOutline,
+  personOutline,
+} from 'ionicons/icons';
 import { firstValueFrom } from 'rxjs';
-import { User } from 'src/app/core/models/user';
 import { ToastService } from 'src/app/core/services/toast-service';
 import { UsersService } from 'src/app/core/services/users-service';
-import { IonContent, IonSegmentButton, IonLabel, IonCard, IonCardHeader, IonCardSubtitle, IonIcon, IonCardContent, IonButton, IonSpinner } from '@ionic/angular/standalone';
+import {
+  IonContent,
+  IonSegmentButton,
+  IonLabel,
+  IonCard,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonIcon,
+  IonCardContent,
+  IonButton,
+  IonSpinner,
+  IonInput,
+  IonSegment,
+
+} from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
-  imports: [ CommonModule, FormsModule, IonSpinner, IonButton, IonCardContent, IonIcon, IonCardSubtitle, IonCardHeader, IonCard, IonLabel, IonSegmentButton, IonContent, ReactiveFormsModule ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonInput,
+    IonSpinner,
+    IonButton,
+    IonCardContent,
+    IonIcon,
+    IonCardSubtitle,
+    IonCardHeader,
+    IonCard,
+    IonLabel,
+    IonSegmentButton,
+    IonContent,
+    ReactiveFormsModule,
+    IonSegment,
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  standalone: true,
 })
 export class LoginPage implements OnInit {
-  authForm!: FormGroup;
+  authForm: FormGroup = new FormGroup({});
   isRegister: boolean = false;
   showPassword: boolean = false;
   isEnterprise: boolean = false;
@@ -30,8 +84,9 @@ export class LoginPage implements OnInit {
   private _userService = inject(UsersService);
   private _toastService = inject(ToastService);
   private _router = inject(Router);
+  private _fb = inject(FormBuilder);
 
-  constructor(private _fb: FormBuilder) {
+  constructor() {
     addIcons({
       leaf,
       personOutline,
@@ -45,8 +100,8 @@ export class LoginPage implements OnInit {
       cameraOutline,
       informationCircle,
       checkmarkCircleOutline,
-      alertCircleOutline
-    })
+      alertCircleOutline,
+    });
   }
 
   ngOnInit() {
@@ -62,7 +117,7 @@ export class LoginPage implements OnInit {
       nombre: [''],
       fotoUrl: [''],
       nombreEmpresa: [''],
-      codigoEmpresa: ['']
+      codigoEmpresa: [''],
     });
   }
 
@@ -76,7 +131,10 @@ export class LoginPage implements OnInit {
 
     if (this.isRegister) {
       // Si pasa a registro, el nombre es obligatorio
-      nombreControl?.setValidators([Validators.required, Validators.minLength(2)]);
+      nombreControl?.setValidators([
+        Validators.required,
+        Validators.minLength(2),
+      ]);
       passControl?.setValue('');
     } else {
       // Si vuelve a login, limpiamos el campo y sus validaciones
@@ -93,7 +151,7 @@ export class LoginPage implements OnInit {
 
       passControl?.setValue('');
     }
-    
+
     nombreControl?.updateValueAndValidity();
     empresaControl?.updateValueAndValidity();
     codigoControl?.updateValueAndValidity();
@@ -106,7 +164,10 @@ export class LoginPage implements OnInit {
     const codigoControl = this.authForm.get('codigoEmpresa');
     if (tipoControl?.value === 'EMPRESA') {
       this.isEnterprise = true;
-      empresaControl?.setValidators([Validators.required, Validators.minLength(2)]);
+      empresaControl?.setValidators([
+        Validators.required,
+        Validators.minLength(2),
+      ]);
       empresaControl?.updateValueAndValidity();
       codigoControl?.clearValidators();
       codigoControl?.setValue(null);
@@ -116,7 +177,10 @@ export class LoginPage implements OnInit {
       empresaControl?.clearValidators();
       empresaControl?.setValue(null);
       empresaControl?.updateValueAndValidity();
-      codigoControl?.setValidators([Validators.required, Validators.minLength(2)]);
+      codigoControl?.setValidators([
+        Validators.required,
+        Validators.minLength(2),
+      ]);
       codigoControl?.updateValueAndValidity();
     } else if (tipoControl?.value === 'PARTICULAR') {
       this.isEnterprise = false;
@@ -147,17 +211,19 @@ export class LoginPage implements OnInit {
 
     this.loadingSpinner = true;
     const credentials = this.authForm.value;
-    
+
     if (this.isRegister) {
       console.log('Registrando usuario:', credentials);
       try {
-        const response = await firstValueFrom(this._userService.register(credentials));
+        const response = await firstValueFrom(
+          this._userService.register(credentials),
+        );
         if (response) {
           this._toastService.presentToast(
             'Usuario registrado correctamente.',
             'toast-success',
-            'checkmark-circle-outline'
-          )
+            'checkmark-circle-outline',
+          );
         }
         this.toggleMode();
       } catch (error: HttpErrorResponse | any) {
@@ -165,21 +231,26 @@ export class LoginPage implements OnInit {
           this._toastService.presentToast(
             'El código de empresa proporcionado no es correcto.',
             'toast-error',
-            'alert-circle-outline'
-          )
+            'alert-circle-outline',
+          );
         }
       } finally {
         this.loadingSpinner = false;
       }
     } else {
-      let loginData = { email: credentials.email, password: credentials.password };
+      let loginData = {
+        email: credentials.email,
+        password: credentials.password,
+      };
       try {
-        const response = await firstValueFrom(this._userService.login(loginData));
+        const response = await firstValueFrom(
+          this._userService.login(loginData),
+        );
         if (response) {
           this._toastService.presentToast(
             'Inicio de sesión realizado con éxito.',
             'toast-success',
-            'checkmark-circle-outline'
+            'checkmark-circle-outline',
           );
           this._router.navigate(['/tabs/home']);
         }
@@ -188,14 +259,14 @@ export class LoginPage implements OnInit {
           this._toastService.presentToast(
             'Usuario o contraseña incorrectos. Pruebe de nuevo.',
             'toast-error',
-            'alert-circle-outline'
-          )
+            'alert-circle-outline',
+          );
         } else {
           this._toastService.presentToast(
             'Ha ocurrido un error inesperado. Pruebe de nuevo.',
             'toast-error',
-            'alert-circle-outline'
-          )
+            'alert-circle-outline',
+          );
         }
       } finally {
         this.loadingSpinner = false;
