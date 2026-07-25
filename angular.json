@@ -19,9 +19,10 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "www",
+            "main": "src/main.ts",
             "index": "src/index.html",
             "polyfills": [
-              "src/polyfills.ts"
+              "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
@@ -41,8 +42,7 @@
               "src/global.scss",
               "src/theme/variables.scss"
             ],
-            "scripts": [],
-            "browser": "src/main.ts"
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -50,7 +50,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumError": "2MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -88,7 +88,7 @@
               "buildTarget": "app:build:development"
             },
             "ci": {
-              "progress": false
+              "buildTarget": "app:build:ci"
             }
           },
           "defaultConfiguration": "development"

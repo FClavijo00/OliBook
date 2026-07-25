@@ -1,1 +1,0 @@
-import{g as o,p as e}from"./chunk-3B4ASWVK.js";var c=(()=>{let t=class t{constructor(){this.isLoading=e(!1)}showLoading(){this.isLoading.set(!0)}hideLoading(){setTimeout(()=>{this.isLoading.set(!1)},1e3)}};t.\u0275fac=function(s){return new(s||t)},t.\u0275prov=o({token:t,factory:t.\u0275fac,providedIn:"root"});let i=t;return i})();export{c as a};
