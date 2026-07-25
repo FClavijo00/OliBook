@@ -23,8 +23,8 @@ export class WorksService {
     return this._http.post(`${this._apiUrl}/deleteWorkDone`, {id: workID});
   }
 
-  getLastWorks() {
-    return this._http.get(`${this._apiUrl}/getLastWorks`);
+  obtenerUltimosTrabajos() {
+    return this._http.get(`${this._apiUrl}/obtenerUltimosTrabajos`);
   }
 
   getWorksCalendar() {
