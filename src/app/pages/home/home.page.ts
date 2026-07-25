@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RefresherCustomEvent } from '@ionic/angular/standalone';
+import { RefresherCustomEvent, IonHeader, IonToolbar, IonButtons, IonButton, IonAvatar, IonTitle, IonContent, IonRefresher, IonRefresherContent, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonText, IonList, IonItem, IonIcon, IonLabel, IonGrid, IonRow, IonCol } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
   bookOutline,
@@ -16,7 +16,7 @@ import {
 } from 'ionicons/icons';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
-import { IonicModule, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular/standalone';
 import { WorksService } from 'src/app/core/services/works-service';
 import { firstValueFrom } from 'rxjs';
 import { UsersService } from 'src/app/core/services/users-service';
@@ -27,7 +27,7 @@ import { User } from 'src/app/core/models/user';
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
+  imports: [IonCol, IonRow, IonGrid, IonLabel, IonIcon, IonItem, IonList, IonText, IonCardContent, IonCardTitle, IonCardSubtitle, IonCardHeader, IonCard, IonRefresherContent, IonRefresher, IonContent, IonTitle, IonAvatar, IonButton, IonButtons, IonToolbar, IonHeader,  CommonModule, FormsModule],
 })
 export class HomePage implements OnInit {
   welcomeMessage: string = '';
