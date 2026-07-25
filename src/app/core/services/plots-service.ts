@@ -2,13 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { EventEmitter, inject, Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Plot } from '../models/plots';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlotsService {
 
-  private _apiUrl = 'http://localhost:3000/api/test'
+  private _apiUrl = `${environment.apiUrl}/parcelas`;
   private resfreshPlotsSource = new Subject<void>();
   refreshPlots$ = this.resfreshPlotsSource.asObservable();
   public plotsChanged = new EventEmitter<void>();

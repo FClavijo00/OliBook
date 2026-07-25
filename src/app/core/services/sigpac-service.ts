@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import proj4 from 'proj4';
+import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 
 export class SigpacService {
 
-  public apiUrl: string = 'http://localhost:3000/api/sigpac';
+  public apiUrl: string = `${environment.apiUrl}/sigpac`;
 
   private _http = inject(HttpClient);
 

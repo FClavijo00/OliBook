@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { WorkDone, WorksCalendar, WorkTypes } from '../models/works';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WorksService {
 
-  private _apiUrl = 'http://localhost:3000/api/test'
+  private _apiUrl = `${environment.apiUrl}/trabajos`;
   private _http = inject(HttpClient)
 
   addWorkDone(work: WorkDone) {

@@ -3,6 +3,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { User, UserLogin, UserRegister } from '../models/user';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 export interface LoginResponse {
   message: string;
@@ -16,7 +17,7 @@ export class UsersService {
 
   public currentUser = signal<User | null>(this.getUserFromStorage());
 
-  private _apiUrl = 'http://localhost:3000/api/test';
+  private _apiUrl = `${environment.apiUrl}/users`;
   
   private _http = inject(HttpClient);
   private _router = inject(Router);
