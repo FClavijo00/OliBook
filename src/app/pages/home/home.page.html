@@ -4,9 +4,7 @@
       <ion-button>
         <!-- <ion-icon aria-hidden="true" name="person-circle"></ion-icon> -->
         <ion-avatar>
-          <img
-            src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg"
-          />
+          <img src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg" />
         </ion-avatar>
       </ion-button>
     </ion-buttons>
@@ -15,7 +13,7 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-refresher mode="md" slot="fixed" (ionRefresh)="getLastWorks('refresh', $event)">
+  <ion-refresher mode="md" slot="fixed" (ionRefresh)="recargarUltimosTrabajos('refresh', $event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-card mode="ios" class="card-moderna-libro">
@@ -65,16 +63,16 @@
 
   <ion-grid class="action-grid">
     <ion-row>
-      <ion-col size="6">
-        <button class="action-btn" (click)="abrirTab('parcelas')">
+      <ion-col>
+        <ion-button class="action-btn" (click)="abrirTab('parcelas')" mode="ios">
           <div class="icon-box">
             <ion-icon name="leaf-outline"></ion-icon>
           </div>
           <span>Mis parcelas</span>
-        </button>
+        </ion-button>
       </ion-col>
 
-      <ion-col size="6">
+      <ion-col>
         <button class="action-btn">
           <div class="icon-box">
             <ion-icon name="add-circle-outline"></ion-icon>
@@ -82,8 +80,10 @@
           <span>Registrar parcela</span>
         </button>
       </ion-col>
+    </ion-row>
 
-      <ion-col size="6">
+    <ion-row>
+      <ion-col>
         <button class="action-btn" (click)="abrirTab('trabajos')">
           <div class="icon-box">
             <ion-icon name="checkmark-circle-outline"></ion-icon>
@@ -91,7 +91,8 @@
           <span>Trabajos realizados</span>
         </button>
       </ion-col>
-      <ion-col size="6">
+
+      <ion-col>
         <button class="action-btn">
           <div class="icon-box">
             <ion-icon name="add-circle-outline"></ion-icon>

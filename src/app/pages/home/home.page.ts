@@ -1,7 +1,31 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RefresherCustomEvent, IonHeader, IonToolbar, IonButtons, IonButton, IonAvatar, IonTitle, IonContent, IonRefresher, IonRefresherContent, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonText, IonList, IonItem, IonIcon, IonLabel, IonGrid, IonRow, IonCol } from '@ionic/angular/standalone';
+import {
+  RefresherCustomEvent,
+  IonHeader,
+  IonToolbar,
+  IonButtons,
+  IonButton,
+  IonAvatar,
+  IonTitle,
+  IonContent,
+  IonRefresher,
+  IonRefresherContent,
+  IonCard,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
+  IonCardContent,
+  IonText,
+  IonList,
+  IonItem,
+  IonIcon,
+  IonLabel,
+  IonGrid,
+  IonRow,
+  IonCol,
+} from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
   bookOutline,
@@ -27,7 +51,32 @@ import { User } from 'src/app/core/models/user';
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonCol, IonRow, IonGrid, IonLabel, IonIcon, IonItem, IonList, IonText, IonCardContent, IonCardTitle, IonCardSubtitle, IonCardHeader, IonCard, IonRefresherContent, IonRefresher, IonContent, IonTitle, IonAvatar, IonButton, IonButtons, IonToolbar, IonHeader,  CommonModule, FormsModule],
+  imports: [
+    IonCol,
+    IonRow,
+    IonGrid,
+    IonLabel,
+    IonIcon,
+    IonItem,
+    IonList,
+    IonText,
+    IonCardContent,
+    IonCardTitle,
+    IonCardSubtitle,
+    IonCardHeader,
+    IonCard,
+    IonRefresherContent,
+    IonRefresher,
+    IonContent,
+    IonTitle,
+    IonAvatar,
+    IonButton,
+    IonButtons,
+    IonToolbar,
+    IonHeader,
+    CommonModule,
+    FormsModule,
+  ],
 })
 export class HomePage implements OnInit {
   welcomeMessage: string = '';
@@ -55,12 +104,11 @@ export class HomePage implements OnInit {
     });
   }
 
-  async getLastWorks(
+  async recargarUltimosTrabajos(
     accion: 'inicio' | 'refresh',
     event?: RefresherCustomEvent,
   ) {
-
-    await this.lastWorksFromAPI();
+    await this.obtenerUltimosTrabajosAPI();
 
     if (accion === 'refresh' && event) {
       setTimeout(() => {
@@ -69,9 +117,10 @@ export class HomePage implements OnInit {
     }
   }
 
-  private async lastWorksFromAPI() {
+
+  private async obtenerUltimosTrabajosAPI() {
     try {
-      const response = await firstValueFrom(this._worksService.getLastWorks());
+      const response = await firstValueFrom(this._worksService.obtenerUltimosTrabajos());
       this.lastWorks = response || [];
     } catch (error) {
       console.error('Error en la petición a la API:', error);
@@ -96,13 +145,13 @@ export class HomePage implements OnInit {
   ngAfterViewInit() {
     this.user = this._userService.getUser();
 
-    if (!this.user) {
+    /* if (!this.user) {
       this._router.navigate(['/login']);
-    }
+    } */
   }
 
   ngOnInit() {
-    this.getLastWorks('inicio');
+    this.recargarUltimosTrabajos('inicio');
     const currentHour = new Date().getHours();
 
     if (currentHour > 7 && currentHour < 12) {
