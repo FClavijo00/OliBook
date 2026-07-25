@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkapp=self.webpackChunkapp||[]).push([[2931,5312],{5312(u,p,a){a.d(p,{c:()=>e});const e={production:!0,apiUrl:"olibook-back-production.up.railway.app/api"}}}]);
