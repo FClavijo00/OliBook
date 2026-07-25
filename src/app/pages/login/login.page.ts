@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormsModule, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastController } from "@ionic/angular";
 import { addIcons } from 'ionicons';
@@ -10,12 +10,13 @@ import { User } from 'src/app/core/models/user';
 import { ToastService } from 'src/app/core/services/toast-service';
 import { UsersService } from 'src/app/core/services/users-service';
 import { IonContent, IonSegmentButton, IonLabel, IonCard, IonCardHeader, IonCardSubtitle, IonIcon, IonCardContent, IonButton, IonSpinner } from '@ionic/angular/standalone';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
-  imports: [IonSpinner, IonButton, IonCardContent, IonIcon, IonCardSubtitle, IonCardHeader, IonCard, IonLabel, IonSegmentButton, IonContent, ReactiveFormsModule ],
+  imports: [ CommonModule, FormsModule, IonSpinner, IonButton, IonCardContent, IonIcon, IonCardSubtitle, IonCardHeader, IonCard, IonLabel, IonSegmentButton, IonContent, ReactiveFormsModule ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class LoginPage implements OnInit {
