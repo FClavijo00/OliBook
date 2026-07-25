@@ -1,20 +1,22 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonicModule, ToastController } from "@ionic/angular";
+import { ToastController } from "@ionic/angular";
 import { addIcons } from 'ionicons';
 import { alertCircleOutline, businessOutline, cameraOutline, checkmarkCircleOutline, eyeOffOutline, eyeOutline, informationCircle, leaf, lockClosedOutline, logInOutline, mailOutline, personAddOutline, personOutline } from 'ionicons/icons';
 import { firstValueFrom } from 'rxjs';
 import { User } from 'src/app/core/models/user';
 import { ToastService } from 'src/app/core/services/toast-service';
 import { UsersService } from 'src/app/core/services/users-service';
+import { IonContent, IonSegmentButton, IonLabel, IonCard, IonCardHeader, IonCardSubtitle, IonIcon, IonCardContent, IonButton, IonSpinner } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
-  imports: [IonicModule, ReactiveFormsModule],
+  imports: [IonSpinner, IonButton, IonCardContent, IonIcon, IonCardSubtitle, IonCardHeader, IonCard, IonLabel, IonSegmentButton, IonContent, ReactiveFormsModule ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class LoginPage implements OnInit {
   authForm!: FormGroup;
