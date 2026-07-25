@@ -145,9 +145,9 @@ export class HomePage implements OnInit {
   ngAfterViewInit() {
     this.user = this._userService.getUser();
 
-    /* if (!this.user) {
+    if (!this.user) {
       this._router.navigate(['/login']);
-    } */
+    }
   }
 
   ngOnInit() {
