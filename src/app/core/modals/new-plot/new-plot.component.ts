@@ -1,11 +1,27 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
 import {
-  IonicModule,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  Input,
+  OnInit,
+} from '@angular/core';
+import {
   AlertController,
   ModalController,
   ToastController,
-} from '@ionic/angular';
+  IonContent,
+  IonTitle,
+  IonList,
+  IonItem,
+  IonButton,
+  IonIcon,
+  IonModal,
+  IonToolbar,
+  IonGrid,
+  IonRow,
+  IonCol,
+} from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
   alertCircle,
@@ -31,12 +47,26 @@ import { SigpacService } from '../../services/sigpac-service';
   selector: 'app-new-plot',
   templateUrl: './new-plot.component.html',
   styleUrls: ['./new-plot.component.scss'],
-  imports: [IonicModule, ReactiveFormsModule, LoadingComponent],
+  imports: [
+    IonCol,
+    IonRow,
+    IonGrid,
+    IonToolbar,
+    IonModal,
+    IonIcon,
+    IonButton,
+    IonItem,
+    IonList,
+    IonTitle,
+    IonContent,
+    ReactiveFormsModule,
+    LoadingComponent,
+  ],
+  standalone: true,
 })
 export class NewPlotComponent implements OnInit {
-
   @Input() modo: 'add' | 'edit' = 'add';
-  @Input() plot: any;
+  @Input() parcela: any;
 
   public title = 'Nueva Parcela';
 
@@ -83,7 +113,7 @@ export class NewPlotComponent implements OnInit {
       checkmarkCircle,
       closeCircle,
       alertCircle,
-      alertCircleOutline
+      alertCircleOutline,
     });
     // Definimos los sistemas de coordenadas
     // WGS84: El que usa el GPS/Google Maps
@@ -136,11 +166,13 @@ export class NewPlotComponent implements OnInit {
     this.tipoLoading = '';
     this.loading = true;
     try {
-      this._sigpacService.getParcelaByCoords(coords.lat, coords.lng).then((data) => {
-        if (data) {
-          this.newPlotForm.patchValue(data);
-        }
-      });
+      this._sigpacService
+        .getParcelaByCoords(coords.lat, coords.lng)
+        .then((data) => {
+          if (data) {
+            this.newPlotForm.patchValue(data);
+          }
+        });
     } catch (error) {
       console.error('Error en la petición al SIGPAC:', error);
     } finally {
@@ -195,11 +227,13 @@ export class NewPlotComponent implements OnInit {
       opacity: 0.85,
       subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
     }).addTo(this.map);
-    L.tileLayer.wms('https://ovc.catastro.meh.es/Cartografia/WMS/ServidorWMS.aspx', {
-      layers: 'Catastro',
-      format: 'image/png',
-      transparent: true
-    }).addTo(this.map);
+    L.tileLayer
+      .wms('https://ovc.catastro.meh.es/Cartografia/WMS/ServidorWMS.aspx', {
+        layers: 'Catastro',
+        format: 'image/png',
+        transparent: true,
+      })
+      .addTo(this.map);
 
     // 3. Capturar el click
     var myIcon = L.icon({
@@ -361,9 +395,9 @@ export class NewPlotComponent implements OnInit {
         } else {
           this.loading = true;
           const plot: Plot = {
-            id: this.plot.id,
-            user_id: this.plot.user_id,
-            empresa_id: this.plot.empresa_id,
+            id: this.parcela.id,
+            user_id: this.parcela.user_id,
+            empresa_id: this.parcela.empresa_id,
             nombre_parcela: this.newPlotForm.value.name,
             apodo_parcela: this.newPlotForm.value.nickname,
             provincia: this.newPlotForm.value.province,
@@ -373,12 +407,12 @@ export class NewPlotComponent implements OnInit {
             superficie_ha: this.newPlotForm.value.surface,
             referencia_catastro: this.newPlotForm.value.cadastral_reference,
             observaciones: this.newPlotForm.value.observations,
-            lat: this.plot.lat || null,
-            lng: this.plot.lng || null,
-            x: this.plot.x || null,
-            y: this.plot.y || null,
-            wkt: this.plot.wkt || '',
-            works: []
+            lat: this.parcela.lat || null,
+            lng: this.parcela.lng || null,
+            x: this.parcela.x || null,
+            y: this.parcela.y || null,
+            wkt: this.parcela.wkt || '',
+            works: [],
           };
           this._plotService.editPlot(plot).subscribe((res) => {
             setTimeout(async () => {
@@ -418,13 +452,12 @@ export class NewPlotComponent implements OnInit {
     this.tipoLoading = '';
     switch (this.modo) {
       case 'add':
-
         this.title = 'Nueva parcela';
         this.newPlotForm.reset();
         break;
       case 'edit':
         this.title = 'Editar parcela';
-        this.newPlotForm.patchValue(this.plot);
+        this.newPlotForm.patchValue(this.parcela);
         break;
       default:
         this.title = 'Nueva parcela';

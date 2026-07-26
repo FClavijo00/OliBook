@@ -14,7 +14,7 @@
       <ion-button (click)="toggleSearchBar()">
         <ion-icon aria-hidden="true" name="search"></ion-icon>
       </ion-button>
-      <ion-button (click)="openNewPlotModal()">
+      <ion-button (click)="abrirModalNuevaParcela()">
         <ion-icon aria-hidden="true" name="add-circle"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -22,7 +22,7 @@
 
   <div class="search-wrapper" [class.active]="showSearchBar">
     <ion-searchbar placeholder="Buscar entre mis parcelas..." class="custom-searchbar" animated="true" mode="ios"
-      [debounce]="1000" (ionInput)="searchPlots($event)">
+      [debounce]="1000" (ionInput)="buscarParcela($event)">
     </ion-searchbar>
   </div>
 </ion-header>
@@ -36,22 +36,21 @@
   <ion-refresher mode="md" slot="fixed" (ionRefresh)="obtenerParcelas('refresh', $event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-list class="plots-list ion-padding" mode="md" [style.display]="!_uiService.isLoading() ? 'block' : 'none'">
-    @for (plot of filteredPlots; track plot.id; let idx = $index) {
-    <ion-item mode="md" class="plot-card" lines="none" button (click)="openPlotDetail(plot)">
+  <ion-list class="plots-list" mode="md" [style.display]="!_uiService.isLoading() ? 'block' : 'none'">
+    @for (parcela of parcelasFiltradas; track parcela.id; let idx = $index) {
+    <ion-item mode="md" class="plot-card" lines="none" button (click)="abrirDetalleParcela(parcela)">
       <div class="icon-container" slot="start">
         <ion-icon name="leaf-outline"></ion-icon>
       </div>
       <ion-label>
         <div class="title-row">
-          @if (plot.apodo_parcela) {
-          <h2>{{ plot.apodo_parcela }}</h2>
+          @if (parcela.apodo_parcela) {
+          <h2>{{ parcela.apodo_parcela }}</h2>
           } @else {
-          <h2>{{ plot.nombre_parcela }}</h2>
+          <h2>{{ parcela.nombre_parcela }}</h2>
           }
         </div>
-        <p>Pol: {{ plot.poligono }} | Par: {{ plot.parcela }}</p>
-        <!-- <span class="badge-superficie">{{ plot.surface }} ha</span> -->
+        <p>Pol: {{ parcela.poligono }} | Par: {{ parcela.parcela }}</p>
       </ion-label>
 
       <ion-icon name="chevron-forward-outline" slot="end" class="arrow-icon"></ion-icon>
@@ -60,7 +59,7 @@
     } @empty {
     <ion-item mode="md" class="plot-card" lines="none">
       <ion-label>
-        <h2>No hay parcelas</h2>
+        <h2>No hay parcelas registradas.</h2>
       </ion-label>
     </ion-item>
     }

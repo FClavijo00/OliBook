@@ -16,12 +16,28 @@ import {
   checkmarkCircle,
 } from 'ionicons/icons';
 import { NewPlotComponent } from 'src/app/core/modals/new-plot/new-plot.component';
-import { ModalController, ToastController, IonHeader, IonToolbar, IonButtons, IonButton, IonAvatar, IonTitle, IonIcon, IonSearchbar, IonContent, IonRefresher, IonRefresherContent, IonList, IonItem, IonLabel, RefresherCustomEvent } from '@ionic/angular/standalone';
+import {
+  ModalController,
+  IonHeader,
+  IonToolbar,
+  IonButtons,
+  IonButton,
+  IonAvatar,
+  IonTitle,
+  IonIcon,
+  IonSearchbar,
+  IonContent,
+  IonRefresher,
+  IonRefresherContent,
+  IonList,
+  IonItem,
+  IonLabel,
+  RefresherCustomEvent,
+  NavController,
+} from '@ionic/angular/standalone';
 import { PlotsService } from 'src/app/core/services/plots-service';
 import { Plot } from 'src/app/core/models/plots';
 import { LoadingComponent } from 'src/app/core/components/loading/loading.component';
-import { ActivatedRoute, Router } from '@angular/router';
-import { SigpacService } from 'src/app/core/services/sigpac-service';
 import { firstValueFrom } from 'rxjs';
 import { UIService } from 'src/app/core/services/uiservice';
 import { ToastService } from 'src/app/core/services/toast-service';
@@ -33,27 +49,39 @@ import { UsersService } from 'src/app/core/services/users-service';
   templateUrl: './plots.page.html',
   styleUrls: ['./plots.page.scss'],
   standalone: true,
-  imports: [IonLabel, IonItem, IonList, IonRefresherContent, IonRefresher, IonContent, IonSearchbar, IonIcon, IonTitle, IonAvatar, IonButton, IonButtons, IonToolbar, IonHeader, LoadingComponent],
+  imports: [
+    IonLabel,
+    IonItem,
+    IonList,
+    IonRefresherContent,
+    IonRefresher,
+    IonContent,
+    IonSearchbar,
+    IonIcon,
+    IonTitle,
+    IonAvatar,
+    IonButton,
+    IonButtons,
+    IonToolbar,
+    IonHeader,
+    LoadingComponent,
+  ],
 })
 export class PlotsPage implements OnInit {
-
   public user: User | null = null;
 
   public showSearchBar: boolean = false;
-  //public loading: boolean = false;
 
-  public plots: Plot[] = [];
-  public filteredPlots: Plot[] = [];
+  public parcelas: Plot[] = [];
+  public parcelasFiltradas: Plot[] = [];
 
   private _plotsService = inject(PlotsService);
-  private _toastCtrl = inject(ToastController);
-  private _router = inject(Router);
-  private _route = inject(ActivatedRoute);
-  private _sigpacService = inject(SigpacService);
+  //private _router = inject(Router);
   private _cdr = inject(ChangeDetectorRef);
   public _uiService = inject(UIService);
   private _toastService = inject(ToastService);
   private _usersService = inject(UsersService);
+  private _navCtrl = inject(NavController);
 
   constructor(private modalCtrl: ModalController) {
     addIcons({
@@ -77,7 +105,7 @@ export class PlotsPage implements OnInit {
     this.showSearchBar = !this.showSearchBar;
   }
 
-  async openNewPlotModal() {
+  async abrirModalNuevaParcela() {
     const modal = await this.modalCtrl.create({
       component: NewPlotComponent,
       initialBreakpoint: 1, // For a "Sheet Modal"
@@ -103,22 +131,27 @@ export class PlotsPage implements OnInit {
     }
   }
 
-  searchPlots(event: any) {
+  buscarParcela(event: any) {
     const target = event.target as HTMLIonSearchbarElement;
     const query = target.value?.toLowerCase() || '';
 
     if (query === '') {
-      this.filteredPlots = [...this.plots];
+      this.parcelasFiltradas = [...this.parcelas];
     } else {
-      this.filteredPlots = this.plots.filter((plot) => {
-        const matchesNickname = plot.apodo_parcela?.toLowerCase().includes(query);
-        const matchesName = plot.nombre_parcela?.toLowerCase().includes(query);
+      this.parcelasFiltradas = this.parcelas.filter((parcela) => {
+        const matchesNickname = parcela.apodo_parcela
+          ?.toLowerCase()
+          .includes(query);
+        const matchesName = parcela.nombre_parcela?.toLowerCase().includes(query);
         return matchesNickname || matchesName;
       });
     }
   }
 
-  async obtenerParcelas(accion: 'inicio' | 'refresh', event?: RefresherCustomEvent) {
+  async obtenerParcelas(
+    accion: 'inicio' | 'refresh',
+    event?: RefresherCustomEvent,
+  ) {
     if (accion === 'inicio') {
       this._uiService.showLoading();
     }
@@ -139,16 +172,18 @@ export class PlotsPage implements OnInit {
 
   private async fetchPlotsFromAPI() {
     try {
-      const response = await firstValueFrom(this._plotsService.obtenerParcelas(this.user?.id));
-      this.plots = response || [];
-      this.filteredPlots = [...this.plots];
+      const response = await firstValueFrom(
+        this._plotsService.obtenerParcelas(this.user?.id),
+      );
+      this.parcelas = response || [];
+      this.parcelasFiltradas = [...this.parcelas];
     } catch (error) {
       console.error('Error en la petición a la API:', error);
     }
   }
 
-  openPlotDetail(plotSelected: Plot) {
-    this._router.navigate(['/plot-detail'], { state: { plot: plotSelected } });
+  abrirDetalleParcela(parcelaSelected: Plot) {
+    this._navCtrl.navigateForward(['/plot-detail'], { state: { parcela: parcelaSelected } });
   }
 
   ionViewWillEnter() {
@@ -161,7 +196,7 @@ export class PlotsPage implements OnInit {
   ngOnInit() {
     this.user = this._usersService.getUser();
     if (!this.user) {
-      this._router.navigate(['/login']);
+      this._navCtrl.navigateRoot(['/login']);
     }
 
     this.showSearchBar = false;
