@@ -1,18 +1,6 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import {
-  IonContent,
-  IonHeader,
-  IonTitle,
-  IonToolbar,
-  IonButtons,
-  IonButton,
-  IonAvatar,
-  IonIcon,
-  IonSearchbar,
-  RefresherCustomEvent,
-} from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
   addCircle,
@@ -31,7 +19,7 @@ import {
 } from 'ionicons/icons';
 import { NewJobComponent } from 'src/app/core/modals/new-job/new-job.component';
 import { NewPlotComponent } from 'src/app/core/modals/new-plot/new-plot.component';
-import { ModalController, IonicModule, ToastController } from '@ionic/angular';
+import { ModalController, ToastController, IonHeader, IonToolbar, IonButtons, IonButton, IonAvatar, IonTitle, IonIcon, IonSearchbar, IonContent, IonRefresher, IonRefresherContent, IonList, IonItem, IonLabel, RefresherCustomEvent } from '@ionic/angular/standalone';
 import { environment } from 'src/environments/environment';
 import { PlotsService } from 'src/app/core/services/plots-service';
 import { Plot } from 'src/app/core/models/plots';
@@ -47,7 +35,7 @@ import { ToastService } from 'src/app/core/services/toast-service';
   templateUrl: './plots.page.html',
   styleUrls: ['./plots.page.scss'],
   standalone: true,
-  imports: [IonicModule, LoadingComponent],
+  imports: [IonLabel, IonItem, IonList, IonRefresherContent, IonRefresher, IonContent, IonSearchbar, IonIcon, IonTitle, IonAvatar, IonButton, IonButtons, IonToolbar, IonHeader, LoadingComponent],
 })
 export class PlotsPage implements OnInit {
   public showSearchBar: boolean = false;
