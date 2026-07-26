@@ -25,9 +25,7 @@ export class UsersService {
   login(loginData: UserLogin): Observable<LoginResponse> {
     return this._http.post<LoginResponse>(`${this._apiUrl}/login`, loginData).pipe(
       tap((response) => {
-        console.log('Respuesta del login:', response);
         if (response && response.user) {
-          console.log('Usuario logueado:', response.user);
           // Guardamos el usuario en el estado y en LocalStorage
           this.setCurrentUser(response.user);
         }
