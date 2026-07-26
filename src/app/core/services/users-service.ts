@@ -4,6 +4,7 @@ import { Observable, tap } from 'rxjs';
 import { User, UserLogin, UserRegister } from '../models/user';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { NavController } from '@ionic/angular/standalone';
 
 export interface LoginResponse {
   message: string;
@@ -21,6 +22,7 @@ export class UsersService {
   
   private _http = inject(HttpClient);
   private _router = inject(Router);
+  private _navCtrl = inject(NavController);
 
   login(loginData: UserLogin): Observable<LoginResponse> {
     return this._http.post<LoginResponse>(`${this._apiUrl}/login`, loginData).pipe(
@@ -28,6 +30,7 @@ export class UsersService {
         if (response && response.user) {
           // Guardamos el usuario en el estado y en LocalStorage
           this.setCurrentUser(response.user);
+          this._navCtrl.navigateForward('/tabs/home');
         }
       })
     );

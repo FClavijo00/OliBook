@@ -252,7 +252,6 @@ export class LoginPage implements OnInit {
             'toast-success',
             'checkmark-circle-outline',
           );
-          this._router.navigate(['/tabs/home']);
         }
       } catch (error: HttpErrorResponse | any) {
         if (error.status === 401) {
