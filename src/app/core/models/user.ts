@@ -6,6 +6,7 @@ export interface User {
     image_url: string;
     rol: string;
     nombre_empresa?: string;
+    codigo_empresa?: string;
 }
 
 export interface UserLogin {
