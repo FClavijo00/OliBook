@@ -33,7 +33,11 @@ export class PlotsService {
   }
 
   getPlots() : Observable<Plot[]> {
-    return this._http.get<Plot[]>(`${this._apiUrl}/getPlots`);
+    return this._http.get<Plot[]>(`${this._apiUrl}/obtenerParcelas`);
+  }
+
+  obtenerParcelas(userID: any) : Observable<Plot[]> {
+    return this._http.post<Plot[]>(`${this._apiUrl}/obtenerParcelas`, {userID: userID});
   }
 
   triggerRefreshPlots() {

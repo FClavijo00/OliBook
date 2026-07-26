@@ -33,7 +33,7 @@
   @if (_uiService.isLoading()) {
   <app-loading></app-loading>
   } 
-  <ion-refresher mode="md" slot="fixed" (ionRefresh)="getPlots('refresh', $event)">
+  <ion-refresher mode="md" slot="fixed" (ionRefresh)="obtenerParcelas('refresh', $event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-list class="plots-list ion-padding" mode="md" [style.display]="!_uiService.isLoading() ? 'block' : 'none'">
@@ -44,13 +44,13 @@
       </div>
       <ion-label>
         <div class="title-row">
-          @if (plot.nickname) {
-          <h2>{{ plot.nickname }}</h2>
+          @if (plot.apodo_parcela) {
+          <h2>{{ plot.apodo_parcela }}</h2>
           } @else {
-          <h2>{{ plot.name }}</h2>
+          <h2>{{ plot.nombre_parcela }}</h2>
           }
         </div>
-        <p>Pol: {{ plot.polygon }} | Par: {{ plot.parcel }}</p>
+        <p>Pol: {{ plot.poligono }} | Par: {{ plot.parcela }}</p>
         <!-- <span class="badge-superficie">{{ plot.surface }} ha</span> -->
       </ion-label>
 

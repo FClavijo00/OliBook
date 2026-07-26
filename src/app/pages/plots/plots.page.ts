@@ -29,6 +29,8 @@ import { SigpacService } from 'src/app/core/services/sigpac-service';
 import { firstValueFrom } from 'rxjs';
 import { UIService } from 'src/app/core/services/uiservice';
 import { ToastService } from 'src/app/core/services/toast-service';
+import { User } from 'src/app/core/models/user';
+import { UsersService } from 'src/app/core/services/users-service';
 
 @Component({
   selector: 'app-plots',
@@ -38,6 +40,9 @@ import { ToastService } from 'src/app/core/services/toast-service';
   imports: [IonLabel, IonItem, IonList, IonRefresherContent, IonRefresher, IonContent, IonSearchbar, IonIcon, IonTitle, IonAvatar, IonButton, IonButtons, IonToolbar, IonHeader, LoadingComponent],
 })
 export class PlotsPage implements OnInit {
+
+  public user: User | null = null;
+
   public showSearchBar: boolean = false;
   //public loading: boolean = false;
 
@@ -52,6 +57,7 @@ export class PlotsPage implements OnInit {
   private _cdr = inject(ChangeDetectorRef);
   public _uiService = inject(UIService);
   private _toastService = inject(ToastService);
+  private _usersService = inject(UsersService);
 
   constructor(private modalCtrl: ModalController) {
     addIcons({
@@ -90,13 +96,12 @@ export class PlotsPage implements OnInit {
     const { data, role } = await modal.onWillDismiss();
 
     if (role === 'confirm') {
-      this._plotsService.plotsChanged.emit();
       this._toastService.presentToast(
         'Parcela creada con éxito.',
         'toast-success',
         'checkmark-circle-outline',
       );
-      this.getPlots('inicio');
+      this.obtenerParcelas('inicio');
     } else if (role === 'cancel') {
       return;
     }
@@ -110,14 +115,14 @@ export class PlotsPage implements OnInit {
       this.filteredPlots = [...this.plots];
     } else {
       this.filteredPlots = this.plots.filter((plot) => {
-        const matchesNickname = plot.nickname?.toLowerCase().includes(query);
-        const matchesName = plot.name?.toLowerCase().includes(query);
+        const matchesNickname = plot.apodo_parcela?.toLowerCase().includes(query);
+        const matchesName = plot.nombre_parcela?.toLowerCase().includes(query);
         return matchesNickname || matchesName;
       });
     }
   }
 
-  async getPlots(accion: 'inicio' | 'refresh', event?: RefresherCustomEvent) {
+  async obtenerParcelas(accion: 'inicio' | 'refresh', event?: RefresherCustomEvent) {
     if (accion === 'inicio') {
       this._uiService.showLoading();
     }
@@ -138,7 +143,7 @@ export class PlotsPage implements OnInit {
 
   private async fetchPlotsFromAPI() {
     try {
-      const response = await firstValueFrom(this._plotsService.getPlots());
+      const response = await firstValueFrom(this._plotsService.obtenerParcelas(this.user?.id));
       this.plots = response || [];
       this.filteredPlots = [...this.plots];
     } catch (error) {
@@ -151,15 +156,17 @@ export class PlotsPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.user = this._usersService.getUser();
+
     this._uiService.hideLoading();
     this._plotsService.plotsChanged.subscribe(() => {
-      this.getPlots('inicio');
+      this.obtenerParcelas('inicio');
     });
   }
 
   ngOnInit() {
     this.showSearchBar = false;
-    this.getPlots('inicio');
+    this.obtenerParcelas('inicio');
   }
 
   ionViewWillLeave() {

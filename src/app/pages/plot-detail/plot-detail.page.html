@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/tabs/plots" text=""></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ parcela.nickname || parcela.name }}</ion-title>
+    <ion-title>{{ parcela.apodo_parcela || parcela.nombre_parcela }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="presentActionSheet()">
         <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
@@ -22,10 +22,10 @@
       <ion-item lines="none" mode="ios" class="ion-text-center">
         <ion-label>
           <p>Nombre</p>
-          @if (parcela.nickname) {
-          <h2>{{ parcela.name }} - {{ parcela.nickname }}</h2>
+          @if (parcela.apodo_parcela) {
+          <h2>{{ parcela.nombre_parcela }} - {{ parcela.apodo_parcela }}</h2>
           } @else {
-          <h2>{{ parcela.name }}</h2>
+          <h2>{{ parcela.nombre_parcela }}</h2>
           }
         </ion-label>
       </ion-item>
@@ -33,11 +33,11 @@
         <div class="grid-info">
           <ion-label class="first-label">
             <p>Polígono</p>
-            <h2>{{ parcela.polygon }}</h2>
+            <h2>{{ parcela.poligono }}</h2>
           </ion-label>
           <ion-label class="last-label">
             <p>Parcela</p>
-            <h2>{{ parcela.parcel }}</h2>
+            <h2>{{ parcela.parcela }}</h2>
           </ion-label>
         </div>
       </ion-item>
@@ -45,19 +45,19 @@
         <div class="grid-info">
           <ion-label class="first-label">
             <p>Provincia</p>
-            <h2>{{ parcela.province }}</h2>
+            <h2>{{ parcela.provincia }}</h2>
           </ion-label>
           <ion-label class="last-label">
             <p>Municipio</p>
-            <h2>{{ parcela.municipality }}</h2>
+            <h2>{{ parcela.municipio }}</h2>
           </ion-label>
         </div>
       </ion-item>
-      @if (parcela.observations !== null && parcela.observations !== '') {
+      @if (parcela.observaciones !== null && parcela.observaciones !== '') {
       <ion-item lines="none" mode="ios">
         <ion-label>
           <p>Observaciones</p>
-          <h3>{{ parcela.observations }}</h3>
+          <h3>{{ parcela.observaciones }}</h3>
         </ion-label>
       </ion-item>
       }
@@ -68,7 +68,7 @@
         <ion-icon name="document-text-outline" slot="start"></ion-icon>
         <ion-label>
           <p>Referencia Catastral</p>
-          <h2>{{ parcela.cadastral_reference }}</h2>
+          <h2>{{ parcela.referencia_catastro }}</h2>
         </ion-label>
       </ion-item>
     </div>
@@ -78,7 +78,7 @@
         <ion-icon name="resize-outline" slot="start"></ion-icon>
         <ion-label>
           <p>Superficie Total</p>
-          <h2>{{ parcela.surface }} Hectáreas</h2>
+          <h2>{{ parcela.superficie_ha }} Hectáreas</h2>
         </ion-label>
       </ion-item>
     </div>

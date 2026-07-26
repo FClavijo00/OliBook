@@ -2,13 +2,11 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-  IonicModule,
   ActionSheetController,
   AlertController,
   ToastController,
   ModalController,
-  NavController
-} from '@ionic/angular';
+  NavController, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonButton, IonIcon, IonContent, IonItem, IonLabel, IonList } from '@ionic/angular/standalone';
 import * as L from 'leaflet';
 import { Plot } from 'src/app/core/models/plots';
 import { addIcons } from 'ionicons';
@@ -35,7 +33,7 @@ import { ToastService } from 'src/app/core/services/toast-service';
   templateUrl: './plot-detail.page.html',
   styleUrls: ['./plot-detail.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, LoadingComponent],
+  imports: [IonList, IonLabel, IonItem, IonContent, IonIcon, IonButton, IonTitle, IonBackButton, IonButtons, IonToolbar, IonHeader,  CommonModule, LoadingComponent],
 })
 export class PlotDetailPage implements OnInit {
   private route = inject(ActivatedRoute);
@@ -56,15 +54,17 @@ export class PlotDetailPage implements OnInit {
 
   parcela: Plot = {
     id: 0,
-    name: '',
-    nickname: '',
-    province: '',
-    municipality: '',
-    polygon: 0,
-    parcel: 0,
-    surface: 0,
-    cadastral_reference: '',
-    observations: '',
+    user_id: 0,
+    empresa_id: 0,
+    nombre_parcela: '',
+    apodo_parcela: '',
+    provincia: '',
+    municipio: '',
+    poligono: 0,
+    parcela: 0,
+    superficie_ha: 0,
+    referencia_catastro: '',
+    observaciones: '',
     lat: 0,
     lng: 0,
     x: 0,
@@ -105,7 +105,7 @@ export class PlotDetailPage implements OnInit {
     if (role === 'confirm') {
       this._plotsService.plotsChanged.emit();
       await this._modalCtrl.dismiss(null, 'confirm');
-      this._navCtrl.navigateForward('/tabs/plots');
+      this._navCtrl.navigateBack('/tabs/plots');
       this._toastService.presentToast('Parcela actualizada con éxito.', 'toast-success', 'checkmark-circle-outline');
 
     } else if (role === 'cancel') {
@@ -216,7 +216,7 @@ export class PlotDetailPage implements OnInit {
       mode: 'ios',
       backdropDismiss: false,
       header: '¿Desea eliminar esta parcela?',
-      message: `Vas a eliminar definitivamente la parcela: ${this.parcela?.nickname || this.parcela?.name}`,
+      message: `Vas a eliminar definitivamente la parcela: ${this.parcela?.apodo_parcela || this.parcela?.nombre_parcela}`,
       buttons: [
         { text: 'Cancelar', role: 'cancel' },
         {
@@ -234,7 +234,7 @@ export class PlotDetailPage implements OnInit {
       mode: 'ios',
       backdropDismiss: false,
       header: '¿Desea eliminar la ubicación de esta parcela?',
-      message: `Vas a eliminar la ubicación de la parcela: ${this.parcela?.nickname || this.parcela?.name}`,
+      message: `Vas a eliminar la ubicación de la parcela: ${this.parcela?.apodo_parcela || this.parcela?.nombre_parcela}`,
       buttons: [
         { text: 'Cancelar', role: 'cancel' },
         {
@@ -270,7 +270,7 @@ export class PlotDetailPage implements OnInit {
     this._plotsService.deletePlot(data).subscribe((res) => {
       this._plotsService.plotsChanged.emit();
       this._modalCtrl.dismiss(null, 'confirm');
-      this._navCtrl.navigateForward('/tabs/plots');
+      this._navCtrl.navigateBack('/tabs/plots');
       this._toastService.presentToast(
         'Parcela eliminada con éxito.',
         'toast-success',
