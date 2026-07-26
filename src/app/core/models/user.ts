@@ -1,12 +1,11 @@
 export interface User {
     id: number;
-    nombre: string;
+    name: string;
     email: string;
     password: string;
     image_url: string;
     rol: string;
-    nombre_empresa: string;
-    codigo_empresa: string;
+    nombre_empresa?: string;
 }
 
 export interface UserLogin {
