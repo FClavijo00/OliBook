@@ -30,7 +30,7 @@
     <ion-card-content>
       <p>Bienvenido a OliBook,</p>
       <p>¿Qué tal la jornada laboral de hoy?</p>
-      @if (user?.rol === 'TRABAJADOR') {
+      @if (user?.rol === 'TRABAJADOR' && user?.nombre_empresa) {
         <p>Trabajando en: {{ user?.nombre_empresa }}</p>
       }
     </ion-card-content>
