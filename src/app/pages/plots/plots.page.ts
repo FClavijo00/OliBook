@@ -1,6 +1,4 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { addIcons } from 'ionicons';
 import {
   addCircle,
@@ -17,10 +15,8 @@ import {
   chevronForwardOutline,
   checkmarkCircle,
 } from 'ionicons/icons';
-import { NewJobComponent } from 'src/app/core/modals/new-job/new-job.component';
 import { NewPlotComponent } from 'src/app/core/modals/new-plot/new-plot.component';
 import { ModalController, ToastController, IonHeader, IonToolbar, IonButtons, IonButton, IonAvatar, IonTitle, IonIcon, IonSearchbar, IonContent, IonRefresher, IonRefresherContent, IonList, IonItem, IonLabel, RefresherCustomEvent } from '@ionic/angular/standalone';
-import { environment } from 'src/environments/environment';
 import { PlotsService } from 'src/app/core/services/plots-service';
 import { Plot } from 'src/app/core/models/plots';
 import { LoadingComponent } from 'src/app/core/components/loading/loading.component';
@@ -156,8 +152,6 @@ export class PlotsPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.user = this._usersService.getUser();
-
     this._uiService.hideLoading();
     this._plotsService.plotsChanged.subscribe(() => {
       this.obtenerParcelas('inicio');
@@ -165,6 +159,11 @@ export class PlotsPage implements OnInit {
   }
 
   ngOnInit() {
+    this.user = this._usersService.getUser();
+    if (!this.user) {
+      this._router.navigate(['/login']);
+    }
+
     this.showSearchBar = false;
     this.obtenerParcelas('inicio');
   }

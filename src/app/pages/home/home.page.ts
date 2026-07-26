@@ -143,14 +143,13 @@ export class HomePage implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.user = this._userService.getUser();
-
-    if (!this.user) {
-      this._router.navigate(['/login']);
-    }
   }
 
   ngOnInit() {
+    this.user = this._userService.getUser();
+    if (!this.user) {
+      this._router.navigate(['/login']);
+    }
     this.recargarUltimosTrabajos('inicio');
     const currentHour = new Date().getHours();
 
