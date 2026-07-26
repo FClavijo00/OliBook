@@ -78,7 +78,7 @@
     <ng-template>
       <ion-content class="modal-content">
         <ion-toolbar mode="ios">
-          <ion-title>Importar datos SIGPAC</ion-title>
+          <ion-title class="ion-no-padding">Importar datos SIGPAC</ion-title>
         </ion-toolbar>
         <div id="mapDetail" style="height: 80%; width: 100%"></div>
         <div class="btn-div-modal">
@@ -97,13 +97,13 @@
 
   <ion-grid>
     <ion-row>
-      <ion-col size="6">
+      <ion-col>
         <ion-button class="confirm-btn" expand="block" shape="round" mode="ios" (click)="onSubmit()">
           <ion-icon slot="start" name="checkmark-circle"></ion-icon>
           Guardar
         </ion-button>
       </ion-col>
-      <ion-col size="6">
+      <ion-col>
         <ion-button class="cancel-btn" expand="block" shape="round" mode="ios" (click)="closeModalNewPlot()">
           <ion-icon slot="start" name="close-circle"></ion-icon>
           Cancelar
