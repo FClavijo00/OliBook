@@ -83,7 +83,6 @@ export class HomePage implements OnInit {
 
   public user: User | null = null;
 
-  private _router = inject(Router);
   private _navCtrl = inject(NavController);
   private _worksService = inject(WorksService);
   private _userService = inject(UsersService);
@@ -130,16 +129,12 @@ export class HomePage implements OnInit {
   abrirTab(tab: string) {
     switch (tab) {
       case 'parcelas':
-        this._navCtrl.navigateForward('/tabs/plots');
+        this._navCtrl.navigateRoot('/tabs/plots');
         break;
       case 'trabajos':
-        this._navCtrl.navigateForward('/tabs/works');
+        this._navCtrl.navigateRoot('/tabs/works');
         break;
     }
-  }
-
-  openPlotsPage() {
-    this._navCtrl.navigateForward('/tabs/plots');
   }
 
   ngAfterViewInit() {
@@ -148,7 +143,7 @@ export class HomePage implements OnInit {
   ngOnInit() {
     this.user = this._userService.getUser();
     if (!this.user) {
-      this._router.navigate(['/login']);
+      this._navCtrl.navigateRoot(['/login']);
     }
     this.recargarUltimosTrabajos('inicio');
     const currentHour = new Date().getHours();
