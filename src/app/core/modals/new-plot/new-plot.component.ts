@@ -336,7 +336,7 @@ export class NewPlotComponent implements OnInit {
             wkt: this.formNuevaParcela.value.wkt || '',
             works: [],
           };
-          this._plotService.addNewPlot(plot).subscribe((res) => {
+          this._plotService.nuevaParcela(plot).subscribe((res) => {
             setTimeout(async () => {
               this._toastCtrl.create({
                 message: 'Parcela creada con exito',
@@ -390,7 +390,7 @@ export class NewPlotComponent implements OnInit {
             wkt: this.parcela.wkt || '',
             works: [],
           };
-          this._plotService.editPlot(plot).subscribe((res) => {
+          this._plotService.editarParcela(plot).subscribe((res) => {
             setTimeout(async () => {
               this._toastCtrl.create({
                 message: 'Parcela editada con exito',

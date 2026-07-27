@@ -295,7 +295,7 @@ export class PlotDetailPage implements OnInit {
   deletePlot() {
     this.loading = true;
     let data = { id: this.parcela.id };
-    this._plotsService.deletePlot(data).subscribe((res) => {
+    this._plotsService.eliminarParcela(data).subscribe((res) => {
       this._plotsService.plotsChanged.emit();
       this._modalCtrl.dismiss(null, 'confirm');
       this._navCtrl.navigateBack('/tabs/plots');

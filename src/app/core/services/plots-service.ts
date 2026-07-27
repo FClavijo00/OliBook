@@ -16,16 +16,16 @@ export class PlotsService {
 
   private _http = inject(HttpClient)
 
-  addNewPlot(plot: Plot) : Observable<Plot> {
-    return this._http.post<Plot>(`${this._apiUrl}/addPlot`, plot);
+  nuevaParcela(plot: Plot) : Observable<Plot> {
+    return this._http.post<Plot>(`${this._apiUrl}/nuevaParcela`, plot);
   }
 
-  editPlot(plot: Plot) : Observable<Plot> {
-    return this._http.post<Plot>(`${this._apiUrl}/editPlot`, plot);
+  editarParcela(plot: Plot) : Observable<Plot> {
+    return this._http.post<Plot>(`${this._apiUrl}/editarParcela`, plot);
   }
 
-  deletePlot(data: any) : Observable<Plot> {
-    return this._http.post<Plot>(`${this._apiUrl}/deletePlot`, data);
+  eliminarParcela(data: any) : Observable<Plot> {
+    return this._http.post<Plot>(`${this._apiUrl}/eliminarParcela`, data);
   }
 
   deletePlotCoords(data: any) : Observable<Plot> {
