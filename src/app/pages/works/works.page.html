@@ -16,7 +16,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content fullscreen="true" mode="ios" class="ion-padding works-page">
+<ion-content [fullscreen]="true" mode="ios" class="ion-padding works-page">
   @if (_uiService.isLoading()) {
   <app-loading></app-loading>
   } @else {
