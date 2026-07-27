@@ -7,6 +7,7 @@ export interface User {
     rol: string;
     nombre_empresa: string;
     codigo_empresa: string;
+    empresa_id?: number;
 }
 
 export interface UserLogin {
