@@ -56,19 +56,5 @@
 
 // Asegura que las listas o el mapa de Leaflet no se metan debajo de la barra flotante
 ion-content {
-  --padding-bottom: 90px !important; 
-}
-
-ion-tab-bar {
-  /* Añade el margen de seguridad inferior de iOS automáticamente */
-  padding-bottom: env(safe-area-inset-bottom, 16px) !important;
-  
-  /* Si la tienes flotante tipo píldora */
-  /* border-radius: 20px;
-  margin-left: 16px;
-  margin-right: 16px; */
-  margin-bottom: calc(env(safe-area-inset-bottom) + 8px);
-  
-  /* Sombra para despegarla del fondo */
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  //--padding-bottom: calc(80px + env(safe-area-inset-bottom, 16px)) !important;
 }
