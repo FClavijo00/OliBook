@@ -69,14 +69,11 @@ import { User } from 'src/app/core/models/user';
     IonRefresher,
     IonContent,
     IonTitle,
-    IonAvatar,
-    IonButton,
-    IonButtons,
     IonToolbar,
     IonHeader,
     CommonModule,
-    FormsModule,
-  ],
+    FormsModule
+],
 })
 export class HomePage implements OnInit {
   welcomeMessage: string = '';

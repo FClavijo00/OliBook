@@ -59,13 +59,12 @@ import { UsersService } from 'src/app/core/services/users-service';
     IonSearchbar,
     IonIcon,
     IonTitle,
-    IonAvatar,
     IonButton,
     IonButtons,
     IonToolbar,
     IonHeader,
-    LoadingComponent,
-  ],
+    LoadingComponent
+],
 })
 export class PlotsPage implements OnInit {
   public user: User | null = null;
