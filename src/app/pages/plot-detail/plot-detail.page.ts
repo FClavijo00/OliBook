@@ -1,12 +1,24 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import {
   ActionSheetController,
   AlertController,
   ToastController,
   ModalController,
-  NavController, IonHeader, IonToolbar, IonButtons, IonBackButton, IonTitle, IonButton, IonIcon, IonContent, IonItem, IonLabel, IonList } from '@ionic/angular/standalone';
+  NavController,
+  IonHeader,
+  IonToolbar,
+  IonButtons,
+  IonBackButton,
+  IonTitle,
+  IonButton,
+  IonIcon,
+  IonContent,
+  IonItem,
+  IonLabel,
+  IonList,
+} from '@ionic/angular/standalone';
 import * as L from 'leaflet';
 import { Plot } from 'src/app/core/models/plots';
 import { addIcons } from 'ionicons';
@@ -33,11 +45,23 @@ import { ToastService } from 'src/app/core/services/toast-service';
   templateUrl: './plot-detail.page.html',
   styleUrls: ['./plot-detail.page.scss'],
   standalone: true,
-  imports: [IonList, IonLabel, IonItem, IonContent, IonIcon, IonButton, IonTitle, IonBackButton, IonButtons, IonToolbar, IonHeader,  CommonModule, LoadingComponent],
+  imports: [
+    IonLabel,
+    IonItem,
+    IonContent,
+    IonIcon,
+    IonButton,
+    IonTitle,
+    IonBackButton,
+    IonButtons,
+    IonToolbar,
+    IonHeader,
+    CommonModule,
+    LoadingComponent,
+  ],
 })
 export class PlotDetailPage implements OnInit {
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
+  private _router = inject(Router);
   private actionSheetCtrl = inject(ActionSheetController);
   private alertCtrl = inject(AlertController);
   private toastCtrl = inject(ToastController);
@@ -46,6 +70,7 @@ export class PlotDetailPage implements OnInit {
   private _plotsService = inject(PlotsService);
   private _navCtrl = inject(NavController);
   private _toastService = inject(ToastService);
+  private _activatedRoute = inject(ActivatedRoute);
 
   public UTM30 = '+proj=utm +zone=30 +ellps=GRS80 +units=m +no_defs';
   public WGS84 = 'EPSG:4326';
@@ -84,7 +109,7 @@ export class PlotDetailPage implements OnInit {
       resizeOutline,
       pinOutline,
       checkmarkCircleOutline,
-      timeOutline
+      timeOutline,
     });
   }
 
@@ -95,7 +120,7 @@ export class PlotDetailPage implements OnInit {
       breakpoints: [0, 0.5, 0.75, 1],
       handle: true,
       mode: 'md',
-      componentProps: { modo: 'edit', plot: this.parcela },
+      componentProps: { modo: 'edit', parcela: this.parcela },
     });
 
     await modal.present();
@@ -106,8 +131,11 @@ export class PlotDetailPage implements OnInit {
       this._plotsService.plotsChanged.emit();
       await this._modalCtrl.dismiss(null, 'confirm');
       this._navCtrl.navigateBack('/tabs/plots');
-      this._toastService.presentToast('Parcela actualizada con éxito.', 'toast-success', 'checkmark-circle-outline');
-
+      this._toastService.presentToast(
+        'Parcela actualizada con éxito.',
+        'toast-success',
+        'checkmark-circle-outline',
+      );
     } else if (role === 'cancel') {
       return;
     }
@@ -159,7 +187,7 @@ export class PlotDetailPage implements OnInit {
         format: 'image/png',
         transparent: true
       }).addTo(this.map); */
-      
+
       var myIcon = L.icon({
         iconUrl: 'assets/images/olive-ping.png',
         iconSize: [50, 50],
@@ -257,7 +285,7 @@ export class PlotDetailPage implements OnInit {
       lat: this.parcela.lat,
       lng: this.parcela.lng,
     };
-    this._sigpacService.updateCoords(data).then((res) => {
+    this._sigpacService.actualizarCoordenadas(data).then((res) => {
       this.parcela.wkt = res.wkt;
       setTimeout(() => (this.loading = false), 1000);
       this.initMap();
@@ -301,7 +329,9 @@ export class PlotDetailPage implements OnInit {
 
   irAEditar() {
     // Redirigir al formulario enviando la parcela actual
-    this.router.navigate(['/edit-plot'], { state: { parcela: this.parcela } });
+    this._navCtrl.navigateForward(['/edit-plot'], {
+      state: { parcela: this.parcela },
+    });
   }
 
   async copyToClipboard(text: string) {
@@ -345,13 +375,13 @@ export class PlotDetailPage implements OnInit {
   }
 
   ngOnInit() {
-    // Recuperamos los datos pasados por el router
-    const state = this.router.getCurrentNavigation()?.extras.state;
-    if (state && state['plot']) {
-      this.parcela = state['plot'];
+    // Obtenemos la parcela pasada a través de la navegación
+    const state = this._router.currentNavigation()?.extras.state;
+    if (state && state['parcela']) {
+      this.parcela = state['parcela'];
     } else {
       // Si no hay datos, volvemos a la lista
-      this.router.navigate(['tabs/home']);
+      this._navCtrl.navigateBack('/tabs/plots');
     }
   }
 

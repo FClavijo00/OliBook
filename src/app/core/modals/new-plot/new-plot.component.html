@@ -3,78 +3,84 @@
   <app-loading [tipoLoading]="tipoLoading"></app-loading>
   } @else {
   <ion-title class="ion-margin-top">{{ title }}</ion-title>
-  <form [formGroup]="newPlotForm">
+  <form [formGroup]="formNuevaParcela">
     <ion-list [inset]="true" mode="ios">
       <ion-item [class.invalid-input]="
-            nameControl?.invalid && nameControl?.touched ? 'invalid-input' : ''
+            formNuevaParcela.get('nombre_parcela')?.invalid &&
+            formNuevaParcela.get('nombre_parcela')?.touched
+              ? 'invalid-input'
+              : ''
           ">
-        <ion-input label="Nombre" type="text" mode="ios" formControlName="name"></ion-input>
+        <ion-input label="Nombre" type="text" mode="ios" formControlName="nombre_parcela"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-input label="Apodo" type="text" mode="ios" formControlName="nickname">
+        <ion-input label="Apodo" type="text" mode="ios" formControlName="apodo_parcela">
           <ion-button class="solo-icon" fill="clear" slot="end" (click)="openInfoAlert()">
             <ion-icon name="information-circle"></ion-icon>
           </ion-button>
         </ion-input>
       </ion-item>
-      <!-- <ion-item>
-      <ion-select label="Uso" mode="ios" formControlName="uso">
-        <ion-select-option value="principal">Olivar</ion-select-option>
-        <ion-select-option value="secundaria">Improductivos</ion-select-option>
-      </ion-select>
-    </ion-item> -->
+
       <ion-item [class.invalid-input]="
-            provinceControl?.invalid && provinceControl?.touched
+            formNuevaParcela.get('provincia')?.invalid &&
+            formNuevaParcela.get('provincia')?.touched
               ? 'invalid-input'
               : ''
           ">
-        <ion-input label="Provincia" type="text" mode="ios" formControlName="province"></ion-input>
+        <ion-input label="Provincia" type="text" mode="ios" formControlName="provincia"></ion-input>
       </ion-item>
       <ion-item [class.invalid-input]="
-            municipalityControl?.invalid && municipalityControl?.touched
+            formNuevaParcela.get('municipio')?.invalid &&
+            formNuevaParcela.get('municipio')?.touched
               ? 'invalid-input'
               : ''
           ">
-        <ion-input label="Municipio" type="text" mode="ios" formControlName="municipality"></ion-input>
+        <ion-input label="Municipio" type="text" mode="ios" formControlName="municipio"></ion-input>
       </ion-item>
       <ion-item [class.invalid-input]="
-            polygonControl?.invalid && polygonControl?.touched
+            formNuevaParcela.get('poligono')?.invalid &&
+            formNuevaParcela.get('poligono')?.touched
               ? 'invalid-input'
               : ''
           ">
-        <ion-input label="Polígono" type="text" mode="ios" formControlName="polygon"></ion-input>
+        <ion-input label="Polígono" type="text" mode="ios" formControlName="poligono"></ion-input>
       </ion-item>
       <ion-item [class.invalid-input]="
-            parcelControl?.invalid && parcelControl?.touched
+            formNuevaParcela.get('parcela')?.invalid &&
+            formNuevaParcela.get('parcela')?.touched
               ? 'invalid-input'
               : ''
           ">
-        <ion-input label="Parcela" type="text" mode="ios" formControlName="parcel"></ion-input>
+        <ion-input label="Parcela" type="text" mode="ios" formControlName="parcela"></ion-input>
       </ion-item>
       <ion-item [class.invalid-input]="
-            surfaceControl?.invalid && surfaceControl?.touched
+            formNuevaParcela.get('superficie_ha')?.invalid &&
+            formNuevaParcela.get('superficie_ha')?.touched
               ? 'invalid-input'
               : ''
           ">
-        <ion-input label="Superficie (ha)" type="text" mode="ios" formControlName="surface"></ion-input>
+        <ion-input label="Superficie (ha)" type="text" mode="ios" formControlName="superficie_ha"></ion-input>
       </ion-item>
       <ion-item>
         <ion-input label="Referencia Catastral" type="text" mode="ios"
-          formControlName="cadastral_reference"></ion-input>
+          formControlName="referencia_catastro"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-textarea label="Observaciones" mode="ios" rows="4" formControlName="observations"></ion-textarea>
+        <ion-textarea label="Observaciones" mode="ios" rows="4" formControlName="observaciones"></ion-textarea>
       </ion-item>
     </ion-list>
   </form>
 
-  <ion-button class="sigpac-btn" id="sigpac-map-modal" expand="block" shape="round" mode="ios">
-    <ion-icon slot="start" name="globe"></ion-icon>
-    Importar datos desde SIGPAC
-  </ion-button>
+  @if (modo === 'add') {
+    <ion-button class="sigpac-btn" id="sigpac-map-modal" expand="block" shape="round" mode="ios">
+      <ion-icon slot="start" name="globe"></ion-icon>
+      Importar datos desde SIGPAC
+    </ion-button>
+  }
 
-  <ion-modal id="modal" trigger="sigpac-map-modal" mode="ios" backdropDismiss="false" class="ion-padding" (ionModalDidPresent)="initMap()">
+  <ion-modal id="modal" trigger="sigpac-map-modal" mode="ios" backdropDismiss="false" class="ion-padding"
+    (ionModalDidPresent)="initMap()">
     <ng-template>
       <ion-content class="modal-content">
         <ion-toolbar mode="ios">
@@ -86,7 +92,7 @@
             <ion-icon slot="start" name="checkmark-circle"></ion-icon>
             Guardar
           </ion-button>
-          <ion-button class="cancel-btn" expand="block" shape="round" mode="ios" (click)="closeModalSigpac()" >
+          <ion-button class="cancel-btn" expand="block" shape="round" mode="ios" (click)="closeModalSigpac()">
             <ion-icon slot="start" name="close-circle"></ion-icon>
             Cancelar
           </ion-button>
@@ -124,5 +130,4 @@
       Toca en el centro de tu parcela
     </p>
   </div> -->
-
 </ion-content>

@@ -72,8 +72,8 @@ export class SigpacService {
     };
   }
 
-  async getParcelaByCoords(lat: number, lng: number) {
-    const url = `${this.apiUrl}/plotByCoords`;
+  async obtenerParcelaDeSIGPAC(lat: number, lng: number) {
+    const url = `${this.apiUrl}/parcelaDesdeCoordenadas`;
 
     try {
       const resp: any = await firstValueFrom(this._http.post(url, { lat, lng }));
@@ -84,8 +84,8 @@ export class SigpacService {
     }
   }
 
-  async updateCoords(data: any) {
-    const url = `${this.apiUrl}/updateCoords`;
+  async actualizarCoordenadas(data: any) {
+    const url = `${this.apiUrl}/actualizarCoordenadas`;
     try {
       const resp: any = await firstValueFrom(this._http.post(url, data));
       return resp;

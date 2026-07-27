@@ -21,6 +21,8 @@ import {
   IonGrid,
   IonRow,
   IonCol,
+  IonInput,
+  IonTextarea,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
@@ -42,6 +44,9 @@ import { PlotsService } from '../../services/plots-service';
 import { Plot } from '../../models/plots';
 import { LoadingComponent } from '../../components/loading/loading.component';
 import { SigpacService } from '../../services/sigpac-service';
+import { Router } from '@angular/router';
+import { User } from '../../models/user';
+import { UsersService } from '../../services/users-service';
 
 @Component({
   selector: 'app-new-plot',
@@ -58,9 +63,11 @@ import { SigpacService } from '../../services/sigpac-service';
     IonItem,
     IonList,
     IonTitle,
+    IonInput,
+    IonTextarea,
     IonContent,
     ReactiveFormsModule,
-    LoadingComponent,
+    LoadingComponent
   ],
   standalone: true,
 })
@@ -68,21 +75,26 @@ export class NewPlotComponent implements OnInit {
   @Input() modo: 'add' | 'edit' = 'add';
   @Input() parcela: any;
 
+  public user: User | null = null;
+
   public title = 'Nueva Parcela';
 
   public isAlertOpen: boolean = false;
   public alertButtons = ['OK'];
 
-  public newPlotForm: FormGroup = inject(FormBuilder).group({
-    name: ['', Validators.required],
-    nickname: [''],
-    province: ['', Validators.required],
-    municipality: ['', Validators.required],
-    polygon: ['', Validators.required],
-    parcel: ['', Validators.required],
-    surface: ['', Validators.required],
-    cadastral_reference: [''],
-    observations: [''],
+  public formNuevaParcela: FormGroup = inject(FormBuilder).group({
+    id: [''],
+    user_id: [''],
+    empresa_id: [''],
+    nombre_parcela: ['', Validators.required],
+    apodo_parcela: [''],
+    provincia: ['', Validators.required],
+    municipio: ['', Validators.required],
+    poligono: ['', Validators.required],
+    parcela: ['', Validators.required],
+    superficie_ha: ['', Validators.required],
+    referencia_catastro: [''],
+    observaciones: [''],
     lat: [''],
     lng: [''],
     x: [''],
@@ -103,6 +115,7 @@ export class NewPlotComponent implements OnInit {
   private _plotService = inject(PlotsService);
   private _sigpacService = inject(SigpacService);
   private _cdr = inject(ChangeDetectorRef);
+  private _usersService = inject(UsersService);
 
   constructor() {
     addIcons({
@@ -167,10 +180,10 @@ export class NewPlotComponent implements OnInit {
     this.loading = true;
     try {
       this._sigpacService
-        .getParcelaByCoords(coords.lat, coords.lng)
+        .obtenerParcelaDeSIGPAC(coords.lat, coords.lng)
         .then((data) => {
           if (data) {
-            this.newPlotForm.patchValue(data);
+            this.formNuevaParcela.patchValue(data);
           }
         });
     } catch (error) {
@@ -283,49 +296,12 @@ export class NewPlotComponent implements OnInit {
     }, 100);
   }
 
-  /** GETTERS FORM */
-  get nameControl() {
-    return this.newPlotForm.get('name');
-  }
-
-  get nicknameControl() {
-    return this.newPlotForm.get('nickname');
-  }
-
-  get provinceControl() {
-    return this.newPlotForm.get('province');
-  }
-
-  get municipalityControl() {
-    return this.newPlotForm.get('municipality');
-  }
-
-  get polygonControl() {
-    return this.newPlotForm.get('polygon');
-  }
-
-  get parcelControl() {
-    return this.newPlotForm.get('parcel');
-  }
-
-  get surfaceControl() {
-    return this.newPlotForm.get('surface');
-  }
-
-  get cadastralReferenceControl() {
-    return this.newPlotForm.get('cadastral_reference');
-  }
-
-  get observationsControl() {
-    return this.newPlotForm.get('observations');
-  }
-
   onSubmit() {
     switch (this.modo) {
       case 'add':
         this.tipoLoading = 'add';
-        if (this.newPlotForm.invalid) {
-          this.newPlotForm.markAllAsTouched();
+        if (this.formNuevaParcela.invalid) {
+          this.formNuevaParcela.markAllAsTouched();
           const toast = this._toastCtrl.create({
             message: 'Por favor, completa los campos obligatorios.',
             duration: 2000,
@@ -342,22 +318,22 @@ export class NewPlotComponent implements OnInit {
           this.loading = true;
           const plot: Plot = {
             id: 0,
-            user_id: 0,
-            empresa_id: 0,
-            nombre_parcela: this.newPlotForm.value.name,
-            apodo_parcela: this.newPlotForm.value.nickname,
-            provincia: this.newPlotForm.value.province,
-            municipio: this.newPlotForm.value.municipality,
-            poligono: this.newPlotForm.value.polygon,
-            parcela: this.newPlotForm.value.parcel,
-            superficie_ha: this.newPlotForm.value.surface,
-            referencia_catastro: this.newPlotForm.value.cadastral_reference,
-            observaciones: this.newPlotForm.value.observations,
-            lat: this.newPlotForm.value.lat || null,
-            lng: this.newPlotForm.value.lng || null,
-            x: this.newPlotForm.value.x || null,
-            y: this.newPlotForm.value.y || null,
-            wkt: this.newPlotForm.value.wkt || '',
+            user_id: this.user?.id || 0,
+            empresa_id: this.user?.empresa_id || 0,
+            nombre_parcela: this.formNuevaParcela.value.nombre_parcela,
+            apodo_parcela: this.formNuevaParcela.value.apodo_parcela,
+            provincia: this.formNuevaParcela.value.provincia,
+            municipio: this.formNuevaParcela.value.municipio,
+            poligono: this.formNuevaParcela.value.poligono,
+            parcela: this.formNuevaParcela.value.parcela,
+            superficie_ha: this.formNuevaParcela.value.superficie_ha,
+            referencia_catastro: this.formNuevaParcela.value.referencia_catastro,
+            observaciones: this.formNuevaParcela.value.observaciones,
+            lat: this.formNuevaParcela.value.lat || null,
+            lng: this.formNuevaParcela.value.lng || null,
+            x: this.formNuevaParcela.value.x || null,
+            y: this.formNuevaParcela.value.y || null,
+            wkt: this.formNuevaParcela.value.wkt || '',
             works: [],
           };
           this._plotService.addNewPlot(plot).subscribe((res) => {
@@ -378,8 +354,8 @@ export class NewPlotComponent implements OnInit {
         break;
       case 'edit':
         this.tipoLoading = 'edit';
-        if (this.newPlotForm.invalid) {
-          this.newPlotForm.markAllAsTouched();
+        if (this.formNuevaParcela.invalid) {
+          this.formNuevaParcela.markAllAsTouched();
           const toast = this._toastCtrl.create({
             message: 'Por favor, completa los campos obligatorios.',
             duration: 2000,
@@ -398,15 +374,15 @@ export class NewPlotComponent implements OnInit {
             id: this.parcela.id,
             user_id: this.parcela.user_id,
             empresa_id: this.parcela.empresa_id,
-            nombre_parcela: this.newPlotForm.value.name,
-            apodo_parcela: this.newPlotForm.value.nickname,
-            provincia: this.newPlotForm.value.province,
-            municipio: this.newPlotForm.value.municipality,
-            poligono: this.newPlotForm.value.polygon,
-            parcela: this.newPlotForm.value.parcel,
-            superficie_ha: this.newPlotForm.value.surface,
-            referencia_catastro: this.newPlotForm.value.cadastral_reference,
-            observaciones: this.newPlotForm.value.observations,
+            nombre_parcela: this.formNuevaParcela.value.nombre_parcela,
+            apodo_parcela: this.formNuevaParcela.value.apodo_parcela,
+            provincia: this.formNuevaParcela.value.provincia,
+            municipio: this.formNuevaParcela.value.municipio,
+            poligono: this.formNuevaParcela.value.poligono,
+            parcela: this.formNuevaParcela.value.parcela,
+            superficie_ha: this.formNuevaParcela.value.superficie_ha,
+            referencia_catastro: this.formNuevaParcela.value.referencia_catastro,
+            observaciones: this.formNuevaParcela.value.observaciones,
             lat: this.parcela.lat || null,
             lng: this.parcela.lng || null,
             x: this.parcela.x || null,
@@ -450,14 +426,15 @@ export class NewPlotComponent implements OnInit {
   ngOnInit() {
     this.loading = false;
     this.tipoLoading = '';
+    this.user = this._usersService.getUser();
     switch (this.modo) {
       case 'add':
         this.title = 'Nueva parcela';
-        this.newPlotForm.reset();
+        this.formNuevaParcela.reset();
         break;
       case 'edit':
         this.title = 'Editar parcela';
-        this.newPlotForm.patchValue(this.parcela);
+        this.formNuevaParcela.patchValue(this.parcela);
         break;
       default:
         this.title = 'Nueva parcela';
