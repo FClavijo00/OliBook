@@ -39,6 +39,8 @@ import { LoadingComponent } from 'src/app/core/components/loading/loading.compon
 import { NewPlotComponent } from 'src/app/core/modals/new-plot/new-plot.component';
 import { PlotsService } from 'src/app/core/services/plots-service';
 import { ToastService } from 'src/app/core/services/toast-service';
+import { User } from 'src/app/core/models/user';
+import { UsersService } from 'src/app/core/services/users-service';
 
 @Component({
   selector: 'plot-detail',
@@ -71,11 +73,14 @@ export class PlotDetailPage implements OnInit {
   private _navCtrl = inject(NavController);
   private _toastService = inject(ToastService);
   private _activatedRoute = inject(ActivatedRoute);
+  private _usersService = inject(UsersService);
 
   public UTM30 = '+proj=utm +zone=30 +ellps=GRS80 +units=m +no_defs';
   public WGS84 = 'EPSG:4326';
 
   public loading: boolean = false;
+
+  public user: User | null = null;
 
   parcela: Plot = {
     id: 0,
@@ -375,6 +380,7 @@ export class PlotDetailPage implements OnInit {
   }
 
   ngOnInit() {
+    this.user = this._usersService.getUser();
     // Obtenemos la parcela pasada a través de la navegación
     const state = this._router.currentNavigation()?.extras.state;
     if (state && state['parcela']) {

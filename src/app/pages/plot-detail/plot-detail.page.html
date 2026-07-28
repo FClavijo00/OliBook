@@ -4,8 +4,8 @@
       <ion-back-button defaultHref="/tabs/plots" text=""></ion-back-button>
     </ion-buttons>
     <ion-title>{{ parcela.apodo_parcela || parcela.nombre_parcela }}</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="presentActionSheet()">
+    <ion-buttons slot="end" >
+      <ion-button (click)="presentActionSheet()" [disabled]="this.user?.id != this.parcela.user_id">
         <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
       </ion-button>
     </ion-buttons>
