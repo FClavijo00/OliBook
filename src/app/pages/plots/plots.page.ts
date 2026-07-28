@@ -33,8 +33,9 @@ import {
   IonItem,
   IonLabel,
   RefresherCustomEvent,
-  NavController,
-} from '@ionic/angular/standalone';
+  NavController, IonSegment, IonSegmentButton, 
+  IonSegmentView,
+  IonSegmentContent} from '@ionic/angular/standalone';
 import { PlotsService } from 'src/app/core/services/plots-service';
 import { Plot } from 'src/app/core/models/plots';
 import { LoadingComponent } from 'src/app/core/components/loading/loading.component';
@@ -43,6 +44,7 @@ import { UIService } from 'src/app/core/services/uiservice';
 import { ToastService } from 'src/app/core/services/toast-service';
 import { User } from 'src/app/core/models/user';
 import { UsersService } from 'src/app/core/services/users-service';
+import { IonicModule } from "@ionic/angular";
 
 @Component({
   selector: 'app-plots',
@@ -63,16 +65,24 @@ import { UsersService } from 'src/app/core/services/users-service';
     IonButtons,
     IonToolbar,
     IonHeader,
-    LoadingComponent
-],
+    IonSegmentButton, 
+    IonSegment,
+    IonSegmentView,
+    IonSegmentContent,
+    LoadingComponent ],
 })
 export class PlotsPage implements OnInit {
   public user: User | null = null;
 
   public showSearchBar: boolean = false;
 
-  public parcelas: Plot[] = [];
-  public parcelasFiltradas: Plot[] = [];
+  public selectedSegment: 'particular' | 'empresa' = 'particular';
+
+  public parcelasParticular: Plot[] = [];
+  public parcelasParticularFiltradas: Plot[] = [];
+
+  public parcelasEmpresa: Plot[] = [];
+  public parcelasEmpresaFiltradas: Plot[] = [];
 
   private _plotsService = inject(PlotsService);
   //private _router = inject(Router);
@@ -135,9 +145,18 @@ export class PlotsPage implements OnInit {
     const query = target.value?.toLowerCase() || '';
 
     if (query === '') {
-      this.parcelasFiltradas = [...this.parcelas];
+      this.parcelasParticularFiltradas = [...this.parcelasParticular];
+      this.parcelasEmpresaFiltradas = [...this.parcelasEmpresa];
     } else {
-      this.parcelasFiltradas = this.parcelas.filter((parcela) => {
+      this.parcelasParticularFiltradas = this.parcelasParticular.filter((parcela) => {
+        const matchesNickname = parcela.apodo_parcela
+          ?.toLowerCase()
+          .includes(query);
+        const matchesName = parcela.nombre_parcela?.toLowerCase().includes(query);
+        return matchesNickname || matchesName;
+      });
+
+      this.parcelasEmpresaFiltradas = this.parcelasEmpresa.filter((parcela) => {
         const matchesNickname = parcela.apodo_parcela
           ?.toLowerCase()
           .includes(query);
@@ -170,15 +189,23 @@ export class PlotsPage implements OnInit {
   }
 
   private async fetchPlotsFromAPI() {
-    try {
-      const response = await firstValueFrom(
-        this._plotsService.obtenerParcelas(this.user?.id),
-      );
-      this.parcelas = response || [];
-      this.parcelasFiltradas = [...this.parcelas];
-    } catch (error) {
-      console.error('Error en la petición a la API:', error);
+    let empresa_id = null;
+    if (this.user?.rol === 'EMPRESA' || this.user?.rol === 'TRABAJADOR') {
+      empresa_id = this.user?.empresa_id;
     }
+
+    this._plotsService.obtenerParcelas(this.user?.id, empresa_id).subscribe({
+      next: (res) => {
+        if (res) {
+          this.parcelasParticular = res?.misParcelas || [];
+          this.parcelasParticularFiltradas = [...this.parcelasParticular];
+          this.parcelasEmpresa = res?.parcelasEmpresa || [];
+          this.parcelasEmpresaFiltradas = [...this.parcelasEmpresa];
+        }
+      }, error: (err) => {
+        console.log('Error en la petición a la API:', err);
+      }
+    })
   }
 
   abrirDetalleParcela(parcelaSelected: Plot) {

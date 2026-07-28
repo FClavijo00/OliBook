@@ -27,41 +27,144 @@
   </div>
 </ion-header>
 
-
-
 <ion-content class="ion-padding" [fullscreen]="true">
   @if (_uiService.isLoading()) {
   <app-loading></app-loading>
-  } 
+  }
   <ion-refresher mode="md" slot="fixed" (ionRefresh)="obtenerParcelas('refresh', $event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <ion-list class="plots-list" mode="md" [style.display]="!_uiService.isLoading() ? 'block' : 'none'">
-    @for (parcela of parcelasFiltradas; track parcela.id; let idx = $index) {
-    <ion-item mode="md" class="plot-card" lines="none" button (click)="abrirDetalleParcela(parcela)">
-      <div class="icon-container" slot="start">
-        <ion-icon name="leaf-outline"></ion-icon>
-      </div>
-      <ion-label>
-        <div class="title-row">
-          @if (parcela.apodo_parcela) {
-          <h2>{{ parcela.apodo_parcela }}</h2>
-          } @else {
-          <h2>{{ parcela.nombre_parcela }}</h2>
-          }
-        </div>
-        <p>Pol: {{ parcela.poligono }} | Par: {{ parcela.parcela }}</p>
-      </ion-label>
 
-      <ion-icon name="chevron-forward-outline" slot="end" class="arrow-icon"></ion-icon>
-    </ion-item>
-    <!-- </ion-item-sliding> -->
-    } @empty {
-    <ion-item mode="md" class="plot-card" lines="none">
-      <ion-label>
-        <h2>No hay parcelas registradas.</h2>
-      </ion-label>
-    </ion-item>
-    }
-  </ion-list>
+  @if (this.user?.rol === 'TRABAJADOR') {
+  <ion-segment value="parcelasParticular" mode="ios" class="custom-segment" [style.display]="!_uiService.isLoading() ? 'grid' : 'none'">
+    <ion-segment-button value="parcelasParticular" content-id="parcelasParticular">
+      <ion-label>Parcelas Particulares</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="parcelasEmpresas" content-id="parcelasEmpresas">
+      <ion-label>{{user?.nombre_empresa }}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-segment-view [style.display]="!_uiService.isLoading() ? 'flex' : 'none'">
+    <ion-segment-content id="parcelasParticular">
+      <ion-list class="plots-list" mode="md">
+        @for (parcela of parcelasParticularFiltradas; track parcela.id; let idx = $index) {
+        <ion-item mode="md" class="plot-card" lines="none" button (click)="abrirDetalleParcela(parcela)">
+          <div class="icon-container" slot="start">
+            <ion-icon name="leaf-outline"></ion-icon>
+          </div>
+          <ion-label>
+            <div class="title-row">
+              @if (parcela.apodo_parcela) {
+              <h2>{{ parcela.apodo_parcela }}</h2>
+              } @else {
+              <h2>{{ parcela.nombre_parcela }}</h2>
+              }
+            </div>
+            <p>Pol: {{ parcela.poligono }} | Par: {{ parcela.parcela }}</p>
+          </ion-label>
+
+          <ion-icon name="chevron-forward-outline" slot="end" class="arrow-icon"></ion-icon>
+        </ion-item>
+        } @empty {
+        <ion-item mode="md" class="plot-card" lines="none">
+          <ion-label>
+            <h2>No hay parcelas registradas.</h2>
+          </ion-label>
+        </ion-item>
+        }
+      </ion-list>
+    </ion-segment-content>
+
+    <ion-segment-content id="parcelasEmpresas">
+      <ion-list class="plots-list" mode="md">
+        @for (parcela of parcelasEmpresaFiltradas; track parcela.id; let idx = $index) {
+        <ion-item mode="md" class="plot-card" lines="none" button (click)="abrirDetalleParcela(parcela)">
+          <div class="icon-container" slot="start">
+            <ion-icon name="leaf-outline"></ion-icon>
+          </div>
+          <ion-label>
+            <div class="title-row">
+              @if (parcela.apodo_parcela) {
+              <h2>{{ parcela.apodo_parcela }}</h2>
+              } @else {
+              <h2>{{ parcela.nombre_parcela }}</h2>
+              }
+            </div>
+            <p>Pol: {{ parcela.poligono }} | Par: {{ parcela.parcela }}</p>
+          </ion-label>
+
+          <ion-icon name="chevron-forward-outline" slot="end" class="arrow-icon"></ion-icon>
+        </ion-item>
+        } @empty {
+        <ion-item mode="md" class="plot-card" lines="none">
+          <ion-label>
+            <h2>No hay parcelas registradas.</h2>
+          </ion-label>
+        </ion-item>
+        }
+      </ion-list>
+    </ion-segment-content>
+  </ion-segment-view>
+  }
+
+  @else if (this.user?.rol === 'EMPRESA') {
+    <ion-list class="plots-list" mode="md" [style.display]="!_uiService.isLoading() ? 'block' : 'none'">
+        @for (parcela of parcelasEmpresaFiltradas; track parcela.id; let idx = $index) {
+        <ion-item mode="md" class="plot-card" lines="none" button (click)="abrirDetalleParcela(parcela)">
+          <div class="icon-container" slot="start">
+            <ion-icon name="leaf-outline"></ion-icon>
+          </div>
+          <ion-label>
+            <div class="title-row">
+              @if (parcela.apodo_parcela) {
+              <h2>{{ parcela.apodo_parcela }}</h2>
+              } @else {
+              <h2>{{ parcela.nombre_parcela }}</h2>
+              }
+            </div>
+            <p>Pol: {{ parcela.poligono }} | Par: {{ parcela.parcela }}</p>
+          </ion-label>
+
+          <ion-icon name="chevron-forward-outline" slot="end" class="arrow-icon"></ion-icon>
+        </ion-item>
+        } @empty {
+        <ion-item mode="md" class="plot-card" lines="none">
+          <ion-label>
+            <h2>No hay parcelas registradas.</h2>
+          </ion-label>
+        </ion-item>
+        }
+      </ion-list>
+  }
+
+  @else if (this.user?.rol === 'PARTICULAR') {
+    <ion-list class="plots-list" mode="md" [style.display]="!_uiService.isLoading() ? 'block' : 'none'">
+        @for (parcela of parcelasParticularFiltradas; track parcela.id; let idx = $index) {
+        <ion-item mode="md" class="plot-card" lines="none" button (click)="abrirDetalleParcela(parcela)">
+          <div class="icon-container" slot="start">
+            <ion-icon name="leaf-outline"></ion-icon>
+          </div>
+          <ion-label>
+            <div class="title-row">
+              @if (parcela.apodo_parcela) {
+              <h2>{{ parcela.apodo_parcela }}</h2>
+              } @else {
+              <h2>{{ parcela.nombre_parcela }}</h2>
+              }
+            </div>
+            <p>Pol: {{ parcela.poligono }} | Par: {{ parcela.parcela }}</p>
+          </ion-label>
+
+          <ion-icon name="chevron-forward-outline" slot="end" class="arrow-icon"></ion-icon>
+        </ion-item>
+        } @empty {
+        <ion-item mode="md" class="plot-card" lines="none">
+          <ion-label>
+            <h2>No hay parcelas registradas.</h2>
+          </ion-label>
+        </ion-item>
+        }
+      </ion-list>
+  }
 </ion-content>

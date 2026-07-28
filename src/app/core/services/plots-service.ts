@@ -4,6 +4,11 @@ import { Observable, Subject } from 'rxjs';
 import { Plot } from '../models/plots';
 import { environment } from 'src/environments/environment';
 
+export interface ObtenerParcelasRResponse {
+  misParcelas: Plot[];
+  parcelasEmpresa: Plot[];
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -36,8 +41,9 @@ export class PlotsService {
     return this._http.get<Plot[]>(`${this._apiUrl}/obtenerParcelas`);
   }
 
-  obtenerParcelas(userID: any) : Observable<Plot[]> {
-    return this._http.post<Plot[]>(`${this._apiUrl}/obtenerParcelas`, {userID: userID});
+  obtenerParcelas(userID: any, empresaID: any){
+    return this._http.post<ObtenerParcelasRResponse>(`${this._apiUrl}/obtenerParcelas`, 
+      {userID: userID, empresaID: empresaID});
   }
 
   triggerRefreshPlots() {
