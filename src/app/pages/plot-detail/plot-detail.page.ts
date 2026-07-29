@@ -228,6 +228,7 @@ export class PlotDetailPage implements OnInit {
           text: 'Eliminar Ubicación',
           role: 'destructive',
           icon: 'pin-outline',
+          disabled: this.parcela.wkt === '' || this.parcela.wkt === null,
           handler: () => this.confirmDeleteCoords(),
         },
         {
@@ -316,7 +317,7 @@ export class PlotDetailPage implements OnInit {
   deletePlotCoords() {
     this.loading = true;
     let data = { id: this.parcela.id };
-    this._plotsService.deletePlotCoords(data).subscribe((res) => {
+    this._plotsService.eliminarCoordenadas(data).subscribe((res) => {
       this.parcela.wkt = '';
       this.parcela.lat = 0;
       this.parcela.lng = 0;

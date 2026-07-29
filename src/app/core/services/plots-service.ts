@@ -33,8 +33,8 @@ export class PlotsService {
     return this._http.post<Plot>(`${this._apiUrl}/eliminarParcela`, data);
   }
 
-  deletePlotCoords(data: any) : Observable<Plot> {
-    return this._http.post<Plot>(`${this._apiUrl}/deletePlotCoords`, data);
+  eliminarCoordenadas(data: any) : Observable<Plot> {
+    return this._http.post<Plot>(`${this._apiUrl}/eliminarCoordenadas`, data);
   }
 
   getPlots() : Observable<Plot[]> {
