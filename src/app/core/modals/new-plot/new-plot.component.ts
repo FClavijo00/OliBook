@@ -316,10 +316,14 @@ export class NewPlotComponent implements OnInit {
           return;
         } else {
           this.loading = true;
+          let empresaID = null;
+          if (this.user?.rol === 'EMPRESA') {
+            empresaID = this.user.empresa_id;
+          }
           const plot: Plot = {
             id: 0,
             user_id: this.user?.id || 0,
-            empresa_id: this.user?.empresa_id || 0,
+            empresa_id: empresaID,
             nombre_parcela: this.formNuevaParcela.value.nombre_parcela,
             apodo_parcela: this.formNuevaParcela.value.apodo_parcela,
             provincia: this.formNuevaParcela.value.provincia,
@@ -370,10 +374,14 @@ export class NewPlotComponent implements OnInit {
           return;
         } else {
           this.loading = true;
+          let empresaID = null;
+          if (this.user?.rol === 'EMPRESA') {
+            empresaID = this.user.empresa_id;
+          }
           const plot: Plot = {
             id: this.parcela.id,
             user_id: this.parcela.user_id,
-            empresa_id: this.parcela.empresa_id,
+            empresa_id: empresaID,
             nombre_parcela: this.formNuevaParcela.value.nombre_parcela,
             apodo_parcela: this.formNuevaParcela.value.apodo_parcela,
             provincia: this.formNuevaParcela.value.provincia,

@@ -1,7 +1,7 @@
 export interface Plot {
     id: number,
     user_id: number,
-    empresa_id: number,
+    empresa_id?: number | null,
     nombre_parcela: string,
     apodo_parcela: string,
     provincia: string,
