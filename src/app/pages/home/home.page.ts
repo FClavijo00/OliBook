@@ -25,6 +25,7 @@ import {
   IonGrid,
   IonRow,
   IonCol,
+  ModalController,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
@@ -45,6 +46,8 @@ import { WorksService } from 'src/app/core/services/works-service';
 import { firstValueFrom } from 'rxjs';
 import { UsersService } from 'src/app/core/services/users-service';
 import { User } from 'src/app/core/models/user';
+import { NewPlotComponent } from 'src/app/core/modals/new-plot/new-plot.component';
+import { ToastService } from 'src/app/core/services/toast-service';
 
 @Component({
   selector: 'app-home',
@@ -83,6 +86,8 @@ export class HomePage implements OnInit {
   private _navCtrl = inject(NavController);
   private _worksService = inject(WorksService);
   private _userService = inject(UsersService);
+  private _modalCtrl = inject(ModalController);
+  private _toastService = inject(ToastService);
 
   public lastWorks = [] as any;
 
@@ -131,6 +136,32 @@ export class HomePage implements OnInit {
       case 'trabajos':
         this._navCtrl.navigateRoot('/tabs/works');
         break;
+    }
+  }
+
+  async registrarParcela() {
+    const modal = await this._modalCtrl.create({
+      component: NewPlotComponent,
+      initialBreakpoint: 1,
+      breakpoints: [0, 0.5, 0.75, 1],
+      handle: true,
+      mode: 'md',
+      componentProps: { modo: 'add' },
+    });
+
+    await modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      this._toastService.presentToast(
+        'Parcela creada con éxito.',
+        'toast-success',
+        'checkmark-circle-outline',
+      );
+      this.abrirTab('parcelas');
+    } else if (role === 'cancel') {
+      return;
     }
   }
 
