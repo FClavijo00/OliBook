@@ -25,5 +25,9 @@ export const routes: Routes = [
     path: '',
     redirectTo: '/login',
     pathMatch: 'full',
+  },  {
+    path: 'tipos-trabajos',
+    loadComponent: () => import('./pages/tipos-trabajos/tipos-trabajos.page').then( m => m.TiposTrabajosPage)
   },
+
 ];

@@ -1,5 +1,5 @@
 .ion-background-light {
-  --background: #f4f6f9; // Fondo gris claro nativo de iOS para resaltar las tarjetas blancas
+  //--background: #f4f6f9; // Fondo gris claro nativo de iOS para resaltar las tarjetas blancas
 }
 
 // Estilos de la cabecera del perfil
@@ -48,6 +48,10 @@
     color: var(--ion-color-medium);
     margin: 0;
   }
+}
+
+ion-list {
+  margin: 0 0 12px 0 !important;
 }
 
 // Cabeceras de los grupos de listas

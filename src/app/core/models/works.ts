@@ -7,7 +7,9 @@ export interface WorksCalendar {
 
 export interface WorkTypes {
     id: number;
-    name: string;
+    nombre: string;
+    descripcion: string;
+    user_id: number;
 }
 
 export interface WorkDone {

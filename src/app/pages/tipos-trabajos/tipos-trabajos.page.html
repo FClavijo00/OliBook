@@ -1,0 +1,121 @@
+<ion-header class="ion-no-border" mode="ios">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/profile" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Tipos de Trabajos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="abrirModalCrear()">
+        <ion-icon aria-hidden="true" name="add-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" [fullscreen]="true">
+  <ion-refresher
+    mode="md"
+    slot="fixed"
+    (ionRefresh)="obtenerTiposAccion('refresh', $event)"
+  >
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  @if (_uiService.isLoading()) {
+  <app-loading></app-loading>
+  } @else {
+  <ion-list lines="inset">
+    @for (tipo of tiposTrabajos; track tipo.id) {
+    <ion-item button (click)="abrirModalEditar(tipo)">
+      <ion-icon
+        name="construct-outline"
+        slot="start"
+        color="primary"
+      ></ion-icon>
+      <ion-label>
+        <h2>{{ tipo.nombre }}</h2>
+        @if (tipo.descripcion) {
+        <p>{{ tipo.descripcion }}</p>
+        }
+      </ion-label>
+      <ion-icon name="create-outline" slot="end" color="medium"></ion-icon>
+    </ion-item>
+    } @empty {
+    <div class="no-works">
+      <ion-icon name="construct-outline"></ion-icon>
+      <p>No se registraron tipos de trabajos aún</p>
+    </div>
+    }
+  </ion-list>
+
+  <!-- Modal deslizable para Crear / Editar -->
+  <ion-modal
+    [initialBreakpoint]="1"
+    [breakpoints]="[0, 0.25, 0.5, 0.75, 1]"
+    [isOpen]="isModalOpen"
+    (didDismiss)="cerrarModal()"
+  >
+    <ng-template>
+      <ion-content class="ion-padding work-type-form">
+        <ion-title class="ion-margin-top"
+          >{{ tipoEdicion ? 'Editar' : 'Nuevo' }} Tipo de Trabajo</ion-title
+        >
+        <form class="ion-margin-top" [formGroup]="trabajoForm">
+          <ion-list mode="ios" [inset]="true">
+            <ion-item
+              [class.invalid-input]="trabajoForm.get('nombre')?.invalid && trabajoForm.get('nombre')?.touched ? 'invalid-input' : ''"
+            >
+              <ion-input
+                label="Nombre"
+                formControlName="nombre"
+                type="text"
+                mode="ios"
+                placeholder="Ej. Podar, Sulfatar, Riego"
+              >
+              </ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-textarea
+                label="Descripción (opcional)"
+                formControlName="descripcion"
+                mode="ios"
+                rows="3"
+              >
+              </ion-textarea>
+            </ion-item>
+          </ion-list>
+
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <ion-button
+                  class="confirm-btn"
+                  expand="block"
+                  shape="round"
+                  mode="ios"
+                  (click)="guardarTipo()"
+                >
+                  <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+                  Guardar
+                </ion-button>
+              </ion-col>
+              <ion-col>
+                <ion-button
+                  class="cancel-btn"
+                  expand="block"
+                  shape="round"
+                  mode="ios"
+                  (click)="cerrarModal()"
+                >
+                  <ion-icon slot="start" name="close-circle"></ion-icon>
+                  Cancelar
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  }
+</ion-content>
