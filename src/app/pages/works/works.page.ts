@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule, ModalController, AlertController } from '@ionic/angular';
+import { ModalController, AlertController, IonHeader, IonContent, IonToolbar, IonButtons, IonButton, IonAvatar, IonTitle, IonIcon, IonRefresher, IonRefresherContent, IonDatetime, IonCard, IonList, IonItemSliding, IonItem, IonLabel, IonPopover, IonItemOptions, IonItemOption } from '@ionic/angular/standalone';
 import { RefresherCustomEvent } from '@ionic/angular/standalone';
 import { environment } from 'src/environments/environment';
 import { addIcons } from 'ionicons';
@@ -27,7 +27,7 @@ import { LoadingComponent } from 'src/app/core/components/loading/loading.compon
   templateUrl: './works.page.html',
   styleUrls: ['./works.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, LoadingComponent],
+  imports: [IonItemOption, IonItemOptions, IonPopover, IonLabel, IonItem, IonItemSliding, IonList, IonCard, IonDatetime, IonRefresherContent, IonRefresher, IonIcon, IonTitle, IonAvatar, IonButton, IonButtons, IonToolbar, IonContent, IonHeader,  CommonModule, FormsModule, LoadingComponent],
 })
 export class WorksPage implements OnInit {
 
