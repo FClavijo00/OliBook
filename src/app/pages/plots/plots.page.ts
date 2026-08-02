@@ -197,9 +197,9 @@ export class PlotsPage implements OnInit {
     this._plotsService.obtenerParcelas(this.user?.id, empresa_id).subscribe({
       next: (res) => {
         if (res) {
-          this.parcelasParticular = res?.misParcelas || [];
+          this.parcelasParticular = res.misParcelas || [];
           this.parcelasParticularFiltradas = [...this.parcelasParticular];
-          this.parcelasEmpresa = res?.parcelasEmpresa || [];
+          this.parcelasEmpresa = res.parcelasEmpresa || [];
           this.parcelasEmpresaFiltradas = [...this.parcelasEmpresa];
         }
       }, error: (err) => {

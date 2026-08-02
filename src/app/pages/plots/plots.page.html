@@ -35,13 +35,13 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  @if (this.user?.rol === 'TRABAJADOR') {
+  @if (this.user && this.user.rol === 'TRABAJADOR') {
   <ion-segment value="parcelasParticular" mode="ios" class="custom-segment" [style.display]="!_uiService.isLoading() ? 'grid' : 'none'">
     <ion-segment-button value="parcelasParticular" content-id="parcelasParticular">
       <ion-label>Parcelas Particulares</ion-label>
     </ion-segment-button>
     <ion-segment-button value="parcelasEmpresas" content-id="parcelasEmpresas">
-      <ion-label>{{user?.nombre_empresa }}</ion-label>
+      <ion-label>{{user.nombre_empresa }}</ion-label>
     </ion-segment-button>
   </ion-segment>
 
