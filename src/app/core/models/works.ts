@@ -19,3 +19,16 @@ export interface WorkDone {
     date: string;
     description: string;
 }
+
+export interface TrabajosCalendario {
+    id: number;
+    observaciones: string;
+    fecha_trabajo: string;
+    tipo_trabajo_id: number;
+    parcela_id: number;
+    nombre_trabajo: string;
+    descripcion_trabajo: string;
+    nombre_parcela: string;
+    apodo_parcela: string;
+    origen?: string;
+}

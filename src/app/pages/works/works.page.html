@@ -1,12 +1,12 @@
 <ion-header id="2">
   <ion-toolbar mode="ios">
-    <ion-buttons slot="start">
+    <!-- <ion-buttons slot="start">
       <ion-button>
         <ion-avatar>
           <img src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg" />
         </ion-avatar>
       </ion-button>
-    </ion-buttons>
+    </ion-buttons> -->
     <ion-title>Trabajos</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="openNewWorkModal()">
@@ -23,6 +23,22 @@
   <ion-refresher mode="md" slot="fixed" (ionRefresh)="cargarTrabajosAgenda('refresh', $event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+
+  <!-- ESTO SE IMPLEMENTARÁ MÁS ADELANTE -->
+  <!-- @if (this.user && this.user.rol === "TRABAJADOR") {
+  <ion-segment value="todos" mode="ios" class="custom-segment"
+    [style.display]="!_uiService.isLoading() ? 'grid' : 'none'" (ionChange)="onSegmentChange($event)">
+    <ion-segment-button value="todos">
+      <ion-label>Todos</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="particular">
+      <ion-label>Mis Trabajos</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="empresa">
+      <ion-label>{{ user.nombre_empresa }}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  } -->
 
   <div class="cards-kpi-container">
     <!-- <div class="kpi-card gasto">
@@ -64,11 +80,11 @@
             </div>
             <ion-label class="work-data">
               <div class="title-row">
-                <h2>{{ work.plot_nickname || work.plot_name }}</h2>
+                <h2>{{ work.apodo_parcela || work.nombre_parcela }}</h2>
               </div>
-              <p class="work-type">{{ work.name }}</p>
+              <p class="work-type">{{ work.nombre_trabajo }}</p>
             </ion-label>
-            @if (work.description && work.description.trim() !== '') {
+            @if (work.observaciones && work.observaciones.trim() !== '') {
             <ion-button slot="end" fill="clear" color="medium" class="btn-popover" [id]="'trigger-desc-' + work.id"
               (click)="$event.stopPropagation()">
               <ion-icon slot="icon-only" name="document-text-outline"></ion-icon>
@@ -79,7 +95,7 @@
               <ng-template>
                 <ion-content class="ion-padding">
                   <span class="popover-title">Notas del trabajo</span>
-                  <p class="popover-text">{{ work.description }}</p>
+                  <p class="popover-text">{{ work.observaciones }}</p>
                 </ion-content>
               </ng-template>
             </ion-popover>
@@ -95,47 +111,6 @@
             </ion-item-option>
           </ion-item-options>
         </ion-item-sliding>
-
-
-        <!-- <ion-item-sliding class="work-sliding-wrapper">
-          <ion-item class="work-item" mode="ios" lines="none">
-            <div class="icon-container" slot="start">
-              <ion-icon name="leaf-outline"></ion-icon>
-            </div>
-            <ion-label class="work-data">
-              <div class="title-row">
-                <h2>{{ work.plot_nickname || work.plot_name }}</h2>
-              </div>
-              <p class="work-type">{{ work.name }}</p>
-            </ion-label>
-            @if (work.description && work.description.trim() !== '') {
-            <ion-button slot="end" fill="clear" color="medium" class="btn-popover" [id]="'trigger-desc-' + work.id"
-              (click)="$event.stopPropagation()">
-              <ion-icon slot="icon-only" name="document-text-outline"></ion-icon>
-            </ion-button>
-
-            <ion-popover [trigger]="'trigger-desc-' + work.id" dismissOnSelect="true" mode="ios"
-              class="custom-desc-popover">
-              <ng-template>
-                <ion-content class="ion-padding">
-                  <span class="popover-title">Notas del trabajo</span>
-                  <p class="popover-text">{{ work.description }}</p>
-                </ion-content>
-              </ng-template>
-            </ion-popover>
-            }
-
-            <ion-item-options side="end" mode="ios" class="sliding-options">
-              <ion-item-option class="circle-btn edit">
-                <ion-icon name="pencil-outline"></ion-icon>
-              </ion-item-option>
-
-              <ion-item-option class="circle-btn delete">
-                <ion-icon name="trash-outline"></ion-icon>
-              </ion-item-option>
-            </ion-item-options>
-          </ion-item>
-        </ion-item-sliding> -->
         }
       </ion-list>
     </ion-card>

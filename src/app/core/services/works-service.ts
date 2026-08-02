@@ -1,7 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { WorkDone, WorksCalendar, WorkTypes } from '../models/works';
+import { TrabajosCalendario, WorkDone, WorksCalendar, WorkTypes } from '../models/works';
 import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
+
+export interface CalendarioResponse {
+  misTrabajos: TrabajosCalendario[];
+  trabajosEmpresa: TrabajosCalendario[];
+}
 
 @Injectable({
   providedIn: 'root',
@@ -50,6 +56,10 @@ export class WorksService {
 
   eliminarTipo(id: number) {
     return this._http.post(`${this._apiUrlTipos}/eliminarTipoTrabajo`, { id: id });
+  }
+
+  obtenerCalendario(data: any) {
+    return this._http.post<CalendarioResponse>(`${this._apiUrlTrabajos}/obtenerCalendario`, data);
   }
 
   

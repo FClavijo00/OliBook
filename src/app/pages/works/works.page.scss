@@ -2,7 +2,7 @@
 .cards-kpi-container {
   display: flex;
   gap: 12px;
-  padding: 16px;
+  padding: 0 0 12px 0;
   background: var(--ion-background-color);
 
   .kpi-card {
@@ -59,7 +59,7 @@
 
 // Estilo del contenedor del calendario
 .calendar-wrapper {
-  padding: 0 16px;
+  padding: 0 0 12px 0;
 
   .custom-calendar {
     border-radius: 24px;
@@ -82,7 +82,7 @@ ion-datetime::part(calendar-day today):focus {
 
 // Detalle inferior
 .dia-detalle-container {
-  padding: 20px 16px;
+  padding: 0 0 12px 0;
 
   .fecha-seleccionada-titulo {
     font-size: 16px;
