@@ -18,6 +18,7 @@ export interface WorkDone {
     work_type: number;
     date: string;
     description: string;
+    trabajadores?: number[];
 }
 
 export interface TrabajosCalendario {

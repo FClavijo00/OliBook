@@ -10,6 +10,8 @@ import { WorksService } from '../../services/works-service';
 import { WorkDone, WorkTypes } from '../../models/works';
 import { addIcons } from 'ionicons';
 import { alertCircle, checkmarkCircle, closeCircle } from 'ionicons/icons';
+import { User } from '../../models/user';
+import { UsersService } from '../../services/users-service';
 
 @Component({
   selector: 'app-new-work-done',
@@ -28,12 +30,16 @@ export class NewWorkDoneComponent implements OnInit {
 
   public plots: any[] = [];
   public workTypes: WorkTypes[] = [];
+  public trabajadores: any[] = [];
+
+  public user: User | null = null;
 
   public newWorkDoneForm: FormGroup = inject(FormBuilder).group({
     plotSelected: ['', Validators.required],
     workSelected: ['', Validators.required],
     dateWorkDone: [new Date().toISOString(), Validators.required],
     description: [''],
+    trabajadoresSelected: [''],
   });
 
   private _uiService = inject(UIService);
@@ -41,6 +47,7 @@ export class NewWorkDoneComponent implements OnInit {
   private _workService = inject(WorksService);
   private _modalCtrl = inject(ModalController);
   private _toastCtrl = inject(ToastController);
+  private _usersService = inject(UsersService);
 
   constructor() {
     addIcons({
@@ -51,8 +58,10 @@ export class NewWorkDoneComponent implements OnInit {
   }
 
   async cargarTiposTrabajos() {
+    if (this.user)
+
     try {
-      const response = await firstValueFrom(this._workService.getWorkTypes());
+      const response = await firstValueFrom(this._workService.obtenerTipos(this.user.id));
       this.workTypes = response || [];
     } catch (error) {
       console.error('Error en la petición a la API:', error);
@@ -61,9 +70,21 @@ export class NewWorkDoneComponent implements OnInit {
   }
 
   async cargarParcelas() {
+    if (this.user)
     try {
-      const response = await firstValueFrom(this._plotsService.getPlots());
-      this.plots = response || [];
+      const response = await firstValueFrom(this._plotsService.obtenerParcelas(this.user.id, this.user.empresa_id));
+      this.plots = response.misParcelas || [];
+    } catch (error) {
+      console.error('Error en la petición a la API:', error);
+    } finally {
+    }
+  }
+
+  async cargarTrabajadores() {
+    if (this.user && this.user.empresa_id)
+    try {
+      const response = await firstValueFrom(this._usersService.obtenerTrabajadores(this.user.empresa_id));
+      this.trabajadores = response || [];
     } catch (error) {
       console.error('Error en la petición a la API:', error);
     } finally {
@@ -87,6 +108,10 @@ export class NewWorkDoneComponent implements OnInit {
     return this.newWorkDoneForm.get('description');
   }
 
+  get trabajadoresSelectedControl() {
+    return this.newWorkDoneForm.get('trabajadoresSelected');
+  }
+
   onSubmit() {
     switch (this.modo) {
       case 'add':
@@ -106,6 +131,8 @@ export class NewWorkDoneComponent implements OnInit {
           });
           return;
         } else {
+          console.log(this.newWorkDoneForm.value);
+          break;
           this.loading = true;
           const workDone: WorkDone = {
             id: 0,
@@ -114,6 +141,9 @@ export class NewWorkDoneComponent implements OnInit {
             date: this.newWorkDoneForm.value.dateWorkDone.split('T')[0],
             description: this.newWorkDoneForm.value.description,
           };
+          if (this.user?.rol === 'EMPRESA') {
+            workDone.trabajadores = this.newWorkDoneForm.value.trabajadoresSelected;
+          }
           this._workService.addWorkDone(workDone).subscribe((response) => {
             setTimeout(async () => {
               this.loading = false;
@@ -147,6 +177,8 @@ export class NewWorkDoneComponent implements OnInit {
           });
           return;
         } else {
+          console.log(this.newWorkDoneForm.value);
+          break;
           this.loading = true;
           const workDone: WorkDone = {
             id: this.workDone.id,
@@ -155,6 +187,9 @@ export class NewWorkDoneComponent implements OnInit {
             date: this.newWorkDoneForm.value.dateWorkDone.split('T')[0],
             description: this.newWorkDoneForm.value.description,
           };
+          if (this.user?.rol === 'EMPRESA') {
+            workDone.trabajadores = this.newWorkDoneForm.value.trabajadoresSelected;
+          }
           this._workService.editWorkDone(workDone).subscribe((res) => {
             setTimeout(async () => {
               this.loading = false;
@@ -179,19 +214,27 @@ export class NewWorkDoneComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.user = this._usersService.getUser();
     this.loading = false;
     this.tipoLoading = '';
     switch (this.modo) {
       case 'add':
         this.title = 'Registrar Trabajo Realizado';
+        this.newWorkDoneForm.reset();
+        if (this.user?.rol === 'EMPRESA')
+        this.newWorkDoneForm.controls['trabajadoresSelected'].addValidators(Validators.required)
         break;
       case 'edit':
         this.title = 'Editar Trabajo Realizado';
+        console.log(this.workDone);
+        if (this.user?.rol === 'EMPRESA')
+        this.newWorkDoneForm.controls['trabajadoresSelected'].addValidators(Validators.required)
         this.newWorkDoneForm.patchValue({
-          plotSelected: this.workDone.plot_id,
-          workSelected: this.workDone.work_type_id,
-          dateWorkDone: this.workDone.date,
-          description: this.workDone.description,
+          plotSelected: this.workDone.parcela_id,
+          workSelected: this.workDone.tipo_trabajo_id,
+          dateWorkDone: this.workDone.fecha_trabajo,
+          description: this.workDone.observaciones,
+          trabajadoresSelected: this.workDone.trabajadores.map((trabajador: { id: number; }) => trabajador.id),
         });
         this.newWorkDoneForm.controls['plotSelected'].disable();
         break;
@@ -201,5 +244,6 @@ export class NewWorkDoneComponent implements OnInit {
     }
     this.cargarParcelas();
     this.cargarTiposTrabajos();
+    if (this.user?.rol === 'EMPRESA') this.cargarTrabajadores();
   }
 }

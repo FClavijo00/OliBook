@@ -67,4 +67,8 @@ export class UsersService {
     const savedUser = localStorage.getItem('olibook_user');
     return savedUser ? JSON.parse(savedUser) : null;
   }
+
+  obtenerTrabajadores(empresaID: number) {
+    return this._http.post<[]>(`${this._apiUrl}/obtenerTrabajadores`, {empresaID: empresaID});
+  }
 }

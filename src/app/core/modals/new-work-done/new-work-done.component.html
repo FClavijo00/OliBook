@@ -1,4 +1,4 @@
-<!-- <ion-content class="ion-padding work-form">
+<ion-content class="ion-padding work-form">
   @if (loading === true) {
   <app-loading [tipoLoading]="tipoLoading"></app-loading>
   } @else {
@@ -6,17 +6,20 @@
   <form [formGroup]="newWorkDoneForm">
     <ion-list mode="ios" [inset]="true">
       <ion-item [class.invalid-input]="
-              plotSelectedControl?.invalid && plotSelectedControl?.touched ? 'invalid-input' : ''
-            ">
-        <ion-select mode="ios" formControlName="plotSelected" label="Parcelas" placeholder="Seleccione...">
+            plotSelectedControl?.invalid && plotSelectedControl?.touched
+              ? 'invalid-input'
+              : ''
+          ">
+        <ion-select mode="ios" formControlName="plotSelected" label="Parcela" placeholder="Seleccione..."
+          cancelText="Cancelar" okText="Confirmar">
           @for (plot of plots; track plot) {
-          @if (plot.nickname === null || plot.nickname === '') {
+          @if (plot.apodo_parcela === null || plot.apodo_parcela === "") {
           <ion-select-option [value]="plot.id">
-            {{ plot.name }}
+            {{ plot.nombre_parcela }}
           </ion-select-option>
           } @else {
           <ion-select-option [value]="plot.id">
-            {{ plot.nickname }}
+            {{ plot.apodo_parcela }}
           </ion-select-option>
           }
           }
@@ -24,18 +27,42 @@
       </ion-item>
 
       <ion-item [class.invalid-input]="
-              workSelectedControl?.invalid && workSelectedControl?.touched ? 'invalid-input' : ''
-            ">
-        <ion-select mode="ios" formControlName="workSelected" label="Tipo de trabajos" placeholder="Seleccione...">
+            workSelectedControl?.invalid && workSelectedControl?.touched
+              ? 'invalid-input'
+              : ''
+          ">
+        <ion-select mode="ios" formControlName="workSelected" label="Tipo de trabajos" placeholder="Seleccione..."
+          cancelText="Cancelar" okText="Confirmar">
           @for (type of workTypes; track type) {
-          <ion-select-option [value]="type.id">{{ type.name }}</ion-select-option>
+          <ion-select-option [value]="type.id">{{
+            type.nombre
+            }}</ion-select-option>
           }
         </ion-select>
       </ion-item>
 
+      @if (this.user && this.user.rol === 'EMPRESA') { 
+        <ion-item [class.invalid-input]="
+            trabajadoresSelectedControl?.invalid && trabajadoresSelectedControl?.touched
+              ? 'invalid-input'
+              : ''
+          ">
+        <ion-select mode="ios" formControlName="trabajadoresSelected" multiple="true" label="Trabajadores" placeholder="Seleccione..."
+          cancelText="Cancelar" okText="Confirmar">
+          @for (trabajador of trabajadores; track trabajador) {
+          <ion-select-option [value]="trabajador.user_id">{{
+            trabajador.name
+            }}</ion-select-option>
+          }
+        </ion-select>
+      </ion-item>
+      }
+
       <ion-item [class.invalid-input]="
-              dateWorkDoneControl?.invalid && dateWorkDoneControl?.touched ? 'invalid-input' : ''
-            ">
+            dateWorkDoneControl?.invalid && dateWorkDoneControl?.touched
+              ? 'invalid-input'
+              : ''
+          ">
         <ion-label>Fecha</ion-label>
 
         <ion-datetime-button datetime="id-datepicker" slot="end" mode="ios"></ion-datetime-button>
@@ -50,11 +77,12 @@
       </ion-item>
 
       <ion-item [class.invalid-input]="
-              descriptionControl?.invalid && descriptionControl?.touched ? 'invalid-input' : ''
-            ">
+            descriptionControl?.invalid && descriptionControl?.touched
+              ? 'invalid-input'
+              : ''
+          ">
         <ion-textarea label="Observaciones" mode="ios" rows="4" formControlName="description"></ion-textarea>
       </ion-item>
-
     </ion-list>
   </form>
 
@@ -75,4 +103,4 @@
     </ion-row>
   </ion-grid>
   }
-</ion-content> -->
+</ion-content>
