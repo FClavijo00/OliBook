@@ -58,8 +58,6 @@ import { UsersService } from 'src/app/core/services/users-service';
   styleUrls: ['./works.page.scss'],
   standalone: true,
   imports: [
-    IonSegmentButton,
-    IonSegment,
     IonItemOption,
     IonItemOptions,
     IonPopover,
@@ -80,10 +78,8 @@ import { UsersService } from 'src/app/core/services/users-service';
     IonHeader,
     CommonModule,
     FormsModule,
-    LoadingComponent,
-    IonSegment,
-    IonSegmentButton,
-  ],
+    LoadingComponent
+],
 })
 export class WorksPage implements OnInit {
   selectedDate: string = new Date().toISOString();
