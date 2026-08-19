@@ -1,5 +1,25 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { IonicModule, ModalController, ToastController } from '@ionic/angular';
+import {
+  ModalController,
+  ToastController,
+  IonContent,
+  IonTitle,
+  IonList,
+  IonItem,
+  IonSelect,
+  IonSelectOption,
+  IonLabel,
+  IonDatetimeButton,
+  IonModal,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonButton,
+  IonIcon,
+  IonTextarea,
+  IonInput,
+  IonDatetime,
+} from '@ionic/angular/standalone';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoadingComponent } from '../../components/loading/loading.component';
@@ -17,7 +37,26 @@ import { UsersService } from '../../services/users-service';
   selector: 'app-new-work-done',
   templateUrl: './new-work-done.component.html',
   styleUrls: ['./new-work-done.component.scss'],
-  imports: [IonicModule, ReactiveFormsModule, LoadingComponent],
+  imports: [
+    IonIcon,
+    IonButton,
+    IonCol,
+    IonRow,
+    IonGrid,
+    IonModal,
+    IonDatetime,
+    IonDatetimeButton,
+    IonLabel,
+    IonItem,
+    IonList,
+    IonTitle,
+    IonContent,
+    ReactiveFormsModule,
+    LoadingComponent,
+    IonSelect,
+    IonSelectOption,
+    IonTextarea,
+  ],
 })
 export class NewWorkDoneComponent implements OnInit {
   @Input() modo: 'add' | 'edit' = 'add';
@@ -59,36 +98,44 @@ export class NewWorkDoneComponent implements OnInit {
 
   async cargarTiposTrabajos() {
     if (this.user)
-
-    try {
-      const response = await firstValueFrom(this._workService.obtenerTipos(this.user.id));
-      this.workTypes = response || [];
-    } catch (error) {
-      console.error('Error en la petición a la API:', error);
-    } finally {
-    }
+      try {
+        const response = await firstValueFrom(
+          this._workService.obtenerTipos(this.user.id),
+        );
+        this.workTypes = response || [];
+      } catch (error) {
+        console.error('Error en la petición a la API:', error);
+      } finally {
+      }
   }
 
   async cargarParcelas() {
     if (this.user)
-    try {
-      const response = await firstValueFrom(this._plotsService.obtenerParcelas(this.user.id, this.user.empresa_id));
-      this.plots = response.misParcelas || [];
-    } catch (error) {
-      console.error('Error en la petición a la API:', error);
-    } finally {
-    }
+      try {
+        const response = await firstValueFrom(
+          this._plotsService.obtenerParcelas(
+            this.user.id,
+            this.user.empresa_id,
+          ),
+        );
+        this.plots = response.misParcelas || [];
+      } catch (error) {
+        console.error('Error en la petición a la API:', error);
+      } finally {
+      }
   }
 
   async cargarTrabajadores() {
     if (this.user && this.user.empresa_id)
-    try {
-      const response = await firstValueFrom(this._usersService.obtenerTrabajadores(this.user.empresa_id));
-      this.trabajadores = response || [];
-    } catch (error) {
-      console.error('Error en la petición a la API:', error);
-    } finally {
-    }
+      try {
+        const response = await firstValueFrom(
+          this._usersService.obtenerTrabajadores(this.user.empresa_id),
+        );
+        this.trabajadores = response || [];
+      } catch (error) {
+        console.error('Error en la petición a la API:', error);
+      } finally {
+      }
   }
 
   /** GETTERS FORM */
@@ -142,7 +189,8 @@ export class NewWorkDoneComponent implements OnInit {
             description: this.newWorkDoneForm.value.description,
           };
           if (this.user?.rol === 'EMPRESA') {
-            workDone.trabajadores = this.newWorkDoneForm.value.trabajadoresSelected;
+            workDone.trabajadores =
+              this.newWorkDoneForm.value.trabajadoresSelected;
           }
           this._workService.addWorkDone(workDone).subscribe((response) => {
             setTimeout(async () => {
@@ -188,7 +236,8 @@ export class NewWorkDoneComponent implements OnInit {
             description: this.newWorkDoneForm.value.description,
           };
           if (this.user?.rol === 'EMPRESA') {
-            workDone.trabajadores = this.newWorkDoneForm.value.trabajadoresSelected;
+            workDone.trabajadores =
+              this.newWorkDoneForm.value.trabajadoresSelected;
           }
           this._workService.editWorkDone(workDone).subscribe((res) => {
             setTimeout(async () => {
@@ -222,19 +271,25 @@ export class NewWorkDoneComponent implements OnInit {
         this.title = 'Registrar Trabajo Realizado';
         this.newWorkDoneForm.reset();
         if (this.user?.rol === 'EMPRESA')
-        this.newWorkDoneForm.controls['trabajadoresSelected'].addValidators(Validators.required)
+          this.newWorkDoneForm.controls['trabajadoresSelected'].addValidators(
+            Validators.required,
+          );
         break;
       case 'edit':
         this.title = 'Editar Trabajo Realizado';
         console.log(this.workDone);
         if (this.user?.rol === 'EMPRESA')
-        this.newWorkDoneForm.controls['trabajadoresSelected'].addValidators(Validators.required)
+          this.newWorkDoneForm.controls['trabajadoresSelected'].addValidators(
+            Validators.required,
+          );
         this.newWorkDoneForm.patchValue({
           plotSelected: this.workDone.parcela_id,
           workSelected: this.workDone.tipo_trabajo_id,
           dateWorkDone: this.workDone.fecha_trabajo,
           description: this.workDone.observaciones,
-          trabajadoresSelected: this.workDone.trabajadores.map((trabajador: { id: number; }) => trabajador.id),
+          trabajadoresSelected: this.workDone.trabajadores.map(
+            (trabajador: { id: number }) => trabajador.id,
+          ),
         });
         this.newWorkDoneForm.controls['plotSelected'].disable();
         break;
