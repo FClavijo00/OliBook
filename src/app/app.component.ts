@@ -1,8 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
-import { UsersService } from './core/services/users-service';
-import { User } from './core/models/user';
-import { environment } from 'src/environments/environment';
+import { inject } from '@vercel/analytics';
 
 @Component({
   selector: 'app-root',
@@ -11,5 +9,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AppComponent  {
 
-  ngOnInit() {}
+  ngOnInit() {
+    inject();
+  }
 }

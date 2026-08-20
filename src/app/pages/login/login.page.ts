@@ -48,6 +48,7 @@ import {
 
 } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
+import { track } from '@vercel/analytics';
 
 @Component({
   selector: 'app-login',
@@ -214,6 +215,7 @@ export class LoginPage implements OnInit {
 
     if (this.isRegister) {
       try {
+        track('Registro de usuario');
         const response = await firstValueFrom(
           this._userService.register(credentials),
         );

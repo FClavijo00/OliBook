@@ -27,6 +27,7 @@
     "@capacitor/keyboard": "8.0.3",
     "@capacitor/status-bar": "8.0.2",
     "@ionic/angular": "^8.0.0",
+    "@vercel/analytics": "^2.0.1",
     "ionicons": "^7.0.0",
     "leaflet": "^1.9.4",
     "proj4": "^2.20.8",

@@ -32,6 +32,7 @@ import { addIcons } from 'ionicons';
 import { alertCircle, checkmarkCircle, closeCircle } from 'ionicons/icons';
 import { User } from '../../models/user';
 import { UsersService } from '../../services/users-service';
+import { track } from '@vercel/analytics';
 
 @Component({
   selector: 'app-new-work-done',
@@ -162,7 +163,8 @@ export class NewWorkDoneComponent implements OnInit {
             const workDone: WorkDone = {
               id: 0,
               user_id: this.user.id,
-              empresa_id: this.user.rol === 'EMPRESA' ? this.user.empresa_id : null,
+              empresa_id:
+                this.user.rol === 'EMPRESA' ? this.user.empresa_id : null,
               parcela_id: this.newWorkDoneForm.value.plotSelected,
               tipo_trabajo_id: this.newWorkDoneForm.value.workSelected,
               fecha_trabajo:
@@ -177,6 +179,9 @@ export class NewWorkDoneComponent implements OnInit {
             }
 
             this._workService.addWorkDone(workDone).subscribe((response) => {
+              track('Registro de trabajo realizado', {
+                USER: this.user?.name,
+              });
               setTimeout(async () => {
                 this.loading = false;
                 this._toastCtrl.create({
@@ -226,10 +231,12 @@ export class NewWorkDoneComponent implements OnInit {
             const workDone: WorkDone = {
               id: this.workDone.id,
               user_id: this.user.id,
-              empresa_id: this.user.rol === 'EMPRESA' ? this.user.empresa_id : null,
+              empresa_id:
+                this.user.rol === 'EMPRESA' ? this.user.empresa_id : null,
               parcela_id: this.workDone.parcela_id,
               tipo_trabajo_id: this.newWorkDoneForm.value.workSelected,
-              fecha_trabajo: this.newWorkDoneForm.value.dateWorkDone.split('T')[0],
+              fecha_trabajo:
+                this.newWorkDoneForm.value.dateWorkDone.split('T')[0],
               observaciones: this.newWorkDoneForm.value.description,
             };
             if (this.user?.rol === 'EMPRESA') {
@@ -296,9 +303,11 @@ export class NewWorkDoneComponent implements OnInit {
           workSelected: this.workDone.tipo_trabajo_id,
           dateWorkDone: this.workDone.fecha_trabajo,
           description: this.workDone.observaciones,
-          trabajadoresSelected: this.workDone.trabajadores ? this.workDone.trabajadores.map(
-            (trabajador: { id: number }) => trabajador.id,
-          ) : [],
+          trabajadoresSelected: this.workDone.trabajadores
+            ? this.workDone.trabajadores.map(
+                (trabajador: { id: number }) => trabajador.id,
+              )
+            : [],
         });
         this.newWorkDoneForm.controls['plotSelected'].disable();
         break;

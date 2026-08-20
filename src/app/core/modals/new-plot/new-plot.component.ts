@@ -47,6 +47,7 @@ import { SigpacService } from '../../services/sigpac-service';
 import { Router } from '@angular/router';
 import { User } from '../../models/user';
 import { UsersService } from '../../services/users-service';
+import { track } from '@vercel/analytics';
 
 @Component({
   selector: 'app-new-plot',
@@ -341,6 +342,9 @@ export class NewPlotComponent implements OnInit {
             trabajos: [],
           };
           this._plotService.nuevaParcela(plot).subscribe((res) => {
+            track('Registro de parcela', {
+              USER: this.user?.name
+            });
             setTimeout(async () => {
               this._toastCtrl.create({
                 message: 'Parcela creada con exito',
