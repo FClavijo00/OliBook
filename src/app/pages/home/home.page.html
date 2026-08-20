@@ -50,13 +50,13 @@
       </div>
       <ion-label>
         <div class="title-row">
-          <h2>{{ work.nickname || work.name }}</h2>
+          <h2>{{ work.apodo_parcela || work.nombre_parcela }}</h2>
           <span class="time-stamp">
             <ion-icon name="time-outline"></ion-icon>
-            {{ work.date | date: 'dd/MM/yyyy' }}
+            {{ work.fecha_trabajo | date: 'dd/MM/yyyy' }}
           </span>
         </div>
-        <p>{{ work.work_type_name }}</p>
+        <p>{{ work.nombre_tipo_trabajo }}</p>
       </ion-label>
     </ion-item>
     }
