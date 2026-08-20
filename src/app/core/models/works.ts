@@ -14,10 +14,12 @@ export interface WorkTypes {
 
 export interface WorkDone {
     id: number;
-    plot_id: number;
-    work_type: number;
-    date: string;
-    description: string;
+    user_id: number;
+    empresa_id?: number | null;
+    parcela_id: number;
+    tipo_trabajo_id: number;
+    fecha_trabajo: string;
+    observaciones: string;
     trabajadores?: number[];
 }
 

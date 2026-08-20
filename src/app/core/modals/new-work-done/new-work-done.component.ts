@@ -59,6 +59,13 @@ import { UsersService } from '../../services/users-service';
   ],
 })
 export class NewWorkDoneComponent implements OnInit {
+  private _formBuilder = inject(FormBuilder);
+  private _uiService = inject(UIService);
+  private _plotsService = inject(PlotsService);
+  private _workService = inject(WorksService);
+  private _modalCtrl = inject(ModalController);
+  private _toastCtrl = inject(ToastController);
+  private _usersService = inject(UsersService);
   @Input() modo: 'add' | 'edit' = 'add';
   @Input() workDone: any;
 
@@ -73,20 +80,13 @@ export class NewWorkDoneComponent implements OnInit {
 
   public user: User | null = null;
 
-  public newWorkDoneForm: FormGroup = inject(FormBuilder).group({
+  public newWorkDoneForm: FormGroup = this._formBuilder.group({
     plotSelected: ['', Validators.required],
     workSelected: ['', Validators.required],
     dateWorkDone: [new Date().toISOString(), Validators.required],
     description: [''],
     trabajadoresSelected: [''],
   });
-
-  private _uiService = inject(UIService);
-  private _plotsService = inject(PlotsService);
-  private _workService = inject(WorksService);
-  private _modalCtrl = inject(ModalController);
-  private _toastCtrl = inject(ToastController);
-  private _usersService = inject(UsersService);
 
   constructor() {
     addIcons({
@@ -138,27 +138,6 @@ export class NewWorkDoneComponent implements OnInit {
       }
   }
 
-  /** GETTERS FORM */
-  get plotSelectedControl() {
-    return this.newWorkDoneForm.get('plotSelected');
-  }
-
-  get workSelectedControl() {
-    return this.newWorkDoneForm.get('workSelected');
-  }
-
-  get dateWorkDoneControl() {
-    return this.newWorkDoneForm.get('dateWorkDone');
-  }
-
-  get descriptionControl() {
-    return this.newWorkDoneForm.get('description');
-  }
-
-  get trabajadoresSelectedControl() {
-    return this.newWorkDoneForm.get('trabajadoresSelected');
-  }
-
   onSubmit() {
     switch (this.modo) {
       case 'add':
@@ -178,34 +157,51 @@ export class NewWorkDoneComponent implements OnInit {
           });
           return;
         } else {
-          console.log(this.newWorkDoneForm.value);
-          break;
           this.loading = true;
-          const workDone: WorkDone = {
-            id: 0,
-            plot_id: this.newWorkDoneForm.value.plotSelected,
-            work_type: this.newWorkDoneForm.value.workSelected,
-            date: this.newWorkDoneForm.value.dateWorkDone.split('T')[0],
-            description: this.newWorkDoneForm.value.description,
-          };
-          if (this.user?.rol === 'EMPRESA') {
-            workDone.trabajadores =
-              this.newWorkDoneForm.value.trabajadoresSelected;
+          if (this.user) {
+            const workDone: WorkDone = {
+              id: 0,
+              user_id: this.user.id,
+              empresa_id: this.user.empresa_id || null,
+              parcela_id: this.newWorkDoneForm.value.plotSelected,
+              tipo_trabajo_id: this.newWorkDoneForm.value.workSelected,
+              fecha_trabajo:
+                this.newWorkDoneForm.value.dateWorkDone.split('T')[0],
+              observaciones: this.newWorkDoneForm.value.description,
+            };
+            if (this.user?.rol === 'EMPRESA') {
+              workDone.trabajadores =
+                this.newWorkDoneForm.value.trabajadoresSelected;
+            } else {
+              workDone.trabajadores = [];
+            }
+
+            this._workService.addWorkDone(workDone).subscribe((response) => {
+              setTimeout(async () => {
+                this.loading = false;
+                this._toastCtrl.create({
+                  message: 'Trabajo realizado registrado con exito',
+                  duration: 2000,
+                  position: 'bottom',
+                  mode: 'ios',
+                  icon: 'checkmark-circle',
+                  cssClass: 'toast-success',
+                });
+                this._modalCtrl.dismiss(response, 'confirm');
+              }, 2000);
+            });
+          } else {
+            this.loading = false;
+            this._toastCtrl.create({
+              message: 'No se pudo registrar el trabajo realizado',
+              duration: 2000,
+              position: 'bottom',
+              mode: 'ios',
+              icon: 'alert-circle',
+              cssClass: 'toast-error',
+            });
+            this._modalCtrl.dismiss(null, 'cancel');
           }
-          this._workService.addWorkDone(workDone).subscribe((response) => {
-            setTimeout(async () => {
-              this.loading = false;
-              this._toastCtrl.create({
-                message: 'Trabajo realizado registrado con exito',
-                duration: 2000,
-                position: 'bottom',
-                mode: 'ios',
-                icon: 'checkmark-circle',
-                cssClass: 'toast-success',
-              });
-              this._modalCtrl.dismiss(response, 'confirm');
-            }, 2000);
-          });
         }
         break;
       case 'edit':
@@ -225,34 +221,49 @@ export class NewWorkDoneComponent implements OnInit {
           });
           return;
         } else {
-          console.log(this.newWorkDoneForm.value);
-          break;
           this.loading = true;
-          const workDone: WorkDone = {
-            id: this.workDone.id,
-            plot_id: this.workDone.plot_id,
-            work_type: this.newWorkDoneForm.value.workSelected,
-            date: this.newWorkDoneForm.value.dateWorkDone.split('T')[0],
-            description: this.newWorkDoneForm.value.description,
-          };
-          if (this.user?.rol === 'EMPRESA') {
-            workDone.trabajadores =
-              this.newWorkDoneForm.value.trabajadoresSelected;
+          if (this.user) {
+            const workDone: WorkDone = {
+              id: this.workDone.id,
+              user_id: this.user.id,
+              empresa_id: this.user.empresa_id || null,
+              parcela_id: this.workDone.parcela_id,
+              tipo_trabajo_id: this.newWorkDoneForm.value.workSelected,
+              fecha_trabajo: this.newWorkDoneForm.value.dateWorkDone.split('T')[0],
+              observaciones: this.newWorkDoneForm.value.description,
+            };
+            if (this.user?.rol === 'EMPRESA') {
+              workDone.trabajadores =
+                this.newWorkDoneForm.value.trabajadoresSelected;
+            } else {
+              workDone.trabajadores = [];
+            }
+            this._workService.editWorkDone(workDone).subscribe((res) => {
+              setTimeout(async () => {
+                this.loading = false;
+                this._toastCtrl.create({
+                  message: 'Trabajo realizado actualizado con exito',
+                  duration: 2000,
+                  position: 'bottom',
+                  mode: 'ios',
+                  icon: 'checkmark-circle',
+                  cssClass: 'toast-success',
+                });
+                this._modalCtrl.dismiss(res, 'confirm');
+              }, 2000);
+            });
+          } else {
+            this.loading = false;
+            this._toastCtrl.create({
+              message: 'No se pudo registrar el trabajo realizado',
+              duration: 2000,
+              position: 'bottom',
+              mode: 'ios',
+              icon: 'alert-circle',
+              cssClass: 'toast-error',
+            });
+            this._modalCtrl.dismiss(null, 'cancel');
           }
-          this._workService.editWorkDone(workDone).subscribe((res) => {
-            setTimeout(async () => {
-              this.loading = false;
-              this._toastCtrl.create({
-                message: 'Trabajo realizado actualizado con exito',
-                duration: 2000,
-                position: 'bottom',
-                mode: 'ios',
-                icon: 'checkmark-circle',
-                cssClass: 'toast-success',
-              });
-              this._modalCtrl.dismiss(res, 'confirm');
-            }, 2000);
-          });
         }
         break;
     }
@@ -269,7 +280,6 @@ export class NewWorkDoneComponent implements OnInit {
     switch (this.modo) {
       case 'add':
         this.title = 'Registrar Trabajo Realizado';
-        this.newWorkDoneForm.reset();
         if (this.user?.rol === 'EMPRESA')
           this.newWorkDoneForm.controls['trabajadoresSelected'].addValidators(
             Validators.required,
@@ -277,7 +287,6 @@ export class NewWorkDoneComponent implements OnInit {
         break;
       case 'edit':
         this.title = 'Editar Trabajo Realizado';
-        console.log(this.workDone);
         if (this.user?.rol === 'EMPRESA')
           this.newWorkDoneForm.controls['trabajadoresSelected'].addValidators(
             Validators.required,

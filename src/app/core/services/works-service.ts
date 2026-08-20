@@ -19,15 +19,15 @@ export class WorksService {
   private _http = inject(HttpClient)
 
   addWorkDone(work: WorkDone) {
-    return this._http.post<WorkDone>(`${this._apiUrlTrabajos}/addWorkDone`, work);
+    return this._http.post<WorkDone>(`${this._apiUrlTrabajos}/crearTrabajoRealizado`, work);
   }
 
   editWorkDone(work: WorkDone) {
-    return this._http.post<WorkDone>(`${this._apiUrlTrabajos}/editWorkDone`, work);
+    return this._http.post<WorkDone>(`${this._apiUrlTrabajos}/editarTrabajoRealizado`, work);
   }
 
   deleteWorkDone(workID: number) {
-    return this._http.post(`${this._apiUrlTrabajos}/deleteWorkDone`, {id: workID});
+    return this._http.post(`${this._apiUrlTrabajos}/borrarTrabajoRealizado`, {id: workID});
   }
 
   obtenerUltimosTrabajos() {

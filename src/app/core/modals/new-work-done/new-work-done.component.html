@@ -6,7 +6,7 @@
   <form [formGroup]="newWorkDoneForm">
     <ion-list mode="ios" [inset]="true">
       <ion-item [class.invalid-input]="
-            plotSelectedControl?.invalid && plotSelectedControl?.touched
+            newWorkDoneForm.get('plotSelected')?.invalid && newWorkDoneForm.get('plotSelected')?.touched
               ? 'invalid-input'
               : ''
           ">
@@ -27,7 +27,7 @@
       </ion-item>
 
       <ion-item [class.invalid-input]="
-            workSelectedControl?.invalid && workSelectedControl?.touched
+            newWorkDoneForm.get('workSelected')?.invalid && newWorkDoneForm.get('workSelected')?.touched
               ? 'invalid-input'
               : ''
           ">
@@ -43,7 +43,7 @@
 
       @if (this.user && this.user.rol === 'EMPRESA') { 
         <ion-item [class.invalid-input]="
-            trabajadoresSelectedControl?.invalid && trabajadoresSelectedControl?.touched
+            newWorkDoneForm.get('trabajadoresSelected')?.invalid && newWorkDoneForm.get('trabajadoresSelected')?.touched
               ? 'invalid-input'
               : ''
           ">
@@ -59,7 +59,7 @@
       }
 
       <ion-item [class.invalid-input]="
-            dateWorkDoneControl?.invalid && dateWorkDoneControl?.touched
+            newWorkDoneForm.get('dateWorkDone')?.invalid && newWorkDoneForm.get('dateWorkDone')?.touched
               ? 'invalid-input'
               : ''
           ">
@@ -76,11 +76,7 @@
         </ion-modal>
       </ion-item>
 
-      <ion-item [class.invalid-input]="
-            descriptionControl?.invalid && descriptionControl?.touched
-              ? 'invalid-input'
-              : ''
-          ">
+      <ion-item>
         <ion-textarea label="Observaciones" mode="ios" rows="4" formControlName="description"></ion-textarea>
       </ion-item>
     </ion-list>
