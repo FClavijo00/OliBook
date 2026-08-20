@@ -162,7 +162,7 @@ export class NewWorkDoneComponent implements OnInit {
             const workDone: WorkDone = {
               id: 0,
               user_id: this.user.id,
-              empresa_id: this.user.empresa_id || null,
+              empresa_id: this.user.rol === 'EMPRESA' ? this.user.empresa_id : null,
               parcela_id: this.newWorkDoneForm.value.plotSelected,
               tipo_trabajo_id: this.newWorkDoneForm.value.workSelected,
               fecha_trabajo:
@@ -226,7 +226,7 @@ export class NewWorkDoneComponent implements OnInit {
             const workDone: WorkDone = {
               id: this.workDone.id,
               user_id: this.user.id,
-              empresa_id: this.user.empresa_id || null,
+              empresa_id: this.user.rol === 'EMPRESA' ? this.user.empresa_id : null,
               parcela_id: this.workDone.parcela_id,
               tipo_trabajo_id: this.newWorkDoneForm.value.workSelected,
               fecha_trabajo: this.newWorkDoneForm.value.dateWorkDone.split('T')[0],
