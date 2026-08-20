@@ -213,7 +213,6 @@ export class LoginPage implements OnInit {
     const credentials = this.authForm.value;
 
     if (this.isRegister) {
-      console.log('Registrando usuario:', credentials);
       try {
         const response = await firstValueFrom(
           this._userService.register(credentials),
