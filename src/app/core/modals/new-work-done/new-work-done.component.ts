@@ -296,9 +296,9 @@ export class NewWorkDoneComponent implements OnInit {
           workSelected: this.workDone.tipo_trabajo_id,
           dateWorkDone: this.workDone.fecha_trabajo,
           description: this.workDone.observaciones,
-          trabajadoresSelected: this.workDone.trabajadores.map(
+          trabajadoresSelected: this.workDone.trabajadores ? this.workDone.trabajadores.map(
             (trabajador: { id: number }) => trabajador.id,
-          ),
+          ) : [],
         });
         this.newWorkDoneForm.controls['plotSelected'].disable();
         break;
