@@ -203,7 +203,7 @@ export class PlotsPage implements OnInit {
           this.parcelasEmpresaFiltradas = [...this.parcelasEmpresa];
         }
       }, error: (err) => {
-        console.log('Error en la petición a la API:', err);
+        
       }
     })
   }

@@ -4,7 +4,7 @@
       <ion-back-button defaultHref="/tabs/plots" text=""></ion-back-button>
     </ion-buttons>
     <ion-title>{{ parcela.apodo_parcela || parcela.nombre_parcela }}</ion-title>
-    <ion-buttons slot="end" >
+    <ion-buttons slot="end">
       <ion-button (click)="presentActionSheet()" [disabled]="this.user?.id != this.parcela.user_id">
         <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
       </ion-button>
@@ -83,7 +83,7 @@
       </ion-item>
     </div>
 
-    <!-- @if (parcela.works.length > 0) {
+    @if (parcela.trabajos.length > 0) {
     <div class="info-card">
       <ion-item lines="none" mode="ios">
         <ion-label class="ion-text-center">
@@ -92,30 +92,33 @@
       </ion-item>
       <ion-list mode="ios" lines="none" class="list-date-work">
         <ion-item lines="none" mode="ios" class="list-titles">
-          <div class="grid-info">
-            <ion-label class="first-label">
-              <p>Fecha</p>
-            </ion-label>
-            <ion-label class="last-label">
-              <p>Tipo de Trabajo</p>
-            </ion-label>
+          <div class="grid-header">
+            <span>Fecha</span>
+            <span>Tipo de Trabajo</span>
           </div>
         </ion-item>
-        @for (work of parcela.works; track work.id) {
-        <ion-item lines="none" mode="ios" class="works-list">
-          <div class="grid-info">
-            <ion-label class="first-label">
-              <h2>{{ work.date | date: 'dd/MM/yyyy' }}</h2>
-            </ion-label>
-            <ion-label class="last-label">
-              <h2>{{ work.work_type }}</h2>
-            </ion-label>
+        @for (trabajo of parcela.trabajos; track trabajo.id) {
+        <ion-item lines="none"  mode="ios" class="work-card">
+          <div class="work-content">
+            <!-- Fila 1: Fecha (Izquierda) + Tipo de Trabajo (Derecha) -->
+            <div class="work-header">
+              <span class="work-date">{{ trabajo.fecha | date: 'dd/MM/yyyy' }}</span>
+              <span class="work-type">{{ trabajo.tipo_trabajo_nombre }}</span>
+            </div>
+
+            <!-- Fila 2: Observaciones (Abajo) -->
+            @if (trabajo.observaciones) {
+            <div class="work-notes">
+              <p>{{ trabajo.observaciones }}</p>
+            </div>
+            }
           </div>
         </ion-item>
+
         }
       </ion-list>
     </div>
-    } -->
+    }
   </div>
   }
 </ion-content>

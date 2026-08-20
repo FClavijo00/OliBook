@@ -60,7 +60,8 @@ import { UsersService } from 'src/app/core/services/users-service';
     IonHeader,
     CommonModule,
     LoadingComponent,
-  ],
+    IonList
+],
 })
 export class PlotDetailPage implements OnInit {
   private _router = inject(Router);
@@ -100,7 +101,7 @@ export class PlotDetailPage implements OnInit {
     x: 0,
     y: 0,
     wkt: '',
-    works: [],
+    trabajos: [],
   };
   map!: L.Map;
 

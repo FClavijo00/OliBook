@@ -274,7 +274,7 @@ export class NewPlotComponent implements OnInit {
 
   obtenerDatosDesdeSigpac(lat: number, lng: number) {
     // Aquí llamarías a tu servicio
-    console.log(`Buscando parcela en: ${lat}, ${lng}`);
+    //console.log(`Buscando parcela en: ${lat}, ${lng}`);
     this.getUrlInformacion(lat, lng);
 
     // Al recibir la respuesta, autorellenamos el formulario:
@@ -338,7 +338,7 @@ export class NewPlotComponent implements OnInit {
             x: this.formNuevaParcela.value.x || null,
             y: this.formNuevaParcela.value.y || null,
             wkt: this.formNuevaParcela.value.wkt || '',
-            works: [],
+            trabajos: [],
           };
           this._plotService.nuevaParcela(plot).subscribe((res) => {
             setTimeout(async () => {
@@ -396,7 +396,7 @@ export class NewPlotComponent implements OnInit {
             x: this.parcela.x || null,
             y: this.parcela.y || null,
             wkt: this.parcela.wkt || '',
-            works: [],
+            trabajos: [],
           };
           this._plotService.editarParcela(plot).subscribe((res) => {
             setTimeout(async () => {

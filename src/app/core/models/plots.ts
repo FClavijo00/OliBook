@@ -16,5 +16,5 @@ export interface Plot {
     x: number,
     y: number,
     wkt: string,
-    works: Array<any>
+    trabajos: Array<any>
 }
