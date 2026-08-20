@@ -259,13 +259,6 @@ export class WorksPage implements OnInit {
     }
   }
 
-  verDescripcion(event: Event, descripcion: string) {
-    event.stopPropagation(); // Evita que se dispare el evento de la tarjeta principal
-
-    // Aquí ya puedes abrir tu Popover o un Alert rápido para mostrar el texto
-    console.log('Mostrando descripción:', descripcion);
-  }
-
   async openNewWorkModal() {
     const modal = await this._modalCtrl.create({
       component: NewWorkDoneComponent,
