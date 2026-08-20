@@ -73,7 +73,7 @@
     <ion-card mode="ios" class="works-card">
       <ion-list mode="md" class="works-list" [inset]="true">
         @for (work of selectedDayWorks; track work.id) {
-        <ion-item-sliding mode="ios">
+        <ion-item-sliding mode="ios" [disabled]="work.user_id !== this.user?.id ">
           <ion-item class="work-item">
             <div class="icon-container" slot="start">
               <ion-icon name="leaf-outline"></ion-icon>
