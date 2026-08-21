@@ -92,7 +92,7 @@ export class WorksPage implements OnInit {
   });
 
   user: User | null = null;
-  misTrabajos: TrabajosCalendario[] = [];
+  trabajosParticulares: TrabajosCalendario[] = [];
   trabajosEmpresa: TrabajosCalendario[] = [];
   highlightedDates: any[] = []; // Los puntitos del calendario
 
@@ -116,6 +116,10 @@ export class WorksPage implements OnInit {
     });
   }
 
+  whatHappened(work: any) {
+    console.log(work, this.user);
+  }
+
   async cargarTrabajosAgenda(
     accion: 'inicio' | 'refresh',
     event?: RefresherCustomEvent,
@@ -132,7 +136,7 @@ export class WorksPage implements OnInit {
       this._worksService.obtenerCalendario(data).subscribe({
         next: (res) => {
           if (res) {
-            this.misTrabajos = res.misTrabajos || [];
+            this.trabajosParticulares = res.trabajosParticulares || [];
             this.trabajosEmpresa = res.trabajosEmpresa || [];
 
             this.procesarFechasCalendario();
@@ -166,35 +170,31 @@ export class WorksPage implements OnInit {
 
     const fechasMap = new Map<
       string,
-      { tieneMis: boolean; tieneEmpresa: boolean }
+      { esParticular: boolean; esEmpresa: boolean }
     >();
 
-    this.misTrabajos.forEach((t) => {
+    this.trabajosParticulares.forEach((t) => {
       const fechaLimpia = t.fecha_trabajo.split('T')[0];
       const actual = fechasMap.get(fechaLimpia) || {
-        tieneMis: false,
-        tieneEmpresa: false,
+        esParticular: false,
+        esEmpresa: false,
       };
-      fechasMap.set(fechaLimpia, { ...actual, tieneMis: true });
+      fechasMap.set(fechaLimpia, { ...actual, esParticular: true });
     });
 
     this.trabajosEmpresa.forEach((t) => {
       const fechaLimpia = t.fecha_trabajo.split('T')[0];
       const actual = fechasMap.get(fechaLimpia) || {
-        tieneMis: false,
-        tieneEmpresa: false,
+        esParticular: false,
+        esEmpresa: false,
       };
-      fechasMap.set(fechaLimpia, { ...actual, tieneEmpresa: true });
+      fechasMap.set(fechaLimpia, { ...actual, esEmpresa: true });
     });
 
     this.highlightedDates = Array.from(fechasMap.entries()).map(
       ([date, flags]) => {
-        // VERDE SOLO MÍS TRABAJOS
-        // AMARILLO / NARANJA SI ES EMPRESA
-        // AZUL SI ES AMBOS
-        let color = 'var(--ion-color-olive-deep)';
-        if (!flags.tieneMis && flags.tieneEmpresa) color = '#ffc409';
-        if (flags.tieneMis && flags.tieneEmpresa) color = '#3880ff';
+        let background = 'var(--ion-color-olive-main)'
+        if (!flags.esParticular && flags.esEmpresa) background = 'var(--ion-color-clay)';
 
         // Contabilizamos el día solo si pertenece al año y mes actual
         if (date.startsWith(anioMesActual)) {
@@ -204,7 +204,8 @@ export class WorksPage implements OnInit {
         return {
           date: date, // Formato YYYY-MM-DD para ion-datetime
           textColor: '#ffffff',
-          backgroundColor: color,
+          backgroundColor: background,
+          border: flags.esParticular && flags.esEmpresa ? '5px solid var(--ion-color-clay)' : '',
         };
       },
     );
@@ -238,20 +239,20 @@ export class WorksPage implements OnInit {
 
   filtrarTrabajosPorDia(fecha: string) {
     if (this.user && this.user.rol === 'TRABAJADOR') {
-      let misTrabajos = this.misTrabajos.filter(
+      let trabajosParticulares = this.trabajosParticulares.filter(
         (w: any) => w.fecha_trabajo === fecha,
       );
       let trabajosEmpresa = this.trabajosEmpresa.filter(
         (w: any) => w.fecha_trabajo === fecha,
       );
 
-      this.selectedDayWorks = misTrabajos.concat(trabajosEmpresa);
+      this.selectedDayWorks = trabajosParticulares.concat(trabajosEmpresa);
     } else if (this.user && this.user.rol === 'EMPRESA') {
       this.selectedDayWorks = this.trabajosEmpresa.filter(
         (w: any) => w.fecha_trabajo === fecha,
       );
     } else {
-      this.selectedDayWorks = this.misTrabajos
+      this.selectedDayWorks = this.trabajosParticulares
         .filter((w: any) => w.fecha_trabajo === fecha)
         .concat(
           this.trabajosEmpresa.filter((w: any) => w.fecha_trabajo === fecha),

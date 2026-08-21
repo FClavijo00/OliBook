@@ -71,12 +71,11 @@
   }
 }
 
-ion-datetime::part(calendar-day today) {
+/* ion-datetime::part(calendar-day today) {
   color: var(--ion-color-clay);
-}
+} */
 
 ion-datetime::part(calendar-day today):focus {
-  background: var(--ion-color-clay);
   color: white;
 }
 
@@ -219,164 +218,6 @@ ion-datetime::part(calendar-day today):focus {
   }
 }
 
-// WORKS LIST
-/* .works-list {
-  background: transparent !important;
-
-  .work-sliding-wrapper {
-    background: transparent !important;
-    margin-bottom: 5px;
-    contain: none;
-    border-radius: 16px;
-
-    .work-item {
-      --background: white;
-      margin: 0 !important;
-      border-radius: 16px;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.03);
-      --inner-padding-end: 12px;
-      align-items: center;
-
-      // TRUCO MÁGICO: Transición suave para que la tarjeta se "separe" al arrastrarla
-      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-
-      .icon-container {
-        background: rgba(107, 142, 35, 0.1);
-        color: var(--ion-color-olive-deep);
-        padding: 10px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .work-data {
-        margin-left: 4px;
-
-        h2 {
-          font-size: 15px;
-          font-weight: 600;
-          color: var(--ion-color-olive-deep);
-          margin: 0 0 2px 0;
-        }
-
-        .work-type {
-          font-size: 13px;
-          font-weight: 500;
-          color: var(--ion-color-medium);
-          margin: 0;
-        }
-      }
-
-      .btn-popover {
-        margin: 0;
-        --padding-start: 8px;
-        --padding-end: 8px;
-        ion-icon {
-          font-size: 20px;
-          opacity: 0.7;
-        }
-      }
-    }
-
-    &.item-sliding-active-slide {
-      .work-item {
-        margin-right: 16px !important;
-        border-top-right-radius: 12px !important;
-        border-bottom-right-radius: 12px !important;
-      }
-    }
-
-    .sliding-options {
-      background: transparent !important;
-      border: none;
-      align-items: center;
-    }
-  }
-} */
-
-/* .works-list {
-  background: transparent;
-
-  .work-item {
-  --background: white;
-  margin-bottom: 8px;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
-  --inner-padding-end: 12px;
-
-  .icon-container {
-    background: rgba(107, 142, 35, 0.1);;
-    color: var(--ion-color-olive-deep);
-    padding: 10px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .work-data {
-    margin-left: 4px;
-
-    h2 {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--ion-color-dark);
-      margin: 0 0 2px 0;
-    }
-
-    // Contenedor horizontal para el texto y el icono
-    .work-type-row {
-      display: flex;
-      align-items: center;
-      gap: 6px; // Espacio entre el texto y el icono
-
-      .work-type {
-        font-size: 13px;
-        font-weight: 500;
-        color: var(--ion-color-primary);
-      }
-
-      // El indicador minimalista
-      .desc-indicator {
-        font-size: 14px;
-        color: var(--ion-color-medium);
-        opacity: 0.6;
-        animation: fadeIn 0.3s ease-in-out;
-      }
-    }
-    
-  }
-
-  .btn-desc {
-    margin: 0;
-    --padding-start: 8px;
-    --padding-end: 8px;
-    
-    ion-icon {
-      font-size: 18px; // Un tamaño contenido para que sea fino y elegante
-      opacity: 0.7;
-      transition: transform 0.2s ease;
-    }
-
-    // Pequeño feedback visual cuando el usuario lo mantenga pulsado
-    &:active ion-icon {
-      transform: scale(0.9);
-    }
-  }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 0.6; }
-}
-
-} */
-
-/* ion-content {
-  --padding-bottom: 110px; // Espacio para que la Tab Bar flotante no estorbe
-} */
-
 // Estilos para el contenedor del Popover (Shadow DOM)
 ion-popover.custom-desc-popover {
   --background: #ffffff;
@@ -408,64 +249,6 @@ ion-popover.custom-desc-popover {
   }
 }
 
-// 1. El contenedor del sliding debe tener el margen inferior, NO el ion-item directamente
-/* .work-sliding-wrapper {
-  margin-bottom: 12px;
-  background: transparent; // Clave para que no se vea un bloque blanco detrás al deslizar
-  border-radius: 16px;
-  contain: none; // Permite que las sombras se proyecten fuera de la tarjeta
-}
- */
-// 2. Nuestra tarjeta (se mantiene idéntica, pero con margen 0)
-/* .work-item {
-  --background: white;
-  margin: 0 !important; // El margen lo maneja el wrapper de arriba
-  border-radius: 16px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.03);
-  --inner-padding-end: 12px;
-  align-items: center;
-
-  .icon-container {
-    background: #eef4ff;
-    color: #3880ff;
-    padding: 10px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .work-data {
-    margin-left: 4px;
-
-    h2 {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--ion-color-dark);
-      margin: 0 0 2px 0;
-    }
-
-    .work-type {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--ion-color-primary);
-      margin: 0;
-    }
-  }
-
-  .btn-desc {
-    margin: 0;
-    --padding-start: 8px;
-    --padding-end: 8px;
-
-    ion-icon {
-      font-size: 18px;
-      opacity: 0.7;
-    }
-  }
-} */
-
-// 3. ESTILOS PARA LOS BOTONES DESLIZANTES CIRCULARES
 .sliding-actions {
   background: transparent !important; // Quitamos el bloque gris/rojo nativo de Ionic
   border: none;
@@ -528,4 +311,9 @@ ion-popover.custom-desc-popover {
 /* Optional: remove borders between item options */
 ion-item-options {
   border: none;
+}
+
+.empresa-title {
+  color: var(--ion-color-olive-main);
+  font-size: 13px;
 }
