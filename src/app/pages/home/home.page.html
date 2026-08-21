@@ -29,8 +29,8 @@
     <ion-card-content>
       <p>Bienvenido a OliBook,</p>
       <p>¿Qué tal la jornada laboral de hoy?</p>
-      @if (user?.rol === 'TRABAJADOR' && user?.nombre_empresa) {
-        <p>Trabajando en: {{ user?.nombre_empresa }}</p>
+      @if (user && user.rol === 'TRABAJADOR' && user.nombre_empresa) {
+        <p>Trabajando en: {{ user.nombre_empresa }}</p>
       }
     </ion-card-content>
   </ion-card>
@@ -49,6 +49,9 @@
         <ion-icon name="leaf-outline"></ion-icon>
       </div>
       <ion-label>
+        @if (work.nombre_empresa != null) {
+            <p class="empresa-title">{{ work.nombre_empresa }}</p>
+          }
         <div class="title-row">
           <h2>{{ work.apodo_parcela || work.nombre_parcela }}</h2>
           <span class="time-stamp">

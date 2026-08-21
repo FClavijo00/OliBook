@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 
 export interface CalendarioResponse {
-  misTrabajos: TrabajosCalendario[];
+  trabajosParticulares: TrabajosCalendario[];
   trabajosEmpresa: TrabajosCalendario[];
 }
 
@@ -30,8 +30,8 @@ export class WorksService {
     return this._http.post(`${this._apiUrlTrabajos}/borrarTrabajoRealizado`, {id: workID});
   }
 
-  obtenerUltimosTrabajos() {
-    return this._http.get(`${this._apiUrlTrabajos}/obtenerUltimosTrabajos`);
+  obtenerUltimosTrabajos(userID: number) {
+    return this._http.post(`${this._apiUrlTrabajos}/obtenerUltimosTrabajos`, { userID: userID });
   }
 
   getWorksCalendar() {

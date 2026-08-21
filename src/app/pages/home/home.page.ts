@@ -1,13 +1,10 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   RefresherCustomEvent,
   IonHeader,
   IonToolbar,
-  IonButtons,
-  IonButton,
-  IonAvatar,
   IonTitle,
   IonContent,
   IonRefresher,
@@ -39,8 +36,6 @@ import {
   leafOutline,
   checkmarkCircleOutline,
 } from 'ionicons/icons';
-import { environment } from 'src/environments/environment';
-import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular/standalone';
 import { WorksService } from 'src/app/core/services/works-service';
 import { firstValueFrom } from 'rxjs';
@@ -121,7 +116,8 @@ export class HomePage implements OnInit {
 
   private async obtenerUltimosTrabajosAPI() {
     try {
-      const response = await firstValueFrom(this._worksService.obtenerUltimosTrabajos());
+      if (!this.user) return;
+      const response = await firstValueFrom(this._worksService.obtenerUltimosTrabajos(this.user.id));
       this.lastWorks = response || [];
     } catch (error) {
       console.error('Error en la petición a la API:', error);

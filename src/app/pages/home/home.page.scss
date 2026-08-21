@@ -178,7 +178,7 @@ p.semititle {
           font-weight: 600;
           color: var(--ion-color-olive-deep);
           margin: 0;
-          font-size: 1.05rem;
+          font-size: 1.0rem;
         }
 
         .time-stamp {
@@ -250,4 +250,10 @@ p.semititle {
       line-height: 1.2;
     }
   }
+}
+
+.empresa-title {
+  font-weight: 500 !important;
+  color: var(--ion-color-olive-main) !important;
+  font-size: 13px !important;
 }
