@@ -225,18 +225,20 @@ export class PlotDetailPage implements OnInit {
           text: 'Eliminar Parcela',
           role: 'destructive',
           icon: 'trash-outline',
+          disabled: this.parcela.user_id !== this.user?.id,
           handler: () => this.confirmDelete(),
         },
         {
           text: 'Eliminar Ubicación',
           role: 'destructive',
           icon: 'pin-outline',
-          disabled: this.parcela.wkt === '' || this.parcela.wkt === null,
+          disabled: !this.parcela.wkt || this.parcela.user_id !== this.user?.id,
           handler: () => this.confirmDeleteCoords(),
         },
         {
           text: 'Editar Datos',
           icon: 'create-outline',
+          disabled: this.parcela.user_id !== this.user?.id,
           handler: () => this.openEditPlotModal(),
         },
         {
