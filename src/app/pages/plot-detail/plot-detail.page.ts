@@ -361,13 +361,13 @@ export class PlotDetailPage implements OnInit {
 
     if (isIOS) {
       // Abre Apple Maps en iOS (preinstalado en iPhone), trazando ruta desde la ubicación actual
-      mapsURL = `https://maps.apple.com/?daddr=${lat},${lng}&dirflg=d`;
+      mapsURL = `comgooglemaps://?daddr=${lat},${lng}&directionsmode=driving`;
+      window.location.href = mapsURL;
     } else {
       // Abre Google Maps en Android o Navegador Web
       mapsURL = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=driving`;
+      window.open(mapsURL, '_system');
     }
-
-   window.open(mapsURL, '_blank');
   }
 
   async copyToClipboard(text: string) {
