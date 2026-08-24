@@ -85,7 +85,15 @@
         <ion-toolbar mode="ios">
           <ion-title class="ion-no-padding">Importar datos SIGPAC</ion-title>
         </ion-toolbar>
+
         <div id="mapDetail" style="height: 80%; width: 100%"></div>
+
+        <ion-fab vertical="bottom" horizontal="end" slot="fixed" mode="ios" class="fab-location">
+          <ion-fab-button color="light" (click)="obtenerUbicacionActual()">
+            <ion-icon name="locate-outline" color="primary"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+
         <div class="btn-div-modal">
           <ion-button class="confirm-btn" expand="block" shape="round" mode="ios" (click)="importSigpacData()">
             <ion-icon slot="start" name="checkmark-circle"></ion-icon>

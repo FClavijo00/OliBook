@@ -23,6 +23,8 @@ import {
   IonCol,
   IonInput,
   IonTextarea,
+  IonFab,
+  IonFabButton,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
@@ -34,6 +36,9 @@ import {
   globeOutline,
   informationCircle,
   saveOutline,
+  add,
+  locateOutline,
+  locationOutline,
 } from 'ionicons/icons';
 import * as L from 'leaflet';
 import proj4 from 'proj4';
@@ -54,6 +59,8 @@ import { track } from '@vercel/analytics';
   templateUrl: './new-plot.component.html',
   styleUrls: ['./new-plot.component.scss'],
   imports: [
+    IonFabButton,
+    IonFab,
     IonCol,
     IonRow,
     IonGrid,
@@ -68,7 +75,7 @@ import { track } from '@vercel/analytics';
     IonTextarea,
     IonContent,
     ReactiveFormsModule,
-    LoadingComponent
+    LoadingComponent,
   ],
   standalone: true,
 })
@@ -121,13 +128,16 @@ export class NewPlotComponent implements OnInit {
   constructor() {
     addIcons({
       informationCircle,
-      saveOutline,
       globe,
-      globeOutline,
+      locateOutline,
       checkmarkCircle,
       closeCircle,
+      add,
+      saveOutline,
+      globeOutline,
       alertCircle,
       alertCircleOutline,
+      locationOutline
     });
     // Definimos los sistemas de coordenadas
     // WGS84: El que usa el GPS/Google Maps
@@ -230,39 +240,45 @@ export class NewPlotComponent implements OnInit {
   initMap() {
     if (this.map) this.resetMap();
 
-    // 1. Centrar en una posición inicial (ej. tu zona de olivos)
+    // 1. Centrar en una posición inicial (España)
     this.map = L.map('mapDetail', {
       zoomControl: false,
       attributionControl: false,
-    }).setView([38.253271, -3.131313], 14);
+    }).setView([39.960353, -4.241212], 5);
 
-    // 2. Capa base de Satélite (muy útil para agricultores)
-    L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-      opacity: 0.85,
+    // 2. Capa híbrida base Satélite (Google Satellite)
+    L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+      maxZoom: 20,
       subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+      opacity: 0.9,
     }).addTo(this.map);
+
+    // 3. Capa WMS del Catastro (Remarcando parcelas sobre el satélite)
+    // Se usa 'PARCELA' para dibujar los límites de las fincas con transparencia
     L.tileLayer
       .wms('https://ovc.catastro.meh.es/Cartografia/WMS/ServidorWMS.aspx', {
-        layers: 'Catastro',
+        layers: 'PARCELA', // 👈 'PARCELA' o 'CadastralParcel' resalta los recintos
         format: 'image/png',
         transparent: true,
+        version: '1.1.1',
+        maxZoom: 20,
       })
       .addTo(this.map);
 
-    // 3. Capturar el click
+    // 4. Capturar el click
     var myIcon = L.icon({
       iconUrl: 'assets/images/olive-ping.png',
       iconSize: [50, 50],
+      iconAnchor: [25, 50], // Centra la punta del pin en la coordenada
     });
     this.map.on('click', (e: L.LeafletMouseEvent) => {
       if (this.marker) this.map.removeLayer(this.marker);
       const { lat, lng } = e.latlng;
       this.marker = L.marker([lat, lng], { icon: myIcon }).addTo(this.map);
       this._cdr.detectChanges();
-      //this.obtenerDatosParcela(lat, lng); // Aquí ya funciona el 'this'
     });
 
-    // 4. Forzar renderizado correcto
+    // 5. Forzar renderizado correcto
     setTimeout(() => this.map.invalidateSize(), 400);
   }
 
@@ -273,13 +289,43 @@ export class NewPlotComponent implements OnInit {
     if (this.marker) this.marker.remove();
   }
 
-  obtenerDatosDesdeSigpac(lat: number, lng: number) {
-    // Aquí llamarías a tu servicio
-    //console.log(`Buscando parcela en: ${lat}, ${lng}`);
-    this.getUrlInformacion(lat, lng);
+  obtenerUbicacionActual() {
+    if (!navigator.geolocation) {
+      this._toastCtrl
+        .create({
+          message: 'Tu navegador no soporta la geolocalización.',
+          duration: 2000,
+          position: 'bottom',
+          mode: 'ios',
+          icon: 'alert-circle',
+          cssClass: 'toast-error',
+        })
+        .then((toast) => toast.present());
+    }
 
-    // Al recibir la respuesta, autorellenamos el formulario:
-    // this.parcelaForm.patchValue({ superficie: data.area, poligono: data.poligono });
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+        console.log ('Latitud:', lat, 'Longitud:', lng);
+        this.map.flyTo([lat, lng], 17, {
+          animate: true,
+          duration: 1,
+        });
+      },
+      (error) => {
+        this._toastCtrl
+          .create({
+            message: 'No se pudo obtener la ubicación actual.',
+            duration: 2000,
+            position: 'bottom',
+            mode: 'ios',
+            icon: 'alert-circle',
+            cssClass: 'toast-error',
+          })
+          .then((toast) => toast.present());
+      },
+    );
   }
 
   async openInfoAlert() {
@@ -332,7 +378,8 @@ export class NewPlotComponent implements OnInit {
             poligono: this.formNuevaParcela.value.poligono,
             parcela: this.formNuevaParcela.value.parcela,
             superficie_ha: this.formNuevaParcela.value.superficie_ha,
-            referencia_catastro: this.formNuevaParcela.value.referencia_catastro,
+            referencia_catastro:
+              this.formNuevaParcela.value.referencia_catastro,
             observaciones: this.formNuevaParcela.value.observaciones,
             lat: this.formNuevaParcela.value.lat || null,
             lng: this.formNuevaParcela.value.lng || null,
@@ -343,7 +390,7 @@ export class NewPlotComponent implements OnInit {
           };
           this._plotService.nuevaParcela(plot).subscribe((res) => {
             track('Registro de parcela', {
-              USER: this.user?.name
+              USER: this.user?.name,
             });
             setTimeout(async () => {
               this._toastCtrl.create({
@@ -393,7 +440,8 @@ export class NewPlotComponent implements OnInit {
             poligono: this.formNuevaParcela.value.poligono,
             parcela: this.formNuevaParcela.value.parcela,
             superficie_ha: this.formNuevaParcela.value.superficie_ha,
-            referencia_catastro: this.formNuevaParcela.value.referencia_catastro,
+            referencia_catastro:
+              this.formNuevaParcela.value.referencia_catastro,
             observaciones: this.formNuevaParcela.value.observaciones,
             lat: this.parcela.lat || null,
             lng: this.parcela.lng || null,

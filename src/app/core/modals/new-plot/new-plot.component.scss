@@ -122,4 +122,18 @@ ion-modal#modal {
   }
 }
 
-.modal-content { padding-bottom: 0 !important; }
+.modal-content {
+  padding-bottom: 0 !important;
+}
+
+.fab-location {
+  margin-bottom: 50px;
+  margin-right: 12px;
+
+  ion-fab-button {
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    ion-icon {
+      font-size: 1.4rem;
+    }
+  }
+}
