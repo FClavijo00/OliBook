@@ -43,6 +43,7 @@ import { UsersService } from 'src/app/core/services/users-service';
 import { User } from 'src/app/core/models/user';
 import { NewPlotComponent } from 'src/app/core/modals/new-plot/new-plot.component';
 import { ToastService } from 'src/app/core/services/toast-service';
+import { NewWorkDoneComponent } from 'src/app/core/modals/new-work-done/new-work-done.component';
 
 @Component({
   selector: 'app-home',
@@ -159,6 +160,34 @@ export class HomePage implements OnInit {
     } else if (role === 'cancel') {
       return;
     }
+  }
+
+  async registrarTrabajo() {
+    const modal = await this._modalCtrl.create({
+      component: NewWorkDoneComponent,
+      initialBreakpoint: 1,
+      breakpoints: [0, 0.5, 0.75, 1],
+      handle: true,
+      mode: 'md',
+      componentProps: { modo: 'add' },
+    });
+
+    await modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      this._toastService.presentToast(
+        'Trabajo creado con éxito.',
+        'toast-success',
+        'checkmark-circle-outline',
+      );
+      this.abrirTab('trabajos');
+    } else if (role === 'cancel') {
+      return;
+    }
+
+    this.recargarUltimosTrabajos('inicio');
   }
 
   ngAfterViewInit() {
