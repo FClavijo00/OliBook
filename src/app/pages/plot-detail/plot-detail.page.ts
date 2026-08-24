@@ -28,6 +28,7 @@ import {
   createOutline,
   documentTextOutline,
   ellipsisVertical,
+  globeOutline,
   pinOutline,
   resizeOutline,
   timeOutline,
@@ -60,8 +61,8 @@ import { UsersService } from 'src/app/core/services/users-service';
     IonHeader,
     CommonModule,
     LoadingComponent,
-    IonList
-],
+    IonList,
+  ],
 })
 export class PlotDetailPage implements OnInit {
   private _router = inject(Router);
@@ -116,6 +117,7 @@ export class PlotDetailPage implements OnInit {
       pinOutline,
       checkmarkCircleOutline,
       timeOutline,
+      globeOutline,
     });
   }
 
@@ -238,6 +240,12 @@ export class PlotDetailPage implements OnInit {
           handler: () => this.openEditPlotModal(),
         },
         {
+          text: 'Abrir en Google Maps',
+          icon: 'globe-outline',
+          disabled: this.parcela.wkt === '' || this.parcela.wkt === null,
+          handler: () => this.openGoogleMaps(),
+        },
+        {
           text: 'Cancelar',
           role: 'cancel',
         },
@@ -341,6 +349,27 @@ export class PlotDetailPage implements OnInit {
     });
   }
 
+  async openGoogleMaps() {
+    const lat = this.parcela.lat;
+    const lng = this.parcela.lng;
+
+    if (!lat || !lng) return;
+
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+    let mapsURL = '';
+
+    if (isIOS) {
+      // Abre Apple Maps en iOS (preinstalado en iPhone), trazando ruta desde la ubicación actual
+      mapsURL = `https://maps.apple.com/?daddr=${lat},${lng}&dirflg=d`;
+    } else {
+      // Abre Google Maps en Android o Navegador Web
+      mapsURL = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=driving`;
+    }
+
+   window.open(mapsURL, '_blank');
+  }
+
   async copyToClipboard(text: string) {
     await navigator.clipboard.writeText(text);
     this.showToast('Referencia copiada al portapapeles');
@@ -387,6 +416,7 @@ export class PlotDetailPage implements OnInit {
     const state = this._router.currentNavigation()?.extras.state;
     if (state && state['parcela']) {
       this.parcela = state['parcela'];
+      console.log(this.parcela);
     } else {
       // Si no hay datos, volvemos a la lista
       this._navCtrl.navigateBack('/tabs/plots');
