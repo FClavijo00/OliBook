@@ -257,10 +257,9 @@ export class NewPlotComponent implements OnInit {
     // Se usa 'PARCELA' para dibujar los límites de las fincas con transparencia
     L.tileLayer
       .wms('https://ovc.catastro.meh.es/Cartografia/WMS/ServidorWMS.aspx', {
-        layers: 'PARCELA', // 👈 'PARCELA' o 'CadastralParcel' resalta los recintos
+        layers: 'Catastro', 
         format: 'image/png',
         transparent: true,
-        version: '1.1.1',
         maxZoom: 20,
       })
       .addTo(this.map);
@@ -268,8 +267,7 @@ export class NewPlotComponent implements OnInit {
     // 4. Capturar el click
     var myIcon = L.icon({
       iconUrl: 'assets/images/olive-ping.png',
-      iconSize: [50, 50],
-      iconAnchor: [25, 50], // Centra la punta del pin en la coordenada
+      iconSize: [50, 50]
     });
     this.map.on('click', (e: L.LeafletMouseEvent) => {
       if (this.marker) this.map.removeLayer(this.marker);
@@ -307,7 +305,6 @@ export class NewPlotComponent implements OnInit {
       (position) => {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
-        console.log ('Latitud:', lat, 'Longitud:', lng);
         this.map.flyTo([lat, lng], 17, {
           animate: true,
           duration: 1,
