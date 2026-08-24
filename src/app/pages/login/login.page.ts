@@ -253,6 +253,7 @@ export class LoginPage implements OnInit {
             'toast-success',
             'checkmark-circle-outline',
           );
+          this.authForm.reset();
         }
       } catch (error: HttpErrorResponse | any) {
         if (error.status === 401) {
