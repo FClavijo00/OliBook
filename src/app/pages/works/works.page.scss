@@ -203,11 +203,11 @@ ion-datetime::part(calendar-day today):focus {
         margin-right: 8px;
 
         &.delete {
-          background: var(--ion-color-danger);
+          background: var(--ion-color-clay);
         }
 
         &.edit {
-          background: var(--ion-color-primary);
+          background: var(--ion-color-olive-main);
         }
         ion-icon {
           font-size: 20px;
