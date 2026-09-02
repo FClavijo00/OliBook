@@ -1,0 +1,40 @@
+<ion-header class="ion-no-border" mode="ios">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/profile" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Datos Personales</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" [fullscreen]="true">
+  @if (_uiService.isLoading()) {
+  <app-loading></app-loading>
+  } @else {
+  <form [formGroup]="datosPersonalesForm">
+    <ion-card mode="ios" class="personal-card">
+      <ion-card-content >
+        <div class="avatar-container">
+          <span>{{ iniciales }}</span>
+          <!-- <img
+          src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg"
+        /> -->
+        </div>
+        <div class="user-info">
+          <h2>{{ user?.name }}</h2>
+          <ion-chip>
+            <ion-label>{{ user?.rol }}</ion-label>
+          </ion-chip>
+        </div>
+
+        
+      </ion-card-content>
+    </ion-card>
+  </form>
+  }
+</ion-content>

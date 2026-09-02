@@ -5,6 +5,7 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, IonAvatar, IonList, IonLis
 import { environment } from 'src/environments/environment';
 import { addIcons } from 'ionicons';
 import {
+  briefcaseOutline,
   cloudDownloadOutline,
   helpCircleOutline,
   lockClosedOutline,
@@ -37,7 +38,8 @@ export class ProfilePage implements OnInit {
       cloudDownloadOutline,
       helpCircleOutline,
       logOutOutline,
-      settingsOutline
+      settingsOutline,
+      briefcaseOutline
     });
   }
 
@@ -60,6 +62,10 @@ export class ProfilePage implements OnInit {
 
       case 'tipos-trabajos':
         this._navCtrl.navigateForward('/tipos-trabajos');
+        break;
+      
+      case 'datos-personales':
+        this._navCtrl.navigateForward('/datos-personales');
         break;
     }
   }

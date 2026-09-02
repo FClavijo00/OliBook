@@ -29,5 +29,9 @@ export const routes: Routes = [
     path: 'tipos-trabajos',
     loadComponent: () => import('./pages/tipos-trabajos/tipos-trabajos.page').then( m => m.TiposTrabajosPage)
   },
+  {
+    path: 'datos-personales',
+    loadComponent: () => import('./pages/datos-personales/datos-personales.page').then( m => m.DatosPersonalesPage)
+  },
 
 ];
