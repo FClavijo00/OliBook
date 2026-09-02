@@ -1,0 +1,43 @@
+<ion-content class="ion-padding work-type-form">
+  @if (_uiService.isLoading()) {
+  <app-loading [tipoLoading]="tipoLoading"></app-loading>
+  } @else {
+  <ion-title class="ion-margin-top">{{ modo === "add" ? "Nuevo" : "Editar" }} Tipo de Trabajo</ion-title>
+  <form class="ion-margin-top" [formGroup]="trabajoForm">
+    <ion-list mode="ios" [inset]="true">
+      <ion-item [class.invalid-input]="
+            trabajoForm.get('nombre')?.invalid &&
+            trabajoForm.get('nombre')?.touched
+              ? 'invalid-input'
+              : ''
+          ">
+        <ion-input label="Nombre" formControlName="nombre" type="text" mode="ios"
+          placeholder="Ej. Podar, Sulfatar, Riego">
+        </ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-textarea label="Descripción (opcional)" formControlName="descripcion" mode="ios" rows="3">
+        </ion-textarea>
+      </ion-item>
+    </ion-list>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-button class="confirm-btn" expand="block" shape="round" mode="ios" (click)="guardarTipo()">
+            <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+            Guardar
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button class="cancel-btn" expand="block" shape="round" mode="ios" (click)="cerrarModal()">
+            <ion-icon slot="start" name="close-circle"></ion-icon>
+            Cancelar
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+  }
+</ion-content>

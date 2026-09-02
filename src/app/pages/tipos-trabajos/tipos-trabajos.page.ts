@@ -28,6 +28,7 @@ import {
   IonCol,
   IonInput,
   IonTextarea,
+  ModalController,
 } from '@ionic/angular/standalone';
 import { LoadingComponent } from 'src/app/core/components/loading/loading.component';
 import { UIService } from 'src/app/core/services/uiservice';
@@ -46,9 +47,11 @@ import {
   closeCircle,
   closeCircleOutline,
   checkmarkCircleOutline,
+  hammerOutline,
 } from 'ionicons/icons';
 import { WorkTypes } from 'src/app/core/models/works';
 import { ToastService } from 'src/app/core/services/toast-service';
+import { CrearEditarTipoTrabajoComponent } from 'src/app/core/modals/crear-editar-tipo-trabajo/crear-editar-tipo-trabajo.component';
 
 @Component({
   selector: 'app-tipos-trabajos',
@@ -56,10 +59,6 @@ import { ToastService } from 'src/app/core/services/toast-service';
   styleUrls: ['./tipos-trabajos.page.scss'],
   standalone: true,
   imports: [
-    IonCol,
-    IonRow,
-    IonGrid,
-    IonModal,
     IonLabel,
     IonItem,
     IonList,
@@ -76,18 +75,16 @@ import { ToastService } from 'src/app/core/services/toast-service';
     CommonModule,
     FormsModule,
     LoadingComponent,
-    ReactiveFormsModule,
-    IonInput,
-    IonTextarea,
-  ],
+    ReactiveFormsModule
+],
 })
-
 export class TiposTrabajosPage implements OnInit {
   public _uiService = inject(UIService);
   private _worksService = inject(WorksService);
   private _fb = inject(FormBuilder);
   private _userService = inject(UsersService);
-  private _toastService = inject(ToastService)
+  private _toastService = inject(ToastService);
+  private _modalCtrl = inject(ModalController);
 
   user: User | null = null;
 
@@ -100,14 +97,15 @@ export class TiposTrabajosPage implements OnInit {
   constructor() {
     addIcons({
       addCircle,
-      constructOutline,
+      hammerOutline,
       createOutline,
-      closeOutline,
-      checkmarkOutline,
       checkmarkCircle,
       closeCircle,
+      constructOutline,
+      closeOutline,
+      checkmarkOutline,
       closeCircleOutline,
-      checkmarkCircleOutline,
+      checkmarkCircleOutline
     });
   }
 
@@ -145,28 +143,42 @@ export class TiposTrabajosPage implements OnInit {
     }
   }
 
-  abrirModalCrear() {
-    this.tipoEdicion = null;
-    this.trabajoForm = this._fb.group({
-      nombre: ['', Validators.required],
-      descripcion: [''],
+  async abrirModalCrear() {
+    const modal = await this._modalCtrl.create({
+      component: CrearEditarTipoTrabajoComponent,
+      initialBreakpoint: 1, // For a "Sheet Modal"
+      breakpoints: [0, 0.5, 0.75, 1],
+      handle: true,
+      mode: 'md',
+      componentProps: { modo: 'add' },
     });
-    this.isModalOpen = true;
+
+    await modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      this.obtenerTiposAccion('inicio');
+    }
   }
 
-  abrirModalEditar(tipo: any) {
-    this.tipoEdicion = tipo;
-    this.trabajoForm = this._fb.group({
-      nombre: [tipo.nombre, Validators.required],
-      descripcion: [tipo.descripcion],
+  async abrirModalEditar(tipo: any) {
+    const modal = await this._modalCtrl.create({
+      component: CrearEditarTipoTrabajoComponent,
+      initialBreakpoint: 1, // For a "Sheet Modal"
+      breakpoints: [0, 0.5, 0.75, 1],
+      handle: true,
+      mode: 'md',
+      componentProps: { modo: 'edit', tipoTrabajo: tipo },
     });
-    this.isModalOpen = true;
-  }
 
-  cerrarModal() {
-    this.isModalOpen = false;
-    this.tipoEdicion = null;
-    this.trabajoForm.reset();
+    await modal.present();
+
+    const { data, role } = await modal.onWillDismiss();
+
+    if (role === 'confirm') {
+      this.obtenerTiposAccion('inicio');
+    }
   }
 
   initForm() {
@@ -174,52 +186,6 @@ export class TiposTrabajosPage implements OnInit {
       nombre: ['', Validators.required, Validators.minLength(3)],
       descripcion: [''],
     });
-  }
-
-  guardarTipo() {
-    if (this.trabajoForm.invalid) {
-      this.trabajoForm.markAllAsTouched();
-      this._toastService.presentToast(
-        'Por favor, completa los campos obligatorios.',
-        'toast-error',
-        'close-circle-outline',
-      )
-      return;
-    };
-
-    if (this.tipoEdicion && this.user) {
-      let data = {
-        id: this.tipoEdicion.id,
-        user_id: this.user?.id,
-        nombre: this.trabajoForm.get('nombre')?.value,
-        descripcion: this.trabajoForm.get('descripcion')?.value,
-      }
-      this._worksService.editarTipo(data).subscribe(() => {
-        this.cerrarModal();
-        this._toastService.presentToast(
-          'Tipo de trabajo editado con éxito.',
-          'toast-success',
-          'checkmark-circle-outline',
-        );
-        this.obtenerTiposAccion('refresh');
-      });
-    } else if (!this.tipoEdicion && this.user) {
-      let data = {
-        id: 0,
-        user_id: this.user?.id,
-        nombre: this.trabajoForm.get('nombre')?.value,
-        descripcion: this.trabajoForm.get('descripcion')?.value,
-      }
-      this._worksService.nuevoTipo(data).subscribe(() => {
-        this.cerrarModal();
-        this._toastService.presentToast(
-          'Tipo de trabajo creado con éxito.',
-          'toast-success',
-          'checkmark-circle-outline',
-        );
-        this.obtenerTiposAccion('refresh');
-      });
-    }
   }
 
   ngOnInit() {
